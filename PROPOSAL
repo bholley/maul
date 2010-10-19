@@ -1,0 +1,50 @@
+Title: MAUL - Machine Agent User Learning (Some Unscrambling Necessary)
+
+Group Members:
+Robert Holley <bobbyholley@stanford.edu>
+Daniel Rosenfeld <dero@stanford.edu>
+
+Synopsis:
+We intend to devise a Machine-Learning algorithm to classify User-Agent strings
+identifying web access.
+
+A User-Agent string is an HTTP header sent along with a request for a web page
+[1], often but not always by a web browser. The intent is to inform the server
+of the capabilities of the software being used by the client. The User-Agent is
+one of the most important signals to differentiate a desktop browser from a
+mobile device or an automatic crawl. In addition gathering statistics on them
+provides insights on changes in browser, operating system and device usage. They
+are also frequently misused, in e.g. cloaking a web site to make it look
+different to a search engine crawl.
+
+User-Agent strings can contain loosely-structured tokens on engine, browser,
+version, build date, etc. but their format was never strictly standardized [1].
+As the number of web-access devices increases, especially with new-generation
+mobile devices and browsers, the numbers of different User-Agent strings is
+rapidly growing and diversifying. Extensions and plugins can often mutate
+User-Agent strings in unpredictable ways (insert, splitting, duplicating, and
+re-ordering tokens). Firefox 4 and Internet Explorer 9 will soon ship with
+completely reformatted strings. Some mobile operators have begun introducing
+custom HTTP headers to extend the traditional role of the User-Agent [6]. Web
+spiders and crawlers are also an important and unpredictable contributing factor.
+An overview of the development and mutation of User-Agent strings is given in [2],
+while [3] is a public list of over 50000 currently unique strings.
+
+Currently, User-Agent strings are processed with brittle parsing rules and
+curated data [4] [5]. With this project, we intend to demonstrate that Machine
+Learning algorithms provide a more accurate and robust approach to this problem.
+We intend to use a supervised learning approach, training with the curated data
+from [4] and [5], and possibly data collected by the Mozilla Foundation. Our
+core goal will be to efficiently and accurately categorize User-Agent strings
+into multiple categories which define aspects such as hardware device, automated
+crawl vs browser use, software version etc. While we intend to do the initial
+work in Matlab, the result of this work if successful could be widely used if
+made available as an API in one of the languages more commonly used on for web
+development.
+
+[1] http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.43
+[2] http://bit.ly/8HHXgz
+[3] http://www.ua-tracker.com/user_agents.txt
+[4] http://www.useragentstring.com/
+[5] http://user-agent-string.info/
+[6] http://www.betavine.net/bvportal/resources/vodafone/mics/examples
