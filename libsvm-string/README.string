@@ -1,0 +1,41 @@
+LIBSVM data format is as follows,
+
+<label> <index1>:<value1> <index2>:<value2> <index3>:<value3>...(instance#1)
+<label> <index1>:<value1> <index2>:<value2> <index3>:<value3>...(instance#2)
+................................................................(etc.)
+
+The above values <value#> must be real numbers. Now, we extend those
+attribute values into string data type. The data format is shown
+below:
+
+<class-label> <string-value> (instance#1)
+<class-label> <string-value> (instance#2)
+<class-label> <string-value> (instance#3)
+............................ (etc.)
+
+An example is
+
+1 abcca
+1 abcac
+2 bcadc
+
+Two sample data sets are included in this package: word.data
+and bit.data.
+
+The usage is the same libsvm, but you must specify `-t 5' to use a string kernel:
+
+> svm-train -t 5 ...
+
+Currently we implement 
+
+exp(-gamma * edit(x,y)^2)
+
+where edit(x,y) is the edit distance between two strings. This
+function may not always produce a PSD kernel matrix, but practically
+it seems to work well. You can easily modify svm.cpp to implement
+other string kernels.
+
+This code is modified from libsvm 2.84. Our experience on string data
+is still limited, so your comments are very welcome.  Please email
+your comments/questions to cjlin@csie.ntu.edu.tw
+
