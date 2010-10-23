@@ -1,0 +1,32 @@
+Data Format:
+
+<UA String1
+Attrib1: <attrib1>
+Attrib2: <attrib2>
+Attrib3: <attrib3>
+...
+
+<UA String2>
+...
+
+
+For bots, want to classify as bot, then classify to each known bot type.
+
+
+Classes:
+
+type: browser, bot, spider, worm, cloaked, corrupted
+engine: gecko, trident, webkit, java
+version_type: alpha, beta, rc, release
+version_number: XX
+build: xxxxxxxxxx
+CPU_type: Intel, etc.
+arch: 32bit, 64bit
+OS: Windows, Linux, Mac
+version: NT4, XP, Vista, Win7, X11, Android...
+browser_family: Firefox, IE, Opera, etc
+browser_name: minefield, shiritoko, seamonkey, etc..
+
+
+Test Data:
+use 50,000 UA strings from www.ua-tracker.com (text file in directory)
