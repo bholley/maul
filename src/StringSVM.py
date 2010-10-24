@@ -34,6 +34,11 @@ class StringSVM:
     self.labels = self.labels + list(newLabels)
     self.strings = self.strings + list(newStrings)
 
+  # Takes a single sample and stores it
+  def addSample(self, label, string):
+    self.labels.append(label)
+    self.strings.append(string)
+
 
   # Finalizes the training data. No more data may be added
   def finalize(self):
