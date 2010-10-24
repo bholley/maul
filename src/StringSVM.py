@@ -12,7 +12,7 @@ class StringSVM:
 
     # Load libSVM
 	if platform.system() == "Windows":
-		self.svmlib = cdll.LoadLibrary("libsvm-string-win32.dll");#WIN32
+		self.svmlib = cdll.LoadLibrary("../libsvm-string/libsvm-string-win32.dll");#WIN32
 	else:
 		self.svmlib = cdll.LoadLibrary("../libsvm-string/libsvm.so.2");# *NIX
     # Set the prototypes on the functions we care about
