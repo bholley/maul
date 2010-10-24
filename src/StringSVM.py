@@ -15,6 +15,8 @@ class StringSVM:
     # Set the prototypes on the functions we care about
     self.svmlib.svm_train.restype = POINTER(svm_model)
     self.svmlib.svm_train.argtypes = [POINTER(svm_problem), POINTER(svm_parameter)]
+    self.svmlib.svm_predict_p.restype = c_double
+    self.svmlib.svm_predict_p.argtypes = [POINTER(svm_model), POINTER(svm_data)]
     self.svmlib.svm_free_and_destroy_model.restype = None
     self.svmlib.svm_free_and_destroy_model.argtypes = [POINTER(POINTER(svm_model))]
 
@@ -38,8 +40,10 @@ class StringSVM:
 
     # Generate a mapping from string labels to numbers
     self.labelMap = dict()
+    self.reverseLabelMap = dict()
     for i, label in enumerate(set(self.labels)):
       self.labelMap[label] = i
+      self.reverseLabelMap[i] = label
 
     # Generate a numerical label list
     self.labelsNumeric = map(lambda x : self.labelMap[x], self.labels)
@@ -57,16 +61,35 @@ class StringSVM:
 
     # Generate the problem
     problem = svm_problem(self.labelsNumeric, self.strings)
+
+    # Generate the parameters
     params = svm_parameter()
 
     # Generate the model
     self.model = self.svmlib.svm_train(problem, params)
+
+  def predict(self, string):
+
+    # Validate
+    if not hasattr(self, 'model'):
+      raise RuntimeError("Need to call train() first!")
+
+    # Make a prediction
+    query = svm_data()
+    query.v = None
+    query.s = string
+    prediction = self.svmlib.svm_predict_p(self.model, pointer(query))
+
+    return self.reverseLabelMap[int(prediction)]
 
 """
 Python Wrappers for C Data Structures
 
 These inherit special magic from ctypes.Structure
 """
+SVM_TYPE_C_SVC = 0
+KERNEL_TYPE_STRING = 5
+DATA_TYPE_STRING = 1
 class svm_parameter(Structure):
   _fields = [("svm_type", c_int),
              ("data_type", c_int),
@@ -84,6 +107,26 @@ class svm_parameter(Structure):
              ("p", c_double),
              ("shrinking", c_int),
              ("probability", c_int)]
+  def __init__(self):
+    Structure.__init__(self)
+    self.svm_type = SVM_TYPE_C_SVC
+    self.kernel_type = KERNEL_TYPE_STRING
+    self.data_type = DATA_TYPE_STRING
+    self.degree = 3
+    self.gamma = 0.1
+    self.coef0 = 0
+    self.cache_size = 100
+    self.eps = 1e-3
+    self.C = 1
+    self.nr_weight = 0
+    self.weight_label = None
+    self.weight = None
+    self.nu = 0.5
+    self.p = 0.1
+    self.shrinking = 1
+    self.probability = 0
+
+
 
 class svm_model(Structure):
   _fields = []

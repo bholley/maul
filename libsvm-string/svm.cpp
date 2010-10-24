@@ -2727,6 +2727,18 @@ double svm_predict(const svm_model *model, const svm_node *x)
 	return pred_result;
 }
 
+/*
+ * Python CTypes has a bug on OSX where it can't pass struct arguments.
+ * It's not really clear why svm_data isn't passed by reference in the
+ * first place, but we just hack around it like this.
+ */
+#ifdef _STRING
+double svm_predict_p(const svm_model *model, const svm_data *x)
+{
+  return svm_predict(model, *x);
+}
+#endif
+
 #ifdef _STRING
 double svm_predict_probability(
 	const svm_model *model, const svm_data x, double *prob_estimates)

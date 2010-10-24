@@ -8,3 +8,6 @@ svm.addSamples([("moz", "Mozilla"),
                 ("gog", "Chrum")])
 svm.finalize()
 svm.train()
+
+prediction = svm.predict("Chrim")
+print prediction

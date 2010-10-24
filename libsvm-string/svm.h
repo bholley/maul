@@ -114,6 +114,7 @@ double svm_get_svr_probability(const struct svm_model *model);
 #ifdef _STRING
 double svm_predict_values(const struct svm_model *model, const struct svm_data x, double* dec_values);
 double svm_predict(const struct svm_model *model, const struct svm_data x);
+double svm_predict_p(const struct svm_model *model, const struct svm_data *x);
 double svm_predict_probability(const struct svm_model *model, const struct svm_data x, double* prob_estimates);
 
 #else
