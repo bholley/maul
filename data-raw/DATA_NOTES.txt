@@ -27,6 +27,10 @@ version: NT4, XP, Vista, Win7, X11, Android...
 browser_family: Firefox, IE, Opera, etc
 browser_name: minefield, shiritoko, seamonkey, etc..
 
+OSs with versions:
+Linux
+MINIX
+Windows
 
 Test Data:
 use 50,000 UA strings from www.ua-tracker.com (text file in directory)

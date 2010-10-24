@@ -114,7 +114,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBSVMSTRINGWIN32_EXPORTS;__WIN32__;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBSVMSTRINGWIN32_EXPORTS;__WIN32__;_CRT_SECURE_NO_WARNINGS;_STRING"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -173,6 +173,10 @@
 			>
 			<File
 				RelativePath="..\svm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\svm.def"
 				>
 			</File>
 		</Filter>

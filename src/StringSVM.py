@@ -1,4 +1,5 @@
 from ctypes import *
+import platform
 
 class StringSVM:
 
@@ -10,15 +11,18 @@ class StringSVM:
   def __init__(self):
 
     # Load libSVM
-    self.svmlib = cdll.LoadLibrary("../libsvm-string/libsvm.so.2");
-
+	if platform.system() == "Windows":
+		self.svmlib = cdll.LoadLibrary("libsvm-string-win32.dll");#WIN32
+	else:
+		self.svmlib = cdll.LoadLibrary("../libsvm-string/libsvm.so.2");# *NIX
     # Set the prototypes on the functions we care about
-    self.svmlib.svm_train.restype = POINTER(svm_model)
-    self.svmlib.svm_train.argtypes = [POINTER(svm_problem), POINTER(svm_parameter)]
-    self.svmlib.svm_predict_p.restype = c_double
-    self.svmlib.svm_predict_p.argtypes = [POINTER(svm_model), POINTER(svm_data)]
-    self.svmlib.svm_free_and_destroy_model.restype = None
-    self.svmlib.svm_free_and_destroy_model.argtypes = [POINTER(POINTER(svm_model))]
+
+	self.svmlib.svm_train.restype = POINTER(svm_model)
+	self.svmlib.svm_train.argtypes = [POINTER(svm_problem), POINTER(svm_parameter)]
+	self.svmlib.svm_predict_p.restype = c_double
+	self.svmlib.svm_predict_p.argtypes = [POINTER(svm_model), POINTER(svm_data)]
+	self.svmlib.svm_free_and_destroy_model.restype = None
+	self.svmlib.svm_free_and_destroy_model.argtypes = [POINTER(POINTER(svm_model))]
 
   def __del__(self):
     if self.model:
