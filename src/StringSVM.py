@@ -160,6 +160,6 @@ class svm_problem(Structure):
     # Set the strings
     self.x = (svm_data * self.l)()
     for i, string in enumerate(strings):
-      self.x.v = None
-      self.x.s = string
+      self.x[i].v = None
+      self.x[i].s = string
 
