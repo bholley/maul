@@ -91,22 +91,22 @@ SVM_TYPE_C_SVC = 0
 KERNEL_TYPE_STRING = 5
 DATA_TYPE_STRING = 1
 class svm_parameter(Structure):
-  _fields = [("svm_type", c_int),
-             ("data_type", c_int),
-             ("kernel_type", c_int),
-             ("degree", c_int),
-             ("gamma", c_double),
-             ("coef0", c_double),
-             ("cache_size", c_double),
-             ("eps", c_double),
-             ("C", c_double),
-             ("nr_weight", c_int),
-             ("weight_label", POINTER(c_int)),
-             ("weight", POINTER(c_double)),
-             ("nu", c_double),
-             ("p", c_double),
-             ("shrinking", c_int),
-             ("probability", c_int)]
+  _fields_ = [("svm_type", c_int),
+              ("data_type", c_int),
+              ("kernel_type", c_int),
+              ("degree", c_int),
+              ("gamma", c_double),
+              ("coef0", c_double),
+              ("cache_size", c_double),
+              ("eps", c_double),
+              ("C", c_double),
+              ("nr_weight", c_int),
+              ("weight_label", POINTER(c_int)),
+              ("weight", POINTER(c_double)),
+              ("nu", c_double),
+              ("p", c_double),
+              ("shrinking", c_int),
+              ("probability", c_int)]
   def __init__(self):
     Structure.__init__(self)
     self.svm_type = SVM_TYPE_C_SVC
@@ -129,17 +129,17 @@ class svm_parameter(Structure):
 
 
 class svm_model(Structure):
-  _fields = []
+  _fields_ = []
 
 class svm_data(Structure):
-  _fields = [("v", c_void_p), # This is actually a pointer to an svm_node, but
+  _fields_ = [("v", c_void_p), # This is actually a pointer to an svm_node, but
                               # it's always null for string operation.
-             ("s", c_char_p)]
+              ("s", c_char_p)]
 
 class svm_problem(Structure):
-  _fields = [("l", c_int),
-             ("y", POINTER(c_double)),
-             ("x", POINTER(svm_data))]
+  _fields_ = [("l", c_int),
+              ("y", POINTER(c_double)),
+              ("x", POINTER(svm_data))]
 
   def __init__(self, labels, strings):
 
