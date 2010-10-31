@@ -1,0 +1,661 @@
+CCBot
+Abilon
+Firefox (BonEcho)
+StatoolsBot
+Spinn3r
+City4you
+Hydra Browser
+nextthing.org
+XML Sitemaps Generator
+Kakle Bot
+Nutch
+Fluid
+Flocke bot
+Firefox (Lorentz)
+Bolt
+Wget
+facebookexternalhit
+SpokeSpider
+updated
+Kazehakase
+W3C CSS Validator
+ZACATEK_CZ
+Amiga Aweb
+Krugle
+Banshee
+ichiro
+BuzzRankingBot
+Madfox
+Robozilla
+Ask Jeeves/Teoma
+Outlook 2010
+NaverBot
+Charlotte
+Python-urllib
+Lunascape
+IlseBot
+wwwster
+Checkbot
+SygolBot
+Swiftweasel
+Fennec
+My Internet Browser
+HuaweiSymantecSpider
+Orbiter
+DNS-Digger-Explorer
+Dillo
+Zookabot
+Linguee Bot
+BabalooSpider
+WDG Validator
+GreenBrowser
+MultiCrawler
+Feedfetcher-Google
+Element Browser
+Willow Internet Crawler
+NewsGatorOnline
+Spock Crawler
+textractor
+WebAlta Crawler
+SniffRSS
+Safari
+OmniWeb
+DeskBrowse
+Shim-Crawler
+Jamcast
+Steeler
+Amaya
+Enterprise_Search
+RSSOwl
+factbot
+aiHitBot
+LinkChecker
+JadynAveBot
+mozDex
+Weltweitimnetz Browser
+genieBot
+www.fi crawler
+Sensis Web Crawler
+Abolimba
+ASAHA Search Engine Turkey
+Windows Media Player
+Cynthia
+PageBitesHyperBot
+Jyxobot
+Boxxe
+HTTP_Request2
+WDG CSSCheck
+FAST Enterprise Crawler
+ScoutJet
+NetResearchServer
+heritrix
+Android Webkit
+^Nail
+AOL Explorer
+woriobot
+192.comAgent
+Kalooga
+NetBox
+gonzo
+del.icio.us-thumbnails
+WebImages
+polixea.de
+WinHTTP
+BlinkaCrawler
+Conkeror
+schibstedsokbot
+Acoo Browser
+80legs
+MagpieRSS
+Blazer
+FunnelBack
+Opera
+DealGates Bot
+GingerCrawler
+QtWeb
+RSSMicro.com RSS/Atom Feed Robot
+LinkExaminer
+Elinks
+IE Mobile
+spbot
+Yahoo!
+Openbot
+EDI
+Sage
+Qseero
+YandexBot
+LinguaBot
+BrowseX
+GreatNews
+Yaanb
+NetPositive
+flatlandbot
+Web-sniffer
+psbot
+ThumbShots-Bot
+Newsbeuter
+Chrome
+QuickTime
+nestReader
+Snappy
+NetSurf
+envolk
+snap.com
+TT Explorer
+Tjusig
+smart.apnoti.com Robot
+ccubee
+Camino
+GOM Player
+Acorn
+WDG Page Valet
+Polaris
+Pogodak.co.yu
+ScollSpider
+BlackBerry
+Search17Bot
+SlimBrowser
+Shelob
+The Bat!
+nodestackbot
+Omea Reader
+Link Valet Online
+KRetrieve
+VMBot
+Gaisbot
+MSRBOT
+WebRankSpider
+adressendeutschland.de
+arachnode.net
+urlgrabber
+GeonaBot
+Forschungsportal
+FeedValidator
+Jakarta Commons-HttpClient
+LibSoup
+ActiveXperts Network Monitor
+Gigabot
+Motoricerca-Robots.txt-Checker
+Paparazzi!
+WebCollage
+iaskspider
+HTTP nagios plugin
+Zeusbot
+Funambol Outlook Sync Client
+Mp3Bot
+silk
+Cyberduck
+LinkAider
+Xaldon WebSpider
+Bigsearch.ca
+Vagabondo
+uZard Web
+W3C mobileOK Checker
+WinPodder
+SynooBot
+SiteSucker
+Ocelli
+SAI Crawler
+FurlBot
+Google App Engine
+Touche
+MPlayer
+SimplePie
+sogou spider
+XmarksFetch
+Summer
+MetamojiCrawler
+HostTracker.com
+akula
+Minimo
+Sirketce/Busiverse
+NetNewsWire
+VideoSurf_bot
+YeahReader
+Combine
+cURL
+IlTrovatore
+NFReader
+Offline Explorer
+NetWhatCrawler
+Amfibibot
+Wyzo
+FyberSpider
+IE 8.0 (Compatibility View)
+Postbox
+visbot
+bixolabs
+Firefox (Shiretoko)
+GlobalMojo
+StackRambler
+PycURL
+Spicebird
+Hailoobot
+Falconsbot
+Avant Browser
+Outlook 2007
+libwww-perl
+void-bot
+Miro
+Typhoeus
+GetRight
+TutorGigBot
+XBMC
+gPodder
+Ipselonbot
+UC Browser
+ICF_Site_Crawler
+NewsFox
+ABrowse
+WWW::Mechanize
+CazoodleBot
+2Bone LinkChecker
+WinWebBot
+dotSemantic
+Midori
+sproose
+Technoratibot
+SurveyBot
+50.nu
+Sosospider
+OOZBOT
+DepSpid
+Flatland Industries Web Spider
+Tulip Chain
+Sunrise
+Mahiti Crawler
+Phoenix (old name for Firefox)
+SuperBot
+Stainless
+Pocket Tunes
+Teleport Pro
+Axel
+FeedFinder/bloggz.se
+Google Listen
+Blaiz-Bee
+ZoomSpider (ZSEBOT)
+Deepnet Explorer
+Exabot
+Gallent Search Spider
+wectar
+VoilaBot
+K-Ninja
+Robo Crawler
+Surphace Scout
+Mozilla
+WebCopier
+Bookdog
+btbot
+virus_detector
+ZyBorg
+lmspider
+Mini Browser
+IlTrovatore-Setaccio
+OnetSzukaj
+Swiftfox
+SEMC Browser
+CJB.NET Proxy
+Google Wireless Transcoder
+SkreemRBot
+YodaoBot
+AvantGo
+Panscient web crawler
+copyright sheriff
+VWBot
+thumbshots-de-Bot
+Theophrastus
+Comodo Dragon
+Amiga Voyager
+YahooFeedSeeker
+Xenu
+Phaseout
+Indy Library
+TurnitinBot
+Nuhk
+ia_archiver
+Firefox (GranParadiso)
+Sleipnir
+livedoor ScreenShot
+Jasmine
+Microsoft WebDAV client
+csci_b659
+posterus
+SnapBot
+Ruky-Roboter
+Hv3
+Giant/1.0
+DotBot
+BlogPulse
+SSLBot
+Opera Mobile
+Akregator
+Baiduspider
+Lynx
+ICC-Crawler
+Radio Downloader
+Googlebot
+boitho.com-dc
+ksibot
+Pingdom GIGRIB
+DomainDB
+anw LoadControl
+webfs
+DKIMRepBot
+magpie-crawler
+YoudaoBot
+Najdi.si
+Dooble
+ParchBot
+Vermut
+MSNBot
+Accelobot
+amibot
+LFTP
+TeragramCrawler
+R6 bot
+L.webis
+HooWWWer
+egothor
+retawq
+Speedy
+Palm Pre web browser
+FairShare
+OsObot
+Lijit
+abby
+OmniExplorer_Bot
+Francis
+Bloglines
+Crazy Browser
+Plukkie
+CometBird
+Claws Mail GtkHtml2 plugin
+W3C Checklink
+PHP
+Gregarius
+TheWorld Browser
+LinkWalker
+Novell BorderManager
+Bloggsi
+NetFront Mobile Content Viewer
+MLBot
+yacybot
+SBSearch
+Girafabot
+Scarlett
+BotOnParade
+BlogBridge
+GStreamer
+LBrowser
+GoldenPod
+findlinks
+Yahoo! JAPAN
+NewsBreak
+Thumbnail.CZ robot
+DataFountains
+botmobi
+Accoona-AI-Agent
+FlyCast
+miniRank
+Tear
+ht://Dig
+CSE HTML Validator
+Doris
+Firefox
+IceApe
+MQbot
+anw HTMLChecker
+CatchBot
+Seznam RSS reader
+SEOENGBot
+Kongulo
+W3C Validator
+PocoMail
+AboutUsBot
+Enigma browser
+Quantcastbot
+iSiloX
+Liferea
+OrgbyBot
+Songbird
+NuSearch Spider
+Pompos
+RSS Menu
+noyona
+SiteKiosk
+Netscape Navigator
+Klondike
+InfociousBot
+Eurobot
+LexxeBot
+TinEye
+MetaTagRobot
+NPBot
+SrevBot
+FeedParser
+HotJava
+TeaShark
+NextGenSearchBot
+Motorola Internet Browser
+SeznamBot
+iRider
+Epiphany
+Off By One
+Almaden
+Funambol Mozilla Sync Client
+navissobot
+IceWeasel
+Holmes
+Metaspinner/0.01
+Browzar
+Uzbl
+Topicbot
+aippie
+rekonq
+BDFetch
+Public Radio Player
+NetCaptor
+VERASYS 2k
+JadynAve
+Firefox (Minefield)
+baypup
+DBLBot
+DuckDuckBot
+JoBo
+pingdom.com_bot
+Lobo
+iVideo
+WebStripper
+Amagit.COM
+OWB
+MetaURI
+g2crawler
+Snoopy
+Pale Moon
+Sproose
+voyager
+Yanga
+DocZilla
+bitlybot
+Thunderbird
+discobot
+wKiosk
+Szukacz
+WIRE
+Snapbot
+Iron
+IE
+DataparkSearch
+Orca
+WinkBot
+Webscope Crawler
+REL Link Checker Lite
+IRLbot
+Seznam WAP Proxy
+Firebird (old name for Firefox)
+Sogou
+UltraBrowser 
+MJ12bot
+Jambot
+ptd-crawler
+Findexa Crawler
+FAST MetaWeb Crawler
+Maxthon
+Blackbird
+Mail.Ru
+ROME library
+favorstarbot
+Acoon-Robot
+JUST-CRAWLER
+FauBot
+Kapiko
+Obigo
+Python-webchecker
+Karneval-Bot
+Lotus Notes
+Browsershots
+linksmanager_bot
+MojeekBot
+Anonymouse.org
+LapozzBot
+DownloadStudio
+MicroB
+Espial TV Browser
+KKman
+Links
+WMCAI_robot
+XMPlay
+ChangeDetection
+SBIder
+eCairn-Grabber
+Awasu
+AdsBot-Google
+HolmesBot
+WebZIP
+YowedoBot
+Java
+Tagoobot
+GurujiBot
+K-Meleon
+X-Smiles
+Multipage Validator
+Nokia Web Browser
+HTMLParser
+Openwave Mobile Browser
+PHP link checker
+Butterfly
+Adobe AIR runtime
+Fastladder FeedFetcher
+xine
+Siege
+WapTiger
+Larbin
+BecomeBot
+Shiira
+Multi-Browser XP
+WebarooBot
+Megatext
+FeedCatBot
+Strokebot
+Twiceler
+Ronzoobot
+Beonex
+HTTrack
+Cheshire
+MnoGoSearch
+urlfan-bot
+muCommander
+GSiteCrawler
+InternetSeer
+ejupiter.com
+GcMail
+iSiloXC
+iCab
+P3P Validator
+RSS Radio
+GOFORITBOT
+XML-RPC for PHP
+Bunjalloo
+owsBot
+cityreview
+LWP::Simple
+Scooter
+SeaMonkey
+Netintelligence LiveAssessment
+Yoono Bot
+PHPcrawl
+HeartRails_Capture
+HatenaScreenshot
+IBrowse
+NetFront
+CorpusCrawler
+Demeter
+w3m
+NG
+ShopWiki
+oBot
+FollowSite Bot
+Vuze
+PRTG Network Monitor
+e-SocietyRobot
+Shredder
+SanszBot
+HiddenMarket
+Opera Mini
+Galeon
+SharpReader
+VLC media player
+NimbleCrawler
+CorePlayer
+page_verifier
+LinkbackPlugin for Laconica
+bingbot
+Kirix Strata
+VORTEX
+Flock
+AportWorm
+CPG Dragonfly RSS Module
+RedBot
+ExactSEEK
+Konqueror
+UptimeDog
+Prism
+AB (Apache Bench)
+IceCat
+Rss Bandit
+Vespa Crawler
+LarbinWebCrawler
+Fooooo_Web_Video_Crawl
+Windows Live Mail
+Toread-Crawler
+NG-Search
+Szukankobot
+ConveraCrawler
+WorldWideWeb
+ICE browser
+LeechCraft
+WinWap
+Firefox (Namoroka)
+POE-Component-Client-HTTP
+Feed::Find
+changedetection
+webmastercoffee
+CamontSpider
+Arora
+NCSA Mosaic
+MyFamilyBot
+MultiZilla
+Edbrowse
+GnomeVFS
+EnaBot
+RSS Popper
+foobar2000
+Apple-PubSub
+taptubot
+KeywenBot
+Search Engine World Robots.txt Validator
+TwengaBot
+Oregano
+Google Earth
+PHP OpenID library
+Daumoa

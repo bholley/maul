@@ -1,0 +1,12 @@
+Email client
+Wap Browser
+Mobile Browser
+Robot
+Library
+Useragent Anonymizer
+Other
+Validator
+Offline Browser
+Multimedia Player
+Feed Reader
+Browser

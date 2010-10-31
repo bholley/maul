@@ -1,0 +1,24 @@
+Vista
+Fedora
+Slackware
+Kanotix
+Gentoo
+Maemo
+2003 Server
+7
+Ubuntu
+NT
+Debian
+ME
+SUSE
+RedHat
+CE
+98
+Mandriva
+XP
+95
+3.x
+Arch Linux
+CentOS
+2000
+Mint

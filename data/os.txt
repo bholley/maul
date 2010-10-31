@@ -1,0 +1,45 @@
+OpenBSD
+AIX
+RIM OS
+OS/2
+Windows Mobile
+MorphOS
+JVM (Platform Micro Edition)
+iPhone OS
+Symbian OS
+Android
+Haiku OS
+NetBSD
+Nintendo Wii
+Danger Hiptop
+AROS
+Plan 9
+Windows Phone 7
+Syllable
+Chromium OS
+IRIX
+MSN TV (WebTV)
+Mac OS X 10.4 Tiger
+FreeBSD
+Mac OS X 10.6 Snow Leopard
+Amiga OS
+HP-UX
+Windows
+Palm OS
+Linux
+JVM (Java)
+Mac OS X 10.5 Leopard
+DragonFly BSD
+PClinuxOS
+Mac OS
+Mac OS X 10.3 Panther
+Solaris
+BeOS
+RISK OS
+MINIX 3 
+OS/2 Warp
+webOS
+Jolicloud
+Mac OS X
+QNX x86pc
+XrossMediaBar (XMB)
