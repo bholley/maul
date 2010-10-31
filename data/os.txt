@@ -2,7 +2,6 @@ OpenBSD
 AIX
 RIM OS
 OS/2
-Windows Mobile
 MorphOS
 JVM (Platform Micro Edition)
 iPhone OS

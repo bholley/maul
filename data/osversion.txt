@@ -12,6 +12,7 @@ Debian
 ME
 SUSE
 RedHat
+Mobile
 CE
 98
 Mandriva
