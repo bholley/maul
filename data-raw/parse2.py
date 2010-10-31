@@ -66,26 +66,20 @@ def main():
 	osversiondict = {}
 	# also make unique only list of all properties
 	for (i,x) in enumerate(ualist):
-#		if i > 10:
-#			break
 		print "parsing UA string ", i
 		result = uas_parser.parse(x.uaString)
 		ostype, osversion = osparse(result['os_name'])
 
 		if result['typ'] != 'unknown':
-#			x.typ = result['typ']
 			x.data['Type'] = result['typ']
 			typdict[result['typ']] = i
 		if result['ua_family'] != 'unknown':	
-#			x.family = result['ua_family']
 			x.data['Family'] = result['ua_family']
 			familydict[result['ua_family']] = i
 		if ostype != 'unknown': 
-#			x.os = ostype
 			x.data['OS'] = ostype
 			osdict[ostype] = i
 		if osversion != '':
-#			x.osversion = osversion
 			x.data['OS Version'] = osversion
 			osversiondict[osversion] = i
 
@@ -148,7 +142,7 @@ def osparse(osstring):
 		ostype = osstring
 		osversion = ""
 
-	return ostype,osversion
+	return ostype, osversion
 
 
 if __name__ == "__main__":

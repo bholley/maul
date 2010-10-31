@@ -52,3 +52,6 @@ def readEntry(fh): # fh is a filehandle
 		prop = fh.readline()
 
 	return (uaString, props)
+
+def readFile(filename): # placeholder for reading a file and generating a LIST of uaobjects
+	return 0
