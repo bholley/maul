@@ -1,10 +1,13 @@
 Email client
 Wap Browser
 Mobile Browser
+Malicious
 Robot
 Library
 Useragent Anonymizer
+Downloader
 Other
+Proxy
 Validator
 Offline Browser
 Multimedia Player

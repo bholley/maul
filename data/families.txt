@@ -238,9 +238,11 @@ libwww-perl
 void-bot
 Miro
 Typhoeus
+Chilkat HTTP .NET
 GetRight
 TutorGigBot
 XBMC
+Atomic Email Hunter
 gPodder
 Ipselonbot
 UC Browser
@@ -319,7 +321,6 @@ livedoor ScreenShot
 Jasmine
 Microsoft WebDAV client
 csci_b659
-posterus
 SnapBot
 Ruky-Roboter
 Hv3
@@ -411,6 +412,7 @@ SEOENGBot
 Kongulo
 W3C Validator
 PocoMail
+Nokia
 AboutUsBot
 Enigma browser
 Quantcastbot
@@ -494,7 +496,7 @@ IRLbot
 Seznam WAP Proxy
 Firebird (old name for Firefox)
 Sogou
-UltraBrowser 
+posterus
 MJ12bot
 Jambot
 ptd-crawler
@@ -575,6 +577,7 @@ P3P Validator
 RSS Radio
 GOFORITBOT
 XML-RPC for PHP
+Space Bison
 Bunjalloo
 owsBot
 cityreview
@@ -642,6 +645,7 @@ changedetection
 webmastercoffee
 CamontSpider
 Arora
+UltraBrowser
 NCSA Mosaic
 MyFamilyBot
 MultiZilla

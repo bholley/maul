@@ -1,3 +1,5 @@
+import re
+
 class uaobject:
 	def __init__(self):
 		self.uaString = str()
@@ -38,12 +40,12 @@ def readEntry(fh): # fh is a filehandle
 		value = value.strip()
 
 			# Validate
-		if not sep:
-			raise RuntimeError("Bad Input line: " + prop)
-		if category not in categories:
-			raise RuntimeError("Unknown category: " + category)
-		if category in props:
-			raise RuntimeError("Duplicate property " + category + " in UA String: " + uaString)
+#		if not sep:
+#			raise RuntimeError("Bad Input line: " + prop)
+#		if category not in categories:
+#			raise RuntimeError("Unknown category: " + category)
+#		if category in props:
+#			raise RuntimeError("Duplicate property " + category + " in UA String: " + uaString)
 
    		# Store the property
 		props[category] = value
@@ -54,4 +56,21 @@ def readEntry(fh): # fh is a filehandle
 	return (uaString, props)
 
 def readFile(filename): # placeholder for reading a file and generating a LIST of uaobjects
-	return 0
+	try:
+		fh = open(filename,'r')
+	except IOError:
+		raise RuntimeError('Invalid Filenames, no data to merge!')
+	else:	
+		print 'Loading ', filename	
+		ualist = []
+		while True:
+			output = readEntry(fh)
+			if output == "EOF":
+				break
+			else:	
+				x = uaobject()		
+				x.uaString = output[0]
+				x.data = output[1]
+				ualist.append(x)
+		return ualist		
+	return 2

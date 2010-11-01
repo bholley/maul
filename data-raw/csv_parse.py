@@ -2,6 +2,7 @@ import os, sys, re
 sys.path.append('../src/')
 from uaobj import *
 from uasparser import UASparser
+from user_agent import UserAgent
 
 def main():
 # start with OS file
@@ -60,51 +61,65 @@ def main():
 #	print "number of new UAs in botIP.csv: " + str(newcnt)
 	
 	uas_parser = UASparser()
-	osdict = {}
-	typdict = {}
-	familydict = {}
-	osversiondict = {}
-	# also make unique only list of all properties
 	for (i,x) in enumerate(ualist):
 		print "parsing UA string ", i
-		result = uas_parser.parse(x.uaString)
-		ostype, osversion = osparse(result['os_name'])
-
-		if result['typ'] != 'unknown':
-			x.data['Type'] = result['typ']
-			typdict[result['typ']] = i
-		if result['ua_family'] != 'unknown':	
-			x.data['Family'] = result['ua_family']
-			familydict[result['ua_family']] = i
-		if ostype != 'unknown': 
-			x.data['OS'] = ostype
-			osdict[ostype] = i
-		if osversion != '':
-			x.data['OS Version'] = osversion
-			osversiondict[osversion] = i
+		x = parseua(x,uas_parser)	
+#		result = uas_parser.parse(x.uaString)
+#		ostype, osversion = osparse(result['os_name'])
+#		result2 = UserAgent.factory(x.uaString).pretty()	
+#		result2 = UserAgent.parse_pretty(result2)
+#		version = result2[1:4]
+#		for (j, k) in enumerate(version):
+#			if j == 0:
+#				s = version[0]
+#			elif k:
+#					s = ".".join([s, k])
+#		if s:
+#			x.data['Family Version'] = s
+#		if result['typ'] != 'unknown':
+#			x.data['Type'] = result['typ']
+#		if result['ua_family'] != 'unknown':	
+#			x.data['Family'] = result['ua_family']
+#		elif result2[0] != "Other":
+#			x.data['Family'] = result2[0]
+#		if ostype != 'unknown': 
+#			x.data['OS'] = ostype
+#		if osversion != '':
+#			x.data['OS Version'] = osversion
 
 	f = open('csvdata.txt','w')		
-#	fos = open('../data/os.txt','w')
-#	ftyp = open('../data/types.txt','w')
-#	ffamily = open('../data/families.txt','w')
-#	fosversion = open('../data/osversion.txt','w')
-#	for k in osdict.keys():
-#		fos.write(k+'\n')
-#	for k in typdict.keys():
-#		ftyp.write(k+'\n')
-#	for k in familydict.keys():
-#		ffamily.write(k+'\n')
-#	for k in osversiondict.keys():
-#		fosversion.write(k+'\n')
 	for x in ualist:
 		f.write(x + '\n')
-#	ftyp.close()
-#	ffamily.close()
-#	fos.close()
-#	fosversion.close()
 	f.close()
 	return 0
 
+
+def parseua(uaobject,uas_parser):
+	x = uaobject
+	result = uas_parser.parse(x.uaString)
+	ostype, osversion = osparse(result['os_name'])
+	result2 = UserAgent.factory(x.uaString).pretty()	
+	result2 = UserAgent.parse_pretty(result2)
+	version = result2[1:4]
+	for (j, k) in enumerate(version):
+		if j == 0:
+			s = version[0]
+		elif k:
+				s = ".".join([s, k])
+	if s:
+		x.data['Family Version'] = s
+	if result['typ'] != 'unknown':
+		x.data['Type'] = result['typ']
+	if result['ua_family'] != 'unknown':	
+		x.data['Family'] = result['ua_family']
+	elif result2[0] != "Other":
+		x.data['Family'] = result2[0]
+	if ostype != 'unknown': 
+		x.data['OS'] = ostype
+	if osversion != '':
+		x.data['OS Version'] = osversion
+	return x	
+	
 
 def osparse(osstring):
 	windic = dict()

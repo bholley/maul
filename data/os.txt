@@ -31,11 +31,11 @@ Mac OS X 10.5 Leopard
 DragonFly BSD
 PClinuxOS
 Mac OS
+MINIX 3
 Mac OS X 10.3 Panther
 Solaris
 BeOS
 RISK OS
-MINIX 3 
 OS/2 Warp
 webOS
 Jolicloud
