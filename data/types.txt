@@ -1,15 +1,15 @@
-Email client
-Wap Browser
-Mobile Browser
-Malicious
-Robot
-Library
-Useragent Anonymizer
-Downloader
-Other
-Proxy
-Validator
-Offline Browser
-Multimedia Player
-Feed Reader
-Browser
+Browser, 49948
+Robot, 1934
+Mobile Browser, 976
+Validator, 222
+Downloader, 132
+Library, 115
+Other, 94
+Malicious, 79
+Email client, 63
+Multimedia Player, 59
+Feed Reader, 54
+Offline Browser, 52
+Proxy, 39
+Wap Browser, 6
+Useragent Anonymizer, 3

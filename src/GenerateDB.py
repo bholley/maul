@@ -52,7 +52,7 @@ def readEntry(fh):
 
   return (uaString, props)
 
-def readFile(filename, c):
+def readFileDB(filename, c):
   file = open(filename, 'r')
 
   # Loop until we hit eof
@@ -116,7 +116,7 @@ c = conn.cursor()
 createTable(c)
 
 # Read in each input file
-for datafile in datafiles: readFile(datafile, c)
+for datafile in datafiles: readFileDB(datafile, c)
 
 # Clean up
 conn.commit()

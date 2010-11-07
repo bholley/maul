@@ -25,8 +25,14 @@ class StringSVM:
 	self.svmlib.svm_free_and_destroy_model.argtypes = [POINTER(POINTER(svm_model))]
 
   def __del__(self):
-    if self.model:
-      self.svmlib.svm_free_and_destroy_model(pointer(self.model))
+  	try:
+		self.model
+	except AttributeError:	
+		return
+# do nothing
+	else:
+		self.svmlib.svm_free_and_destroy_model(pointer(self.model))
+		return
 
   # Takes a list of (string, string) tuples, and stores them
   def addSamples(self, samples):

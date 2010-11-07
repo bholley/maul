@@ -3,4 +3,5 @@
 # This generates somewhat curated data
 python csv_parse.py
 python xml_parse.py
+python uatrack_parse.py
 python merge_data.py

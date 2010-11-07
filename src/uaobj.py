@@ -1,4 +1,5 @@
 import re
+from Common import categories
 
 class uaobject:
 	def __init__(self):
@@ -40,12 +41,12 @@ def readEntry(fh): # fh is a filehandle
 		value = value.strip()
 
 			# Validate
-#		if not sep:
-#			raise RuntimeError("Bad Input line: " + prop)
-#		if category not in categories:
-#			raise RuntimeError("Unknown category: " + category)
-#		if category in props:
-#			raise RuntimeError("Duplicate property " + category + " in UA String: " + uaString)
+		if not sep:
+			raise RuntimeError("Bad Input line: " + prop)
+		if category not in categories:
+			raise RuntimeError("Unknown category: " + category)
+		if category in props:
+			raise RuntimeError("Duplicate property " + category + " in UA String: " + uaString)
 
    		# Store the property
 		props[category] = value

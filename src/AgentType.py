@@ -14,20 +14,26 @@ trainingData = [];
 testData = [];
 
 # bots
-c.execute('select uaString from data where "Agent Type" = "bot"')
+c.execute('select uaString from data where "Type" = "Robot"')
 for uaString in c:
   if (random.random() < 0.8):
-    trainingData.append(('bot', uaString[0]))
+    trainingData.append(('Robot', uaString[0]))
   else:
-    testData.append(('bot', uaString[0]))
+    testData.append(('Robot', uaString[0]))
 
 # browsers
-c.execute('select uaString from data where "Agent Type" = "browser"')
+c.execute('select uaString from data where "Type" = "Browser"')
 for uaString in c:
   if (random.random() < 0.8):
-    trainingData.append(('browser', uaString[0]))
+    trainingData.append(('Browser', uaString[0]))
   else:
-    testData.append(('browser', uaString[0]))
+    testData.append(('Browser', uaString[0]))
+
+
+# just select first 5000 elements of train data and first 1000 elements of test data
+trainingData = trainingData[0:5000]
+testData = testData[0:1000]
+
 
 # Make a StringSVM
 svm = StringSVM()

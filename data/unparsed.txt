@@ -1,0 +1,636 @@
+!Susie (http://www.sync2it.com/susie)
+
+ActiveBookmark 1.x
+
+Anonymizer/1.1
+
+AnswerChase PROve x.0
+
+AnswerChase x.0
+
+AVSearch-2.0-fusionIdx-14-CompetitorWebSites
+
+bCentral Billing Post-Process
+
+BeamMachine/0.5 (dead link remover of www.beammachine.net)
+
+BMCLIENT
+
+Bot mailto:craftbot@yahoo.com
+
+BravoBrian bstop.bravobrian.it
+
+BrightCrawler (http://www.brightcloud.com/brightcrawler.asp)
+
+BStop.BravoBrian.it Agent Detector
+
+CamelHttpStream/1.0
+
+Cancer Information and Support International;
+
+CFNetwork/x.x
+
+CheckUrl
+
+CHttpClient by Open Text Corporation
+
+CoBITSProbe
+
+ColdFusion
+
+collage.cgi/1.xx
+
+Contact
+
+CoralWebPrx/0.1.1x (See http://coralcdn.org/)
+
+Crawler
+
+Dart Communications PowerTCP
+
+dds explorer v1.0 beta
+
+DevComponents.com HtmlDocument Object
+
+Doubanbot/1.0 (bot@douban.com http://www.douban.com)
+
+Dr.Web (R) online scanner: http://online.drweb.com/
+
+DTAAgent
+
+eCatch/3.0
+
+EmeraldShield.com WebBot
+
+EmeraldShield.com WebBot (http://www.emeraldshield.com/webbot.aspx)
+
+Expired Domain Sleuth
+
+Express WebPictures (www.express-soft.com)
+
+Filangy/0.01-beta (Filangy; http://www.nutch.org/docs/en/bot.html; filangy-agent@filangy.com)
+
+Filangy/1.0x (Filangy; http://www.filangy.com/filangyinfo.jsp?inc=robots.jsp; filangy-agent@filangy.com)
+
+Filangy/1.0x (Filangy; http://www.nutch.org/docs/en/bot.html; filangy-agent@filangy.com)
+
+fileboost.net/1.0 (+http://www.fileboost.net)
+
+FindAnISP.com_ISP_Finder_v99a
+
+FLATARTS_FAVICO
+
+fly/6.01 libwww/4.0D
+
+Gagglebot
+
+geckobot
+
+Generic Mobile Phone (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)
+
+GeoBot/1.0
+
+Go-Ahead-Got-It/1.1
+
+googlebot (larbin2.6.0@unspecified.mail)
+
+Haste/0.12 (HOME: http://haste.kytoon.com/)
+
+hgrepurl/1.0
+
+HLoader
+
+Hybrid/1.2 [en] (OS Independent)
+
+iaskspider
+
+iearthworm/1.0, iearthworm@yahoo.com.cn
+
+Incutio HttpClient v0.x
+
+InetURL/1.0
+
+infoConveraCrawler/0.8 ( http://www.authoritativeweb.com/crawl)
+
+IP*Works! V5 HTTP/S Component - by /n software - www.nsoftware.com
+
+http://www.ip2location.com
+
+IP2MapBot/1.1 <a href=http://www.ip2map.com>http://www.ip2map.com</a>
+
+IrssiUrlLog/0.2
+
+Java 1.1
+
+JDK/1.1
+
+JoBo/@JOBO_VERSION@(http://www.matuschek.net/jobo.html)
+
+JOC Web Spider
+
+Labrador/0.2; http://ir.dcs.gla.ac.uk/labrador; craigm@dcs.gla.ac.uk
+
+lanshanbot/1.0
+
+lanshanbot/1.0 (+http://search.msn.com/msnbot.htm)
+
+lcabotAccept: */*
+
+ListBidBot (freelance job spider http://listbid.com)<a href=http://listbid.com>Freelance</a>
+
+Mag-Net
+
+MFC_Tear_Sample
+
+Microsoft Data Access Internet Publishing Provider Cache Manager
+
+Microsoft Data Access Internet Publishing Provider Protocol Discovery
+
+minibot
+
+MiracleAlphaTest
+
+Mister Pix II 2.02a
+
+Mister PiX version.dll
+
+moiNAG 0.02
+
+Mozi!
+
+Mozilla
+
+Mozilla (libwhisker/2.4)
+
+Mozilla/4.0 (hhjhj@yahoo.com)
+
+Mozilla/4.5 RPT-HTTPClient/0.3-2
+
+Mozilla/5.0 (compatible; PEAR HTTP_Request class; http://feed.moo.jp/)
+
+Mozilla/5.0 (compatible; Phonifier; +http://www.phonifier.com)
+
+Mozilla/5.0 (compatible; SpurlBot/0.2)
+
+Mozilla/5.0 (compatible; SYCLIKControl/LinkChecker;)
+
+Mozilla/5.0 (research@mediatrec.com)
+
+Mozilla/5.0 whoiam [http://www.axxus.de/]
+
+MSIE-5.13 (larbin@unspecified.mail)
+
+myDaemon
+
+NEC-Hayek/1.0
+
+NeuralBot/0.2
+
+newsearchengine (ThisUser@unspecified.mail)
+
+nicebot
+
+NICO/1.0
+
+Nocilla/1.0
+
+Offline Explorer 1.*
+
+OliverPerry
+
+OutfoxBot/0.x (For internet experiments; http://; outfox.agent@gmail.com)
+
+OutfoxMelonBot/0.5 (for internet experiments; http://; outfoxbot@gmail.com)
+
+OWR_Crawler 0.1
+
+PEAR HTTP_Request class ( http://pear.php.net/ )
+
+PeopleChat/Search_Engine
+
+PigeonBot1.0 BETA
+
+PingALink Monitoring Services 1.0
+
+PingALink Monitoring Services 1.0 (http://www.pingalink.com)
+
+Pizilla++ ver 2.45
+
+PlantyNet_WebRobot_V1.9 dhkang@plantynet.com
+
+plinki/0.1 (you got plinked! (thats a good thing..); http://www.plinki.com; crawl@plinki.com)
+
+Progressive Download
+
+Progressive Download HTTP check
+
+Rainbot1.1
+
+REBOL Core 2.x.x.x.x
+
+RebusnetBot (+http://www.rebusnet.biz)
+
+RebusnetPADBot/1.5x (+http://www.rebusnet.biz)
+
+RepoMonkey Bait & Tackle/v1.01
+
+Rumours-Agent
+
+SBL-BOT (http://sbl.net)
+
+semanticdiscovery/0.x
+
+Shareaza v1.x.x.xx
+
+SharewarePlazaFileCheckBot/1.0+(+http://www.SharewarePlaza.com)
+
+Simpy 1.x; http://www.simpy.com/
+
+Simpy/1.x (Simpy; http://www.simpy.com/?ref=bot; feedback at simpy dot com)
+
+sitecheck.internetseer.com
+
+sitecheck.internetseer.com (For more info see: http://sitecheck.internetseer.com)
+
+SiteRecon+(xx)
+
+SiteWinder
+
+sna-0.0.1 (mikemuzio@msn.com)
+
+sna-0.0.1 mikeelliott@hotmail.com
+
+SnoopRob/x.x
+
+Snoopy_v0.xx
+
+SurveyBot/2.2 <a href='http://www.whois.sc'>Whois Source</a>
+
+swbot/0.9c libwww/5.3.1
+
+SyncBot
+
+Tagyu Agent/1.0
+
+TAMU_CS_IRL_CRAWLER/1.0
+
+targetblaster.com/0.9k
+
+TE
+
+TeamSoft WinInet Component
+
+The Expert HTML Source Viewer (http://www.expert-html.com)
+
+TJvMultiHttpGrabber Component
+
+toCrawl/UrlDispatcher
+
+UDM
+
+UdmSearch/3.1.x
+
+user-agent=Mozilla/3.01Gold
+
+Utopia WebWasher 3.0
+
+VayalaCreep-v0.0.1 (haploid@haploid.com)
+
+Vayala|Creep-v0.0.1 (codepoet@wildties.com)
+
+Web-Bot V1.03
+
+Web-Robot/5.0 (en-US; web-robot.com/policy.html) Web-Robot Crawler/2.0.3
+
+webcollage/1.xx
+
+Webdup/0.9
+
+WebFetch
+
+webGobbler/1.x.x
+
+webhack
+
+WeBoX/0.xx
+
+WebQL
+
+webster-internet.de pad browser
+
+WebWatcherMonitor/2.01
+
+West Wind Internet Protocols 4.xx
+
+WinampMPEG/2.00 (larbin@unspecified.mail)
+
+WincerSong Agent v1.0
+
+WiseWire-Spider2
+
+WordChampBot
+
+Wusage/x.0@boutell.com
+
+www4mail/2.x libwww-FM/2.14 (Unix; I)
+
+Xaldon WebSpider
+
+Zscho.de Crawler/Nutch-1.0-Zscho.de-semantic_patch (Zscho.de Crawler
+
+Trend Micro WTP Add-On 1.2.1046
+
+Mozilla/5.0 (compatible; Charlotte/1.0t; http://www.searchme.com/support/)
+
+Mozilla/5.0 (compatible; mxbot/1.0; +http://www.chainn.com/mxbot.html)
+
+BaiduImagespider+(+http://help.baidu.jp/system/05.html)
+
+kalooga/KaloogaBot (Kalooga; http://www.kalooga.com; info@kalooga.com)
+
+Sogou Pic Spider/3.0(+http://www.sogou.com/docs/help/webmasters.htm#07)
+
+Mozilla/5.0 (compatible; Yahoo! SearchMonkey 1.0; http://developer.yahoo.com/searchmonkey/useragent)
+
+Yahoo-MMCrawler/3.x (mms dash mmcrawler dash support at yahoo dash inc dot com)
+
+Grub/2.0 (Grub.org crawler; http://www.grub.org/; bot@grub.org)
+
+AAfter.com Crawler/AAfter-1.0 (This bot is very focused, well-behaved, and wants to do good to internet community. For any questions, please call collect +1 214-714-2224. Team AAfter, Dallas, TX, USA; http://aafter.com/crawler.htm; crawler at aafter.com)
+
+nu_tch-princeton/Nu_tch-1.0-dev (princeton crawler for cass project; http://www.cs.princeton.edu/cass/; zhewang a_t cs ddot princeton dot edu)
+
+Mozilla/5.0 (compatible; zermelo; +http://www.powerset.com) [email:paul@page-store.com,crawl@powerset.com]
+
+Tasap-image-robot/0.9 (http://www.tasap.com)
+
+MSR-ISRCCrawler
+
+Mozilla/5.0 (compatible; attributor/1.13.2 +http://www.attributor.com)
+
+Googlebot/2.1 (+http://www.google.com/bot.html)
+
+SimilarPages/Nutch-1.0-dev (SimilarPages Nutch Crawler; http://www.similarpages.com; info@similarpages.com)
+
+jrCrawler/1.0b
+
+GbPlugin
+
+Mozilla/5.0 (compatible; LiteFinder/1.0; +http://www.litefinder.net/about.html)
+
+mozilla 2.0/TM Sial
+
+Googlebot/2.1
+
+bhupal/Nutch-0.9
+
+Mozilla crawl/5.0 (compatible; frt/1.13.2 +http://www..com)
+
+SimilarPages/Nutch-1.0-dev (SimilarPages Nutch Crawler; http://www.similarpages.com; info at similarpages dot com)
+
+Mozilla/4.1 (U; BREW 3.1.5; en-US; Teleca/Q05A/INT)
+
+asdasdasdasdasdsad
+
+Mozilla/5.0 (compatible; Thumbshots.ru; +http://thumbshots.ru/bot)
+
+MxOXS
+
+Mozilla/5.0 (compatible;YodaoBot-Image/1.0;http://www.yodao.com/help/webmaster/spider/;)
+
+MYOB/6.66 (AN/ON)
+
+OpenPlaces/Nutch-1.0-dev (OpenPlaces Content Crawler; http://www.openplaces.com; dnadeau 64th-ascii-char openplaces c o m)
+
+Googlebot/2.1 (+http://www.googlebot.com/bot.html)
+
+SeznamScreenshotator/2.0 (+http://fulltext.seznam.cz/)
+
+Firefox
+
+00
+
+nutch.biz/Nutch-1.0 (nutch.biz; crawler@nutch.biz)
+
+Microsoft URL Control - 6.00.8862
+
+12345
+
+Mozilla/5.0 (compatible; Apercite; +http://www.apercite.fr/robot/index.html)
+
+WebWasher 3.4
+
+ofobot
+
+page_verifier http://www.securecomputing.com/goto/pv
+
+-
+
+STFU
+
+SAMSUNG-SGH-I607
+
+Mozilla/5.0r
+
+Pingdom.com/tools
+
+<a href="http://www.madama.altervista.org/zanzaramannara.html">Zanzara Mannara</a>
+
+Googlebot
+
+test
+
+Civil Society Helps (http://www.civilsocietyhelps.org) and Martha Sullivan help perpetuate fraud against U.S. citizens. See http://marthasullivanlaw.com to see how.
+
+LTI/LemurProject Nutch Spider/Nutch-1.0-dev (Research spider using Nutch; http://lucene.apache.org/nutch/bot.html; admin@lemurproject.org)
+
+travel-search
+
+darxi/1.1 (http://darxi.com/projects.asp)
+
+kiwi
+
+OpenPlaces/Nutch-1.0-dev (OpenPlaces Content Crawler; http://www.openplace.com; dnadeau at openplaces.com)
+
+Bl0wMe perVersion 2/1
+
+Software112.com
+
+-----------Big Brother is watching----------
+
+education portal/Nutch-0.9 (Please do not forbid, its for your benefit)
+
+Free Tibet! www.freetibet.org
+
+<a href="http://www.freetibet.org">Free Tibet!</a>
+
+htdig/3.1.5 (root@localhost)
+
+UNTRUSTED/1.0
+
+MEGAUPLOAD 1.0
+
+ggle
+
+SindiceBot/Nutch-1.0-dev (http://sindice.com/developers/bot)
+
+Mozilla/5.0 (compatible; Charlotte/0.9t; +http://www.searchme.com/support/)
+
+Republic of Texas Web Browser
+
+FUCK YOU!
+
+Tu puta madre que tal mea, cabrón
+
+nutch/Nutch-1.0-dev (nutch)
+
+WIND0WS NT 5.3
+
+OutlookConnector/1.9 (TmstmpExt)
+
+Mozilla/5.0 Gecko/20070713
+
+Mozilla/5.0 (compatible; Googlebot/
+
+GubblGubbl
+
+tiehttp
+
+KnowItAll/Nutch-0.9 (Nutch-UW-Crawler; http://cs.washington.edu/homes/mjc/crawler.html; uwcrawler08@gmail.com)
+
+Firefox David
+
+NOKIAE50
+
+Mozilla/5.0 (compatible; Googlebot/2.1;  http://www.google.com/bot.html)
+
+Nokia
+
+123
+
+HTTP_USER_AGENT
+
+In your Sisters Bed!!
+
+MacOs
+
+Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/ bot.html)
+
+Opera
+
+Ìó brauzer‘,posts=’999999999
+
+a
+
+<h1>http://spyrozone.net</h1>
+
+beast/Nutch-0.9 (agentspider; beast@mail.com)
+
+Internet Explorer 8
+
+Toata dragostea mea pentru diavola
+
+Grub/2.0 (IOI crawler; http://index.isc.org/; crawl@index.isc.org)
+
+Web Warrior Communicator/The Lair: http://wwwebwarrior.com
+
+Fuck
+
+asdf
+
+perma
+
+nutch-crawl/Nutch-1.0-dev (imcs; http://imcs.ro; admin@imcs.ro)
+
+silent
+
+anonymize_headers deny User-Agent WWW-Authenticate Link
+
+LDO123
+
+Mozilla/5.0 (Web Optimizator; Speed Up Your Website; ru; http://webo.name/; Firefox 3.0.10)
+
+Mozilla/5.0 Firefox/3
+
+Mozilla/5.0 Firefox
+
+Download Ninja 2.0
+
+Mozillas
+
+<script>alert(document.cookie);</script>
+
+Googlebot/2.1 (http://www.googlebot.com/bot.html)
+
+Mozilla/5.0 (compatible; heritrix/1.14.3 +http://rjpower.org)
+
+Nutscrape/1.0 (CP/M; 8-bit)
+
+Mozilla crawl/5.0 (compatible; fairshare.cc +http://fairshare.cc)
+
+Firefox 3.5 WebWasher 3.4
+
+SmithRobot
+
+nutch.us/Nutch-1.0 (nutch.us; crawler@nutch.us)
+
+BaiduImagespider+(+http://www.baidu.jp/spider/)
+
+AppEngine-Google; (+http://code.google.com/appengine; appid: vietwebdisk)
+
+Custom
+
+Google Chrome
+
+Firefox GLaDOS
+
+Carter/1.0 (Stargate)
+
+NONE
+
+country=uk
+
+sonyericssonk510i
+
+Agent
+
+MOT-MOTOQA1/A2.01.11R Release/09.24.2008 OPERA/BER2.2 Profile/MIDP-2.0 Configuration/CLDC-1.1
+
+spider
+
+HDM 1.x
+
+Firebox
+
+AppEngine-Google; (+http://code.google.com/appengine; appid: go6internet)
+
+Nutch/Nutch-1.0-dev (A Nutch-based crawler.; http://lucene.apache.org/nutch/bot.html; nutch-agent AT lucene.apache.org)
+
+Microsoft Internet Explorer
+
+GeoHasher/Nutch-1.0 (GeoHasher Web Search Engine; geohasher.gotdns.org; geo_hasher at yahoo * com)
+
+Mozilla/5.0 (compatible; archive.org_bot/heritrix-1.14.0 +http://www.natlib.govt.nz/about-us/current-initiatives/web-harvest-2010)
+
+Microsoft URL Control - 6.01.9782
+
+research-scan-bot/Nutch-1.0
+
+SheenBot/SheenBot-1.0.4 (Sheen web crawler)
+
+Mozilla/5.0 (compatible; heritrix/3.0.0 +http://archive.org)
+
+OmniExplWgetorer_Bot
+
+Mozilla/4.0 eCairn-Grabber/1.0 curl/7.15
+
+nook browser/1.0
+
+Mozilla/7.0[FU M$ and IE]  via proxy gateway CERN-HTTPD/3.0 libwww/2.17
+
+HTC_Touch_HD_T8282
+
+Mozilla/4.0(compatible;Polaris 6.2;Brew 3.1.5;U;en)/400x240 Samsung SCH-U820
+
+NOKIAE50/UC Browser7.2.2.51/28/351
+

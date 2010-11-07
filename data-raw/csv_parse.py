@@ -123,6 +123,7 @@ def parseua(uaobject,uas_parser):
 
 def osparse(osstring):
 	windic = dict()
+	macdic = dict()
 	windic['Windows XP'] = ['Windows', 'XP']
 	windic['Windows 2003 Server'] = ['Windows','2003 Server']
 	windic['Windows 7'] = ['Windows','7']
@@ -137,9 +138,18 @@ def osparse(osstring):
 	windic['Windows 2000'] = ['Windows','2000']
 	windic['Windows 98'] = ['Windows','98']
 	windic['Windows CE'] = ['Windows','CE']
+	macdic['Mac OS X 10.4 Tiger'] = ['Mac OS X','10.4 Tiger']
+	macdic['Mac OS X 10.6 Snow Leopard'] = ['Mac OS X','10.6 Snow Leopard']
+	macdic['Mac OS X 10.5 Leopard'] = ['Mac OS X','10.5 Leopard']
+	macdic['Mac OS'] = ['Mac OS','']
+	macdic['Mac OS X 10.3 Panther'] = ['Mac OS X','10.3 Panther']
+	macdic['Mac OS X'] = ['Mac OS X','']
 	if re.match('Windows',osstring):
 		ostype = windic[osstring][0]
 		osversion = windic[osstring][1]
+	elif re.match('Mac OS',osstring):
+		ostype = macdic[osstring][0]
+		osversion = macdic[osstring][1]
 	elif(osstring.find('Linux') != -1):	
 		if(osstring == 'Linux'):
 			ostype = 'Linux'
@@ -158,7 +168,6 @@ def osparse(osstring):
 		osversion = ""
 
 	return ostype, osversion
-
 
 if __name__ == "__main__":
 	main()

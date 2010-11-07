@@ -11,50 +11,51 @@ def main():
 	ualist2 = readFile('xmldata.txt')
 	print 'Loaded xmldata.txt'	
 	print 'UA List 2 has length, ', len(ualist2)
+	ualist3 = readFile('uatrack_data.txt')
+	print 'Loaded uatracker data'
+	print 'UA List 3 has length, ', len(ualist3)
 
+	print 'Merging UAList 1 and UAList 2'
 	ualist, newentries = mergelists(ualist1,ualist2)
 	print 'Newentries, ', newentries	
+	print 'Total Entries,', len(ualist)
+
+	print 'Merging UaList 3 and Rest'
+	ualist, newentries = mergelists(ualist,ualist3)
+	print 'Newentries ', newentries
 	print 'Total Entries,', len(ualist)
 
 # generate dictionaries of categories
 # 	output new list
 	f = open('../data/uadata.txt','w')
 
-	osdict = {}
-	typdict = {}
-	familydict = {}
-	osversiondict = {}
-
-	for (i,x) in enumerate(ualist):
-		if 'OS' in x.data:
-			osdict[x.data['OS']] = i
-		if 'Family' in x.data:
-			familydict[x.data['Family']] = i
-		if 'Type' in x.data:
-			typdict[x.data['Type']] = i
-		if 'OS Version' in x.data:
-			osversiondict[x.data['OS Version']] = i
+	for x in ualist:			
 		f.write(x+'\n')
-			
 
 	f.close()	
-
+	
+	
+	catdict, typdict, familydict, osdict, osversiondict =  descriptivestat(ualist)		
+	
 	fosversion = open('../data/osversion.txt','w')
 	fos = open('../data/os.txt','w')
 	ftyp = open('../data/types.txt','w')
 	ffamily = open('../data/families.txt','w')
-	for k in osdict.keys():
-		fos.write(k+'\n')
-	for k in typdict.keys():
-		ftyp.write(k+'\n')
-	for k in familydict.keys():
-		ffamily.write(k+'\n')
-	for k in osversiondict.keys():
-		fosversion.write(k+'\n')
+	fcat = open('../data/categories.txt','w')
+
+
+	dictsortprintfile(osdict,fos)
+	dictsortprintfile(typdict,ftyp)
+	dictsortprintfile(familydict,ffamily)
+	dictsortprintfile(osversiondict,fosversion)
+	
+	for k in catdict.keys():
+		fcat.write(k+'\n')
 	fosversion.close()
 	fos.close()
 	ftyp.close()
 	ffamily.close()
+	fcat.close()
 
 
 def mergelists(ualist1,ualist2):
@@ -69,5 +70,57 @@ def mergelists(ualist1,ualist2):
 			ualist.append(x)
 			cnt = cnt +1
 	return ualist, cnt
+
+def dsort(dic):
+	items = [(v,k) for k,v in dic.items()]
+	items.sort(reverse=True)
+	return [k for (v,k) in items]
+
+def dictsortprintfile(dic,fid):
+	keysort = dsort(dic)
+	for k in keysort:
+		s = k + ", " + str(dic[k])
+		fid.write(s + '\n')
+
+def descriptivestat(ualist):
+	osdict = {}
+	typdict = {}
+	familydict = {}
+	osversiondict = {}
+	catdict = {}
+
+	for (i,x) in enumerate(ualist):
+		if 'OS' in x.data:
+			try:
+				osdict[x.data['OS']] 
+			except KeyError:
+				osdict[x.data['OS']] = 1
+			else:
+				osdict[x.data['OS']] += 1
+		if 'Family' in x.data:
+			try:
+				familydict[x.data['Family']] 
+			except KeyError:
+				familydict[x.data['Family']] = 1
+			else:
+				familydict[x.data['Family']] += 1
+		if 'Type' in x.data:
+			try:
+				typdict[x.data['Type']] 
+			except KeyError:
+				typdict[x.data['Type']] = 1
+			else:
+				typdict[x.data['Type']] += 1
+		if 'OS Version' in x.data:
+			try:
+				osversiondict[x.data['OS Version']] 
+			except KeyError:
+				osversiondict[x.data['OS Version']] = 1
+			else:
+				osversiondict[x.data['OS Version']] += 1
+		for key in x.data.keys():
+			catdict[key] = 1
+
+	return catdict, typdict, familydict, osdict, osversiondict		
 if __name__=="__main__":
 	main()
