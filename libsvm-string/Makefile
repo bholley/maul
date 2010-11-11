@@ -19,6 +19,8 @@ svm.o: svm.cpp svm.h subsequence.o
 	$(CXX) $(CFLAGS) -c svm.cpp
 subsequence.o: subsequence.cpp subsequence.h
 	$(CXX) $(CFLAGS) -c subsequence.cpp
+kernel-test: kernel-test.cpp subsequence.o
+	>~$(CXX) $(CFLAGS) kernel-test.cpp subsequence.o -o kernel-test
 
 clean:
 	rm -f *~ $(LIBS) svm-train svm-predict svm-scale kernel-test libsvm.so.$(SHVER)
