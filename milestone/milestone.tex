@@ -1,0 +1,65 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{url}
+
+\title{Milestone for MAUL: User Agent Machine Learning\footnote{Some unscrambling required.} }
+\author{Robert Holley and Daniel Rosenfeld}
+\date{11/12/2010} 
+
+
+\begin{document}
+\maketitle
+\begin{abstract}
+We describe progress towards implementing a robust classifier for user agent strings based upon a variety of text classification techniques.  Our primary approaches focus on the use of substring and edit distance based kernels within the SVM framework.  Comparison to feature based methods using Naive Bayes and a linear and kernelized SVM approaches will also be included in the final results. 
+\end{abstract}
+
+
+\section{Introduction}
+A User-Agent string is an HTTP header sent along with a request for a web page, often but not always by a web browser.\cite{httprfc} The intent is to inform the server
+of the capabilities of the software being used by the client. The User-Agent is
+one of the most important signals to differentiate a desktop browser from a
+mobile device or an automatic crawl. In addition gathering statistics on them
+provides insights on changes in browser, operating system and device usage. They
+are also frequently misused, in e.g. cloaking a web site to make it look
+different to a search engine crawl.
+
+User-Agent strings can contain loosely-structured tokens on engine, browser,
+version, build date, etc. but their format was never strictly standardized.\cite{httprfc}
+As the number of web-access devices increases, especially with new-generation
+mobile devices and browsers, the numbers of different User-Agent strings is
+rapidly growing and diversifying. Extensions and plugins can often mutate
+User-Agent strings in unpredictable ways (insert, splitting, duplicating, and
+re-ordering tokens). Firefox 4 and Internet Explorer 9 will soon ship with
+completely reformatted strings. Some mobile operators have begun introducing
+custom HTTP headers to extend the traditional role of the User-Agent.\cite{mobile} Web spiders and crawlers are also an important and unpredictable contributing factor.
+An overview of the development and mutation of User-Agent strings is given in,\cite{history} while is a public list of over 50000 currently unique strings.\cite{uatracker}
+
+For over a decade, those interested in tracking the proliferation of the web have collected user agent strings and built classifiers for them.  One of the first such entities was Microsoft, who included a recognition engine (browscap.dll) and a pattern file (browscap.ini) with its early web servers.\cite{bcp}  The Browser Capabilities Project (BCP) has kept these files up to date for the web development community, despite Microsoft's abandonment for more sophisticated (and proprietary) methods.\cite{bcp}  However, the maintenance of the project requires human parsing of new user agent strings every week and subsequent updating of the recognition engine and pattern file (BCP reports that they receive several dozen new user agent strings per week).  A more recent effort, Browserscope (which started as UAProfiler), took a similar approach, using a regular expression based parsing engine to identify specific browsers (browsers only). \cite{souders}  The parsing engine required regular updates to remain up to date with new user agent strings.  In 2009, the author of UAProfiler reported finding 20 new user agent strings {\it per day}. \cite{souders2}  Other efforts such as those by user-agent-string.info and useragentstring.com also use brittle parsing rules and curated data much as both Browserscope and BCP do.  \cite{uas.info,uas.com}   
+
+Our machine learning approach to user agent string parsing could provide partially automated parsing even on new user agent strings, absolving the need for a human to keep user agent parsers up to date.      
+
+\section{Computational Approach}
+\subsection{Data}
+We have assembled an annotated dataset consisting of 53,829 user agent strings.  The strings were acquired from a variety of sources.\cite{ua.org,uatracker,uas.info}  The annotation consists of agent type (Browser, Bot), agent family (Firefox, googlebot, etc.), family version, OS (Windows, Linux, etc.), and OS version.  The annotation was performed by using two common parsing engines (UASparser\cite{uas.info} and uaParser (formerly Browserscope, formerly UA Profiler)\cite{uaParser} )) and merging the result.  This approach was taken due to the lack of availability of annotated sources.  Some of the annotated user agent strings were curated by hand due to the failure of the parsers.
+
+The data were parsed and annotated using a series of python scripts and python versions of the afore-mentioned parsers.  The dataset is stored in both a flatfile format and a SQLlite database for querying.  
+
+\subsection{Learning}
+Generally, given a new user agent string, our goal is to guess whether the string is from a bot, or a browser (or one of several other types).  If the string is from a browser, we will also want to guess the browser type (family) and OS type.    Our goal is to build several classifiers using different techniques in order to find the most robust for classifying user agent strings.  For performing SVM training and prediction we use the LIBSVM library.\cite{libsvm}  LIBSVM is accessed through a python interface to a dynamically linked library. 
+
+Our first approach has been to use a Gaussian string edit distance kernel with an SVM.   The Kernel function is given by Eq. 1 below,
+\begin{equation}
+K(x,z) = \exp \left[ - \gamma \operatorname{LD} (x,z) \right]
+\end{equation}
+where $\operatorname{LD}(x,z)$ is the Levenshtein Edit Distance between two strings $x$ and $z$.  Using this approach an accuracy of 97\% has already been achieved using only a subset of our data (code optimization is still underway, a confusion matrix approach to error analysis is planned but not yet completed).   Given that a string is classified as a browser we then plan to attempt to fully classify it into a family and OS type using a similar edit string distance based approach.
+Our second approach relies on using a recursively calculated subsequence kernel.\cite{subseqkernel}  This Kernel looks for all sub-sequences shared by two strings.  The contribution to the kernel of a shared sub-string is damped by an exponential factor related to its length in both strings.  The Kernel is mathematically described  in the above reference.  This Kernel will be used with the raw string data of the user agent strings, but we will also use this Kernel on a tokenized version of the user agent strings.  Since many user agent strings of similar types differ in a re-ordering of tokens, we will build a dictionary of tokens and create a new string in the space of these tokens.  
+
+The main scope of our project consists of implementing the above SVM based approaches.  However, we will also compare the above string Kernel based approaches to feature based approaches.  Possible features are sub-strings of length k, or the presence of a particular token.  Features will be selected by scoring or backward selection.  Linear Kernel and higher order Kernel based SVMs will be used in the space of these features to classify the user agent strings.  The results will be compared to the string based approaches.  We also plan to use a dictionary based approach with Naive Bayes (due to its simplicity) as a method of determining a baseline performance that our more complicated efforts can be measured against.  
+
+
+
+\bibliography{references}
+\bibliographystyle{plain}
+\end{document}
