@@ -8,7 +8,7 @@
 double     ***cache;       /* this dynamic variable saves the auxillary
             kernel values computed */
 
-double Kprime (char *u, int p, char *v, int q, int n, double lambda) {
+double Kprime (const char *u, int p, const char *v, int q, int n, double lambda) {
   register int         j;
   double               tmp;
 
@@ -32,7 +32,7 @@ double Kprime (char *u, int p, char *v, int q, int n, double lambda) {
   return (cache [n] [p] [q]);
 }
 
-double K (char *u, int p, char *v, int q, int n, double lambda) {
+double K (const char *u, int p, const char *v, int q, int n, double lambda) {
   register int  j;
   double        KP;
 
@@ -50,7 +50,7 @@ double K (char *u, int p, char *v, int q, int n, double lambda) {
 
 /* recursively computes the subsequence kernel between s and t
    where subsequences of EXACTLY length n are considered */
-double subsequence (char *u, char *v, int n, double lambda) {
+double subsequence (const char *u, const char *v, int n, double lambda) {
   int           p = strlen (u), q = strlen (v), i, j, k;
   double        ret;
 

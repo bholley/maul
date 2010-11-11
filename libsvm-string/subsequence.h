@@ -1,2 +1,2 @@
 double
-subsequence(char *u, char *v, int n, double lambda);
+subsequence(const char *u, const char *v, int n, double lambda);

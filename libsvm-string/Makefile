@@ -4,7 +4,7 @@ SHVER = 2
 
 LIBS = svm.o subsequence.o
 
-all: svm-train svm-predict svm-scale lib
+all: svm-train svm-predict svm-scale lib kernel-test
 
 lib: svm.o
 	$(CXX) -shared -dynamiclib $(LIBS) -o libsvm.so.$(SHVER)
