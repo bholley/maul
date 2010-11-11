@@ -41,7 +41,7 @@ struct svm_problem
 enum { C_SVC, NU_SVC, ONE_CLASS, EPSILON_SVR, NU_SVR };	/* svm_type */
 #ifdef _STRING
 enum { VECTOR, STRING }; /* data_type */
-enum { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED, EDIT }; /* kernel_type */
+enum { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED, EDIT, SUBSEQ }; /* kernel_type */
 #else
 enum { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED }; /* kernel_type */
 #endif

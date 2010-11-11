@@ -2,18 +2,23 @@ CXX ?= g++
 CFLAGS = -Wall -Wconversion -O3 -fPIC -D _STRING
 SHVER = 2
 
-all: svm-train svm-predict svm-scale
+LIBS = svm.o subsequence.o
+
+all: svm-train svm-predict svm-scale lib
 
 lib: svm.o
-	$(CXX) -shared -dynamiclib svm.o -o libsvm.so.$(SHVER)
+	$(CXX) -shared -dynamiclib $(LIBS) -o libsvm.so.$(SHVER)
 
 svm-predict: svm-predict.c svm.o
-	$(CXX) $(CFLAGS) svm-predict.c svm.o -o svm-predict -lm
+	$(CXX) $(CFLAGS) svm-predict.c $(LIBS) -o svm-predict -lm
 svm-train: svm-train.c svm.o
-	$(CXX) $(CFLAGS) svm-train.c svm.o -o svm-train -lm
+	$(CXX) $(CFLAGS) svm-train.c $(LIBS) -o svm-train -lm
 svm-scale: svm-scale.c
 	$(CXX) $(CFLAGS) svm-scale.c -o svm-scale
-svm.o: svm.cpp svm.h
+svm.o: svm.cpp svm.h subsequence.o
 	$(CXX) $(CFLAGS) -c svm.cpp
+subsequence.o: subsequence.cpp subsequence.h
+	$(CXX) $(CFLAGS) -c subsequence.cpp
+
 clean:
-	rm -f *~ svm.o svm-train svm-predict svm-scale libsvm.so.$(SHVER)
+	rm -f *~ $(LIBS) svm-train svm-predict svm-scale kernel-test libsvm.so.$(SHVER)

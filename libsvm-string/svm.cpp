@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdarg.h>
 #include "svm.h"
+#include "subsequence.h"
+
 int libsvm_version = LIBSVM_VERSION;
 typedef float Qfloat;
 typedef signed char schar;
@@ -269,6 +271,10 @@ class Kernel: public QMatrix {
     {
       return exp(-gamma*(double)edit(x[i].s,x[j].s));
     }
+    double kernel_subseq(int i, int j) const
+    {
+      return subsequence(x[i].s,x[j].s, 5, 0.8);
+    }
 #else
     double kernel_linear(int i, int j) const
     {
@@ -323,6 +329,9 @@ class Kernel: public QMatrix {
 #ifdef _STRING
     case EDIT:
       kernel_function = &Kernel::kernel_edit;
+      break;
+    case SUBSEQ:
+      kernel_function = &Kernel::kernel_subseq;
       break;
 #endif
   }
@@ -411,7 +420,7 @@ int Kernel::edit(const char *px, const char *py)
 
 #ifdef _STRING
 double Kernel::k_function(const svm_data x, const svm_data y,
-    const svm_parameter& param)
+                          const svm_parameter& param)
 {
   switch(param.kernel_type)
   {
@@ -436,7 +445,7 @@ double Kernel::k_function(const svm_data x, const svm_data y,
           else
           {
             if(xv->index > yv->index)
-            {	
+            {
               sum += yv->value * yv->value;
               ++yv;
             }
@@ -468,6 +477,8 @@ double Kernel::k_function(const svm_data x, const svm_data y,
       return x.v[(int)(y.v->value)].value;
     case EDIT:
       return exp(-param.gamma*edit(x.s,y.s));
+    case SUBSEQ:
+      return subsequence(x.s,y.s, 5, 0.8);
     default:
       return 0;	/* Unreachable */
   }
@@ -2799,7 +2810,7 @@ static const char *data_type_table[] =
 #ifdef _STRING
 static const char *kernel_type_table[]=
 {
-  "linear","polynomial","rbf","sigmoid","precomputed","edit",NULL
+  "linear","polynomial","rbf","sigmoid","precomputed","edit","subseq",NULL
 };
 #else
 static const char *kernel_type_table[]=
@@ -2825,7 +2836,7 @@ int svm_save_model(const char *model_file_name, const svm_model *model)
     fprintf(fp,"degree %d\n", param.degree);
 
 #ifdef _STRING
-  if(param.kernel_type == POLY || param.kernel_type == RBF || param.kernel_type == SIGMOID || param.kernel_type == EDIT)
+  if(param.kernel_type == POLY || param.kernel_type == RBF || param.kernel_type == SIGMOID || param.kernel_type == EDIT || param.kernel_type == SUBSEQ)
     fprintf(fp,"gamma %g\n", param.gamma);
 #else
   if(param.kernel_type == POLY || param.kernel_type == RBF || param.kernel_type == SIGMOID)
@@ -3267,7 +3278,8 @@ const char *svm_check_parameter(const svm_problem *prob, const svm_parameter *pa
       kernel_type != RBF &&
       kernel_type != SIGMOID &&
       kernel_type != PRECOMPUTED &&
-      kernel_type != EDIT)
+      kernel_type != EDIT &&
+      kernel_type != SUBSEQ)
     return "unknown kernel type";
 #else
   if(kernel_type != LINEAR &&

@@ -36,7 +36,7 @@ testData = testData[0:1000]
 
 
 # Make a StringSVM
-svm = StringSVM()
+svm = StringSVM("edit")
 
 # Train
 svm.addSamples(trainingData)

@@ -8,31 +8,34 @@ class StringSVM:
 
   finalized = False
 
-  def __init__(self):
+  def __init__(self, kernelName):
+
+    # Store the kernel name
+    self.kernelName = kernelName
 
     # Load libSVM
-	if platform.system() == "Windows":
-		self.svmlib = cdll.LoadLibrary("../libsvm-string/libsvm-string-win32.dll");#WIN32
-	else:
-		self.svmlib = cdll.LoadLibrary("../libsvm-string/libsvm.so.2");# *NIX
-    # Set the prototypes on the functions we care about
+    if platform.system() == "Windows":
+      self.svmlib = cdll.LoadLibrary("../libsvm-string/libsvm-string-win32.dll");#WIN32
+    else:
+      self.svmlib = cdll.LoadLibrary("../libsvm-string/libsvm.so.2");# *NIX
+      # Set the prototypes on the functions we care about
 
-	self.svmlib.svm_train.restype = POINTER(svm_model)
-	self.svmlib.svm_train.argtypes = [POINTER(svm_problem), POINTER(svm_parameter)]
-	self.svmlib.svm_predict_p.restype = c_double
-	self.svmlib.svm_predict_p.argtypes = [POINTER(svm_model), POINTER(svm_data)]
-	self.svmlib.svm_free_and_destroy_model.restype = None
-	self.svmlib.svm_free_and_destroy_model.argtypes = [POINTER(POINTER(svm_model))]
+    self.svmlib.svm_train.restype = POINTER(svm_model)
+    self.svmlib.svm_train.argtypes = [POINTER(svm_problem), POINTER(svm_parameter)]
+    self.svmlib.svm_predict_p.restype = c_double
+    self.svmlib.svm_predict_p.argtypes = [POINTER(svm_model), POINTER(svm_data)]
+    self.svmlib.svm_free_and_destroy_model.restype = None
+    self.svmlib.svm_free_and_destroy_model.argtypes = [POINTER(POINTER(svm_model))]
 
   def __del__(self):
-  	try:
-		self.model
-	except AttributeError:	
-		return
-# do nothing
-	else:
-		self.svmlib.svm_free_and_destroy_model(pointer(self.model))
-		return
+    try:
+      self.model
+    except AttributeError:
+      return
+    # do nothing
+    else:
+      self.svmlib.svm_free_and_destroy_model(pointer(self.model))
+      return
 
   # Takes a list of (string, string) tuples, and stores them
   def addSamples(self, samples):
@@ -78,7 +81,7 @@ class StringSVM:
     problem = svm_problem(self.labelsNumeric, self.strings)
 
     # Generate the parameters
-    params = svm_parameter()
+    params = svm_parameter(self.kernelName)
 
     # Generate the model
     self.model = self.svmlib.svm_train(problem, params)
@@ -103,7 +106,8 @@ Python Wrappers for C Data Structures
 These inherit special magic from ctypes.Structure
 """
 SVM_TYPE_C_SVC = 0
-KERNEL_TYPE_STRING = 5
+KERNEL_TYPE_EDIT = 5
+KERNEL_TYPE_SUBSEQ = 6
 DATA_TYPE_STRING = 1
 class svm_parameter(Structure):
   _fields_ = [("svm_type", c_int),
@@ -122,10 +126,17 @@ class svm_parameter(Structure):
               ("p", c_double),
               ("shrinking", c_int),
               ("probability", c_int)]
-  def __init__(self):
+
+  def __init__(self, kernelName):
     Structure.__init__(self)
     self.svm_type = SVM_TYPE_C_SVC
-    self.kernel_type = KERNEL_TYPE_STRING
+    if (kernelName == "edit"):
+      self.kernel_type = KERNEL_TYPE_EDIT
+    elif (kernelName == "subseq"):
+      self.kernel_type = KERNEL_TYPE_SUBSEQ
+    else:
+      raise ValueError("Bad Kernel Name!")
+
     self.data_type = DATA_TYPE_STRING
     self.degree = 3
     self.gamma = 0.1
@@ -148,8 +159,8 @@ class svm_model(Structure):
 
 class svm_data(Structure):
   _fields_ = [("v", c_void_p), # This is actually a pointer to an svm_node, but
-                              # it's always null for string operation.
-              ("s", c_char_p)]
+      # it's always null for string operation.
+      ("s", c_char_p)]
 
 class svm_problem(Structure):
   _fields_ = [("l", c_int),
