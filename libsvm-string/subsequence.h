@@ -1,10 +1,19 @@
+#ifndef _SUBSEQUENCE_H
+#define _SUBSEQUENCE_H
 
+template<typename T>
 class SubseqKernel {
 
   public:
-    SubseqKernel(unsigned maxLen, unsigned seqLength, double lambda);
+    SubseqKernel()
+      : mLambda(0.0)
+      , mMaxLen(0)
+      , mSeqLength(0)
+      , mCache(NULL)
+      , mInitialized(false) {};
     ~SubseqKernel();
-    double Evaluate(const char *u, const char *v);
+    void Init(unsigned maxLen, unsigned seqLength, double lambda);
+    double Evaluate(const T *u, unsigned uLen, const T *v, unsigned vLen);
 
   protected:
 
@@ -15,10 +24,17 @@ class SubseqKernel {
     unsigned mMaxLen; // Maximum input string length
     unsigned mSeqLength; // Length of target subsequences
     double ***mCache; // Dynamic Programming LUT
+    double *mLambdaPows; // Cache of powers of lambda
+    bool mInitialized; // Whether we've been initialized
 
     /*
      * Helper methods
      */
-    double Kprime (const char *u, int p, const char *v, int q, int n);
-    double K (const char *u, int p, const char *v, int q, int n);
+    double Kprime (const T *u, int p, const T *v, int q, int n);
+    double K (const T *u, int p, const T *v, int q, int n);
 };
+
+// Implementation
+#include "subsequence.tcc"
+
+#endif /* _SUBSEQ_H */
