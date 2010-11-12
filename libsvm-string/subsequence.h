@@ -1,4 +1,7 @@
+#ifndef _SUBSEQUENCE_H
+#define _SUBSEQUENCE_H
 
+template<typename T>
 class SubseqKernel {
 
   public:
@@ -10,7 +13,7 @@ class SubseqKernel {
       , mInitialized(false) {};
     ~SubseqKernel();
     void Init(unsigned maxLen, unsigned seqLength, double lambda);
-    double Evaluate(const char *u, const char *v);
+    double Evaluate(const T *u, const T *v);
 
   protected:
 
@@ -27,6 +30,11 @@ class SubseqKernel {
     /*
      * Helper methods
      */
-    double Kprime (const char *u, int p, const char *v, int q, int n);
-    double K (const char *u, int p, const char *v, int q, int n);
+    double Kprime (const T *u, int p, const T *v, int q, int n);
+    double K (const T *u, int p, const T *v, int q, int n);
 };
+
+// Implementation
+#include "subsequence.tcc"
+
+#endif /* _SUBSEQ_H */

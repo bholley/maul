@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 
   double similar, different = 0.0;
 
-  SubseqKernel kernel;
+  SubseqKernel<char> kernel;
   kernel.Init(1000, 5, .8);
 
   for (int i = 0; i < 2000; ++i)

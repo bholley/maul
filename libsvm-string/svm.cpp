@@ -233,7 +233,7 @@ class Kernel: public QMatrix {
 
 #ifdef _STRING
     svm_data *x;
-    SubseqKernel subseqKernel;
+    SubseqKernel<char> subseqKernel;
 #else
     const svm_node **x;
 #endif
@@ -274,7 +274,7 @@ class Kernel: public QMatrix {
     }
     double kernel_subseq(int i, int j) const
     {
-      return const_cast<SubseqKernel*>(&subseqKernel)->Evaluate(x[i].s,x[j].s);
+      return const_cast<SubseqKernel<char>*>(&subseqKernel)->Evaluate(x[i].s,x[j].s);
     }
 #else
     double kernel_linear(int i, int j) const
@@ -424,7 +424,7 @@ int Kernel::edit(const char *px, const char *py)
 double Kernel::k_function(const svm_data x, const svm_data y,
                           const svm_parameter& param)
 {
-  SubseqKernel subseqKernel;
+  SubseqKernel<char> subseqKernel;
   switch(param.kernel_type)
   {
     case LINEAR:

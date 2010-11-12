@@ -9,8 +9,9 @@
  * http://www.learning-kernel-classifiers.org/code/string_kernels/strings.c
  * */
 
+template<typename T>
 void
-SubseqKernel::Init(unsigned maxLen, unsigned seqLength, double lambda)
+SubseqKernel<T>::Init(unsigned maxLen, unsigned seqLength, double lambda)
 {
   // Store initialization parameters
   mMaxLen = maxLen;
@@ -37,7 +38,8 @@ SubseqKernel::Init(unsigned maxLen, unsigned seqLength, double lambda)
   mInitialized = true;
 }
 
-SubseqKernel::~SubseqKernel()
+template<typename T>
+SubseqKernel<T>::~SubseqKernel()
 {
   // If we were never initialized, there's nothing to do.
   if (!mInitialized)
@@ -57,8 +59,9 @@ SubseqKernel::~SubseqKernel()
   mInitialized = false;
 }
 
+template<typename T>
 double
-SubseqKernel::Evaluate(const char *u, const char *v)
+SubseqKernel<T>::Evaluate(const T *u, const T *v)
 {
   // We must be initialized
   if (!mInitialized) {
@@ -88,8 +91,9 @@ SubseqKernel::Evaluate(const char *u, const char *v)
  * Protected helper methods
  */
 
+template<typename T>
 double
-SubseqKernel::Kprime(const char *u, int p, const char *v, int q, int n)
+SubseqKernel<T>::Kprime(const T *u, int p, const T *v, int q, int n)
 {
   int j;
   double tmp;
@@ -113,8 +117,9 @@ SubseqKernel::Kprime(const char *u, int p, const char *v, int q, int n)
   return (mCache [n] [p] [q]);
 }
 
+template<typename T>
 double
-SubseqKernel::K(const char *u, int p, const char *v, int q, int n)
+SubseqKernel<T>::K(const T *u, int p, const T *v, int q, int n)
 {
   int j;
   double KP;
