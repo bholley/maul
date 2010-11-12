@@ -61,7 +61,7 @@ SubseqKernel<T>::~SubseqKernel()
 
 template<typename T>
 double
-SubseqKernel<T>::Evaluate(const T *u, const T *v)
+SubseqKernel<T>::Evaluate(const T *u, unsigned uLen, const T *v, unsigned vLen)
 {
   // We must be initialized
   if (!mInitialized) {
@@ -70,21 +70,19 @@ SubseqKernel<T>::Evaluate(const T *u, const T *v)
   }
 
   // We're screwed if the string is too big.
-  unsigned ulen = strlen(u);
-  unsigned vlen = strlen(v);
-  if (ulen > mMaxLen || vlen > mMaxLen) {
+  if (uLen > mMaxLen || vLen > mMaxLen) {
     fprintf(stderr, "String passed to subsequence kernel is too large! Aborting!\n");
     exit(-1);
   }
 
   // New strings, so blow away the parts of the cache that we're going to use
   for (unsigned i = 1; i < mSeqLength; ++i)
-    for (unsigned j = 0; j < ulen; ++j)
-      for (unsigned k = 0; k < vlen; ++k)
+    for (unsigned j = 0; j < uLen; ++j)
+      for (unsigned k = 0; k < vLen; ++k)
         mCache[i][j][k] = -1.0;
 
   // Invoke recursion
-  return K(u, strlen(u), v, strlen(v), mSeqLength);
+  return K(u, uLen, v, vLen, mSeqLength);
 }
 
 /*

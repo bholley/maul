@@ -21,6 +21,7 @@ struct svm_data
 {
   struct svm_node *v;
   char *s;
+  unsigned *t; // For tokenized string. if t[0] == n, then t[1]...t[n] are token indicies
 };
 struct svm_problem
 {
@@ -40,7 +41,7 @@ struct svm_problem
 
 enum { C_SVC, NU_SVC, ONE_CLASS, EPSILON_SVR, NU_SVR }; /* svm_type */
 #ifdef _STRING
-enum { VECTOR, STRING }; /* data_type */
+enum { VECTOR, STRING, TOKENS }; /* data_type */
 enum { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED, EDIT, SUBSEQ }; /* kernel_type */
 #else
 enum { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED }; /* kernel_type */

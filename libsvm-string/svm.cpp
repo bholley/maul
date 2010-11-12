@@ -233,7 +233,9 @@ class Kernel: public QMatrix {
 
 #ifdef _STRING
     svm_data *x;
-    SubseqKernel<char> subseqKernel;
+    int data_type;
+    SubseqKernel<char> ssStringKernel;
+    SubseqKernel<unsigned> ssTokenKernel;
 #else
     const svm_node **x;
 #endif
@@ -274,7 +276,10 @@ class Kernel: public QMatrix {
     }
     double kernel_subseq(int i, int j) const
     {
-      return const_cast<SubseqKernel<char>*>(&subseqKernel)->Evaluate(x[i].s,x[j].s);
+      if (data_type==STRING)
+        return const_cast<SubseqKernel<char>*>(&ssStringKernel)->Evaluate(x[i].s, strlen(x[i].s), x[j].s, strlen(x[j].s));
+      else
+        return const_cast<SubseqKernel<unsigned>*>(&ssTokenKernel)->Evaluate(x[i].t+1, x[i].t[0], x[j].t+1, x[j].t[0]);
     }
 #else
     double kernel_linear(int i, int j) const
@@ -302,8 +307,11 @@ class Kernel: public QMatrix {
 
 #ifdef _STRING
   Kernel::Kernel(int l, svm_data const * x_, const svm_parameter& param)
-:kernel_type(param.kernel_type), degree(param.degree),
-  gamma(param.gamma), coef0(param.coef0)
+    : data_type(param.data_type)
+    , kernel_type(param.kernel_type)
+    , degree(param.degree)
+    , gamma(param.gamma)
+    , coef0(param.coef0)
 #else
   Kernel::Kernel(int l, svm_node * const * x_, const svm_parameter& param)
 :kernel_type(param.kernel_type), degree(param.degree),
@@ -333,7 +341,10 @@ class Kernel: public QMatrix {
       break;
     case SUBSEQ:
       kernel_function = &Kernel::kernel_subseq;
-      subseqKernel.Init(1000, 5, 0.8);
+      if (param.data_type==STRING)
+        ssStringKernel.Init(1000, 5, 0.8);
+      else
+        ssTokenKernel.Init(1000, 5, 0.8);
       break;
 #endif
   }
@@ -424,7 +435,8 @@ int Kernel::edit(const char *px, const char *py)
 double Kernel::k_function(const svm_data x, const svm_data y,
                           const svm_parameter& param)
 {
-  SubseqKernel<char> subseqKernel;
+  SubseqKernel<char> ssStringKernel;
+  SubseqKernel<unsigned> ssTokenKernel;
   switch(param.kernel_type)
   {
     case LINEAR:
@@ -481,8 +493,15 @@ double Kernel::k_function(const svm_data x, const svm_data y,
     case EDIT:
       return exp(-param.gamma*edit(x.s,y.s));
     case SUBSEQ:
-      subseqKernel.Init(max(strlen(x.s), strlen(y.s)), 5, 0.8);
-      return subseqKernel.Evaluate(x.s, y.s);
+
+      if (param.data_type == STRING) {
+        ssStringKernel.Init(max(strlen(x.s), strlen(y.s)), 5, 0.8);
+        return ssStringKernel.Evaluate(x.s, strlen(x.s), y.s, strlen(y.s));
+      }
+      else {
+        ssTokenKernel.Init(max(x.t[0], y.t[0]), 5, 0.8);
+        return ssTokenKernel.Evaluate(x.t+1, x.t[0], y.t+1, y.t[0]);
+      }
     default:
       return 0;	/* Unreachable */
   }
@@ -2807,7 +2826,7 @@ static const char *svm_type_table[] =
 #ifdef _STRING
 static const char *data_type_table[] =
 {
-  "vector","string",NULL
+  "vector","string","tokens",NULL
 };
 #endif
 
@@ -2909,6 +2928,11 @@ int svm_save_model(const char *model_file_name, const svm_model *model)
 #ifdef _STRING
     if (param.data_type==STRING)
       fprintf(fp, "%s\n", SV[i].s);
+    else if (param.data_type==TOKENS) {
+      fprintf(stderr, "ERROR: Saving tokenized models not yet supported!\n");
+      exit(-1);
+    }
+
     else
     {
       const svm_node *p = SV[i].v;
@@ -3162,6 +3186,11 @@ svm_model *svm_load_model(const char *model_file_name)
       model->SV[i].v = NULL;
     }
   }
+  else if (param.data_type==TOKENS)
+  {
+    fprintf(stderr, "ERROR: Loading tokenized models not yet supported!\n");
+    exit(-1);
+  }
   else
   {
 #endif
@@ -3222,6 +3251,9 @@ void svm_free_model_content(svm_model* model_ptr)
   if(model_ptr->free_sv && model_ptr->l > 0 && model_ptr->param.data_type==STRING)
     for(int i=0;i<model_ptr->l;i++)
       free((void *)(model_ptr->SV[i].s));
+  if(model_ptr->free_sv && model_ptr->l > 0 && model_ptr->param.data_type==TOKENS)
+    for(int i=0;i<model_ptr->l;i++)
+      free((void *)(model_ptr->SV[i].t));
   if(model_ptr->free_sv && model_ptr->l > 0 && model_ptr->param.data_type==VECTOR)
     free((void *)(model_ptr->SV[0].v));
 #else

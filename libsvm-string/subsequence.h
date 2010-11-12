@@ -13,7 +13,7 @@ class SubseqKernel {
       , mInitialized(false) {};
     ~SubseqKernel();
     void Init(unsigned maxLen, unsigned seqLength, double lambda);
-    double Evaluate(const T *u, const T *v);
+    double Evaluate(const T *u, unsigned uLen, const T *v, unsigned vLen);
 
   protected:
 
