@@ -4,35 +4,98 @@ from uaobj import *
 
 
 def main():
+    tokenfreq = {}
     tokendict = {}
     ualist = readFile('uadata_CLEAN.txt')
     print "Number of UA Strings: ", len(ualist)
     for (i,x) in enumerate(ualist):
         tokenlist = gentokenlist(x)
         for tok in tokenlist:
+#            if tok == "(compatible;":
+#                print tokenlist
+#                print x
             try:
-                tokendict[tok]
+                tokenfreq[tok]
             except KeyError:
-                tokendict[tok] = 1
+                tokenfreq[tok] = 1
             else:
-                tokendict[tok] = tokendict[tok] + 1
-    f = open('tokens.txt','w')			
-    keysort = dsort(tokendict)
-    for k in keysort:
-        s = "'"+k+"' "+str(tokendict[k])
-        f.write(s+'\n')
-
+                tokenfreq[tok] = tokenfreq[tok] + 1
+    ffreq = open('tokens_frequency.txt','w')			
+    ftok = open('tokens.txt','w')
+    keysort = dsort(tokenfreq)
+    for (i,k) in enumerate(keysort):
+        s = k+" "+str(tokenfreq[k])
+        ffreq.write(s+'\n')
+        tokendict[k] = i
+        s = k + ' ' + str(tokendict[k])
+        ftok.write(s+'\n')
+    ftok.close()
+    ffreq.close()
     return 0
 
 
 def gentokenlist(x):
-    k = 3
+#    k = 3
     uaString = x.uaString	
     tokenlist = []
-    for index in range(len(uaString)-k+1):	
-        tokenlist.append(uaString[index:index+3])
+    for x in re.split('[(),;/\s]',uaString):
+        x = x.strip().rstrip()
+        if not x == "":
+            tokenlist.append(x)
+
+# find all instances of parentheses strings
+# find tokens in them without whitespace    
+#    m = re.findall(r'\([^(]*(?:\([^(]*\))?[^(]*\)',uaString) # find any nested sets of paren 
+#    for s in m:
+#        s = s.strip().rstrip()
+#        s = s.strip('(').rstrip(')') 
+#        if ('(' in s) and (')' in s):
+#            n = re.findall(r'\([^(]*\)',s)
+#            for c in n:
+#                c = c.strip().rstrip()
+#                c = c.strip('(').rstrip(')')
+#                if re.search(';',c): delim = ';'
+#                elif re.search(',',c): delim = ','
+#                else: delim = ';'    
+#                for x in c.split(delim):
+#                    x = x.strip().rstrip()
+#                    if not x == "":
+#                        if x == "(compatible;":
+#                            print uaString + '\n' + 'c'
+#                        tokenlist.append(x)
+#            start = s.find('(')
+#            end = s.find(')')
+#            s = s.replace(s[start:end+1],'')
+#        if re.search(';',s): delim = ';'
+#        elif re.search(',',s): delim = ','
+#        else: delim = ';'
+#        for x in s.split(delim):
+#            x = x.strip().rstrip()
+#            if not x == "":
+#                if x == "(compatible;":
+#                    print uaString + '\n' + 's'
+#                tokenlist.append(x)
+# find strings outside of parentheses    
+#    m = re.split(r'\([^(]*(?:\([^(]*\))?[^(]*\)',uaString)        
+#    for s in m:
+#        s = s.strip().rstrip()
+#        s = s.strip('(').rstrip(')')
+# assume delimited by spaces in these regions        
+#    uacut = uaString            
+#    for s in m:
+#        uacut = uacut.replace(s,'')
+#    for x in uacut.split(' '):
+#        x = x.strip().rstrip()
+#        if not x == "":
+#            if x == "(compatible;":
+#                print uaString + '\n' + 'n'
+#            tokenlist.append(x)
+#    for index in range(len(uaString)-k+1):	
+#        tokenlist.append(uaString[index:index+3])
+# look for tokens 
+
     return tokenlist	
-		
+
 
 def dsort(dic): # return sorted list of keys
     items = [(v,k) for k,v in dic.items()]
@@ -41,4 +104,3 @@ def dsort(dic): # return sorted list of keys
 
 if __name__ == "__main__":
     main()
-
