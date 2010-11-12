@@ -11,16 +11,28 @@ template <class T> static inline T min(T x,T y) { return (x<y)?x:y; }
 template <class T> static inline T max(T x,T y) { return (x>y)?x:y; }
 #endif
 
+//const char *s1 = "Mozilla/5.0 (X11; U; DragonFly i386; de; rv:1.9.1) Gecko/20090720 Firefox/3.5.1";
+//const char *s2 = "Mozilla/5.0 (X11; U; FreeBSD amd64; en-US; rv:1.8.0.8) Gecko/20061116 Firefox/1.5.0.8";
+
+const char *s1 = "rv:1.9.1) Gecko/20090720 Firefox/3.5.1";
+const char *s2 = "rv:1.8.0.8) Gecko/20061116 Firefox/1.5.0.8";
+
 int main(int argc, char **argv)
 {
+
+  double similar, different = 0.0;
+
+  SubseqKernel kernel(1000, 5, .8);
+
+  for (int i = 0; i < 2000; ++i)
+    similar = kernel.Evaluate(s1, s2);
+
   /*
-  double similar = subsequence("whatareyoudoing", "whatareyoudoing", 5, .8);
-  double different = subsequence("whatareyoudoing", "gdaymate", 5, .8);
-  */
   double similar = edit("whatareyoudoing", "whatareyoudoing");
   double different = edit("whatareyoudoing", "gdaymate");
+  */
 
-  printf("similar: %f, different: %f", similar, different);
+  printf("similar: %f, different: %f\n", similar, different);
 
   return 0;
 }
