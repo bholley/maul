@@ -2,8 +2,14 @@
 class SubseqKernel {
 
   public:
-    SubseqKernel(unsigned maxLen, unsigned seqLength, double lambda);
+    SubseqKernel()
+      : mLambda(0.0)
+      , mMaxLen(0)
+      , mSeqLength(0)
+      , mCache(NULL)
+      , mInitialized(false) {};
     ~SubseqKernel();
+    void Init(unsigned maxLen, unsigned seqLength, double lambda);
     double Evaluate(const char *u, const char *v);
 
   protected:
@@ -15,6 +21,7 @@ class SubseqKernel {
     unsigned mMaxLen; // Maximum input string length
     unsigned mSeqLength; // Length of target subsequences
     double ***mCache; // Dynamic Programming LUT
+    bool mInitialized; // Whether we've been initialized
 
     /*
      * Helper methods

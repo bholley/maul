@@ -22,7 +22,8 @@ int main(int argc, char **argv)
 
   double similar, different = 0.0;
 
-  SubseqKernel kernel(1000, 5, .8);
+  SubseqKernel kernel;
+  kernel.Init(1000, 5, .8);
 
   for (int i = 0; i < 2000; ++i)
     similar = kernel.Evaluate(s1, s2);

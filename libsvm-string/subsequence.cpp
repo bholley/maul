@@ -9,7 +9,8 @@
  * http://www.learning-kernel-classifiers.org/code/string_kernels/strings.c
  * */
 
-SubseqKernel::SubseqKernel(unsigned maxLen, unsigned seqLength, double lambda)
+void
+SubseqKernel::Init(unsigned maxLen, unsigned seqLength, double lambda)
 {
   // Store initialization parameters
   mMaxLen = maxLen;
@@ -23,10 +24,17 @@ SubseqKernel::SubseqKernel(unsigned maxLen, unsigned seqLength, double lambda)
     for (unsigned j = 0; j < maxLen; j++)
       mCache  [i] [j] = (double *) malloc (mMaxLen * sizeof (double));
   }
+
+  // Mark us as initialized
+  mInitialized = true;
 }
 
 SubseqKernel::~SubseqKernel()
 {
+  // If we were never initialized, there's nothing to do.
+  if (!mInitialized)
+    return;
+
   // Free the DP LUT
   for (unsigned i = 1; i < mSeqLength; i++) {
     for (unsigned j = 0; j < mMaxLen; j++) 
@@ -34,11 +42,19 @@ SubseqKernel::~SubseqKernel()
     free(mCache[i]);
   }
   free(mCache);
+
+  mInitialized = false;
 }
 
 double
 SubseqKernel::Evaluate(const char *u, const char *v)
 {
+  // We must be initialized
+  if (!mInitialized) {
+    fprintf(stderr, "Trying to evaluate using subsequence kernel, but not intialized!\n");
+    exit(-1);
+  }
+
   // We're screwed if the string is too big.
   unsigned ulen = strlen(u);
   unsigned vlen = strlen(v);
