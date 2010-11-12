@@ -21,6 +21,7 @@ class SubseqKernel {
     unsigned mMaxLen; // Maximum input string length
     unsigned mSeqLength; // Length of target subsequences
     double ***mCache; // Dynamic Programming LUT
+    double *mLambdaPows; // Cache of powers of lambda
     bool mInitialized; // Whether we've been initialized
 
     /*

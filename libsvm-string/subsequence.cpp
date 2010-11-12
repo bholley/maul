@@ -17,13 +17,21 @@ SubseqKernel::Init(unsigned maxLen, unsigned seqLength, double lambda)
   mSeqLength = seqLength;
   mLambda = lambda;
 
-  /* allocate memory for auxiallary cache variable */
+  // Allocate memory for the dynamic programming cache variable
   mCache  = (double ***) malloc (mSeqLength * sizeof (double **));
   for (unsigned i = 1; i < mSeqLength; i++) {
     mCache  [i] = (double **) malloc (mMaxLen * sizeof (double *));
     for (unsigned j = 0; j < maxLen; j++)
       mCache  [i] [j] = (double *) malloc (mMaxLen * sizeof (double));
   }
+
+  // Precompute powers of lambda
+  mLambdaPows = (double *) malloc ((maxLen + 2) * sizeof(double));
+  mLambdaPows[0] = 1;
+  mLambdaPows[1] = mLambda;
+  for (unsigned i = 2; i < maxLen + 2; ++i)
+    mLambdaPows[i] = mLambdaPows[i-1] * mLambda;
+
 
   // Mark us as initialized
   mInitialized = true;
@@ -42,6 +50,9 @@ SubseqKernel::~SubseqKernel()
     free(mCache[i]);
   }
   free(mCache);
+
+  // Free the lambda cache
+  free(mLambdaPows);
 
   mInitialized = false;
 }
@@ -95,8 +106,7 @@ SubseqKernel::Kprime(const char *u, int p, const char *v, int q, int n)
   /* case 3: recursion */
   for (j= 0, tmp = 0; j < q; j++) {
     if (v [j] == u [p - 1]) 
-      tmp += Kprime (u, p - 1, v, j, n - 1) *
-        pow (mLambda, (float) (q - j + 1));
+      tmp += Kprime (u, p - 1, v, j, n - 1) * mLambdaPows[q-j+1];
   }
 
   mCache [n] [p] [q] = mLambda * Kprime (u, p - 1, v, q, n) + tmp;
