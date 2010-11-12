@@ -31,6 +31,19 @@ def main():
         ftok.write(s+'\n')
     ftok.close()
     ffreq.close()
+
+# now generate a udata_clean_token.txt file
+    fua = open('uadata_clean_token.txt','w')
+    for x in ualist:
+        uaString = x.uaString
+        x.uaString = ''
+        for y in re.split('[(),;/\s]',uaString):
+            if not y == "":
+                x.uaString = x.uaString + str(tokendict[y]) + ' '
+        fua.write(x+'\n')    
+            
+
+
     return 0
 
 
