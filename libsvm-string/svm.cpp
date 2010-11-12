@@ -233,6 +233,7 @@ class Kernel: public QMatrix {
 
 #ifdef _STRING
     svm_data *x;
+    SubseqKernel subseqKernel;
 #else
     const svm_node **x;
 #endif
@@ -273,7 +274,7 @@ class Kernel: public QMatrix {
     }
     double kernel_subseq(int i, int j) const
     {
-      return subsequence(x[i].s,x[j].s, 5, 0.8);
+      return const_cast<SubseqKernel*>(&subseqKernel)->Evaluate(x[i].s,x[j].s);
     }
 #else
     double kernel_linear(int i, int j) const
@@ -332,6 +333,7 @@ class Kernel: public QMatrix {
       break;
     case SUBSEQ:
       kernel_function = &Kernel::kernel_subseq;
+      subseqKernel.Init(1000, 5, 0.8);
       break;
 #endif
   }
@@ -422,6 +424,7 @@ int Kernel::edit(const char *px, const char *py)
 double Kernel::k_function(const svm_data x, const svm_data y,
                           const svm_parameter& param)
 {
+  SubseqKernel subseqKernel;
   switch(param.kernel_type)
   {
     case LINEAR:
@@ -478,7 +481,8 @@ double Kernel::k_function(const svm_data x, const svm_data y,
     case EDIT:
       return exp(-param.gamma*edit(x.s,y.s));
     case SUBSEQ:
-      return subsequence(x.s,y.s, 5, 0.8);
+      subseqKernel.Init(max(strlen(x.s), strlen(y.s)), 5, 0.8);
+      return subseqKernel.Evaluate(x.s, y.s);
     default:
       return 0;	/* Unreachable */
   }
