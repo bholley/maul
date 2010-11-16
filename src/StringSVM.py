@@ -109,13 +109,13 @@ class StringSVM:
     query = svm_data()
     query.v = None
     if (self.tokenized):
-        query.t = (c_uint * (len(val)+1))()
-        query.t[0] = len(val)
-        for j,num in enumerate(val):
-            query.t[j+1] = num
+      query.t = (c_uint * (len(val) + 1))()
+      query.t[0] = len(val)
+      for j,num in enumerate(val):
+        query.t[j+1] = num
     else:
-        query.s = val
-#    print query 
+      query.s = val
+#    print query
     prediction = self.svmlib.svm_predict_p(self.model, pointer(query))
 
     return self.reverseLabelMap[int(prediction)]
@@ -273,7 +273,10 @@ class svm_problem(Structure):
     for i, val in enumerate(values):
       self.x[i].v = None
       if (stringSVM.tokenized):
-        self.x[i].t = val
+        self.x[i].t = (c_uint * (len(val) + 1))()
+        self.x[i].t[0] = len(val) # First element of a token string is the length
+        for j, num in enumerate(val):
+          self.x[i].t[j+1] = num
       else:
         self.x[i].s = val
 
