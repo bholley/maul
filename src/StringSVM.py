@@ -35,6 +35,10 @@ class StringSVM:
     self.svmlib.svm_predict_p.argtypes = [POINTER(svm_model), POINTER(svm_data)]
     self.svmlib.svm_free_and_destroy_model.restype = None
     self.svmlib.svm_free_and_destroy_model.argtypes = [POINTER(POINTER(svm_model))]
+    self.svmlib.svm_save_model.restype = c_int
+    self.svmlib.svm_save_model.argtypes = [c_char_p, POINTER(svm_model)]
+    self.svmlib.svm_load_model.restype = POINTER(svm_model)
+    self.svmlib.svm_load_model.argtypes = [c_char_p]
 
   def __del__(self):
     try:
@@ -108,6 +112,43 @@ class StringSVM:
     prediction = self.svmlib.svm_predict_p(self.model, pointer(query))
 
     return self.reverseLabelMap[int(prediction)]
+
+  def svm_save_model(self,model_file_name):
+	"""
+	svm_save_model(model_file_name, model) -> None
+
+	Save a LIBSVM model to the file model_file_name.
+	"""
+	self.svmlib.svm_save_model(model_file_name, self.model)
+
+  def svm_load_model(self,model_file_name):
+    """
+    svm_load_model(model_file_name) -> model
+    Load a LIBSVM model from model_file_name and return.
+    """
+    model = self.svmlib.svm_load_model(model_file_name)
+    if not model: 
+      print("can't open model file %s" % model_file_name)
+      return None
+    print model  
+    self.model = self.toPyModel(model)
+    #self.model = model
+    return self.model 
+
+
+
+  def toPyModel(self,model_ptr):
+    """
+    toPyModel(model_ptr) -> svm_model
+    Convert a ctypes POINTER(svm_model) to a Python svm_model
+    """
+    if bool(model_ptr) == False:
+        raise ValueError("Null pointer")
+    m = model_ptr.contents
+    m.__createfrom__ = 'C'
+    return m
+
+
 
 """
 Python Wrappers for C Data Structures

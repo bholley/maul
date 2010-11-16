@@ -51,9 +51,13 @@ testData = testData[0:100]
 svm = StringSVM("edit")
 
 # Train
-svm.addSamples(trainingData)
-svm.finalize()
-svm.train()
+#svm.addSamples(trainingData)
+#svm.finalize()
+#svm.train()
+
+# load model
+svm.svm_load_model('agenttype.model')
+
 
 # Predict
 correct = 0.0
