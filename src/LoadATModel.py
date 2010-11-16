@@ -56,6 +56,7 @@ svm = StringSVM("edit")
 #svm.train()
 
 # load model
+# FIXME need model saving and loading to handle labels well
 svm.svm_load_model('agenttype.model')
 
 

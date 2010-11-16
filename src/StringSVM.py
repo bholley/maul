@@ -114,12 +114,20 @@ class StringSVM:
     return self.reverseLabelMap[int(prediction)]
 
   def svm_save_model(self,model_file_name):
-	"""
+    """
 	svm_save_model(model_file_name, model) -> None
-
-	Save a LIBSVM model to the file model_file_name.
-	"""
-	self.svmlib.svm_save_model(model_file_name, self.model)
+    Save a LIBSVM model to the file model_file_name.
+    """
+    if not hasattr(self,'model'):
+        raise RuntimeError('need to train first!')
+    # need to save labels so loading can get them too       
+    labelfile = model_file_name+'.labels'    
+    f = open(labelfile,'w')
+    for i,label in enumerate(set(self.labels)):
+        s = label +':'+str(i)+'\n'
+        f.write(s)
+    f.close()
+    self.svmlib.svm_save_model(model_file_name, self.model)
 
   def svm_load_model(self,model_file_name):
     """
@@ -130,9 +138,24 @@ class StringSVM:
     if not model: 
       print("can't open model file %s" % model_file_name)
       return None
-    print model  
     self.model = self.toPyModel(model)
+    print 'SVM MODEL LOADED'
     #self.model = model
+ # load in labels   
+    labelfile = model_file_name + '.labels' 
+    f = open(labelfile,'r')
+    self.labelMap = dict()
+    self.reverseLabelMap = dict()
+    for line in f:
+        s = line.split(':')
+        label = s[0]
+        i = int(s[1].strip().rstrip())
+        self.labels.append(s[0])
+        self.labelMap[label] = i
+        self.reverseLabelMap[i] = label
+    self.labelsNumeric = map(lambda x : self.labelMap[x], self.labels)    
+    print 'svm labels:'
+    print self.labelMap
     return self.model 
 
 
