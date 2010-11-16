@@ -99,7 +99,7 @@ class StringSVM:
     # Generate the model
     self.model = self.svmlib.svm_train(problem, params)
 
-  def predict(self, string):
+  def predict(self, val):
 
     # Validate
     if not hasattr(self, 'model'):
@@ -108,7 +108,14 @@ class StringSVM:
     # Make a prediction
     query = svm_data()
     query.v = None
-    query.s = string
+    if (self.tokenized):
+        query.t = (c_uint * (len(val)+1))()
+        query.t[0] = len(val)
+        for j,num in enumerate(val):
+            query.t[j+1] = num
+    else:
+        query.s = val
+#    print query 
     prediction = self.svmlib.svm_predict_p(self.model, pointer(query))
 
     return self.reverseLabelMap[int(prediction)]
