@@ -51,9 +51,14 @@ testData = testData[0:100]
 svm = StringSVM("edit")
 
 # Train
-svm.addSamples(trainingData)
-svm.finalize()
-svm.train()
+#svm.addSamples(trainingData)
+#svm.finalize()
+#svm.train()
+
+# load model
+# FIXME need model saving and loading to handle labels well
+svm.svm_load_model('agenttype.model')
+
 
 # Predict
 correct = 0.0
