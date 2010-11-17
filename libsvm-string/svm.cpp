@@ -37,7 +37,7 @@ static inline double powi(double base, int times)
 }
 #define INF HUGE_VAL
 #define TAU 1e-12
-#define Malloc(type,n) (type *)malloc((n)*sizeof(type))
+#define Malloc(type,n) (type *)calloc(n,sizeof(type))
 
 static void print_string_stdout(const char *s)
 {
@@ -2300,7 +2300,7 @@ svm_model *svm_train(const svm_problem *prob, const svm_parameter *param)
     for(i=0;i<prob->l;i++)
       if(fabs(f.alpha[i]) > 0)
       {
-        model->SV[j] = prob->x[i];
+        prob->x[i].clone(&model->SV[j]);
         model->sv_coef[0][j] = f.alpha[i];
         ++j;
       }		
@@ -2454,7 +2454,7 @@ svm_model *svm_train(const svm_problem *prob, const svm_parameter *param)
 #endif
     p = 0;
     for(i=0;i<l;i++)
-      if(nonzero[i]) model->SV[p++] = x[i];
+      if(nonzero[i]) x[i].clone(&model->SV[p++]);
 
     int *nz_start = Malloc(int,nr_class);
     nz_start[0] = 0;
@@ -3262,6 +3262,12 @@ void svm_free_model_content(svm_model* model_ptr)
 #endif
   for(int i=0;i<model_ptr->nr_class-1;i++)
     free(model_ptr->sv_coef[i]);
+#ifdef _STRING
+  if (model_ptr->SV) {
+    for (int i = 0; i < model_ptr->l; ++i)
+      model_ptr->SV[i].destroy();
+  }
+#endif
   free(model_ptr->SV);
   free(model_ptr->sv_coef);
   free(model_ptr->rho);
@@ -3439,4 +3445,39 @@ void svm_set_print_string_function(void (*print_func)(const char *))
     svm_print_string = &print_string_stdout;
   else
     svm_print_string = print_func;
+}
+
+void
+svm_data::clone(svm_data *newdata)
+{
+  newdata->v = v;
+  if (s)
+    newdata->s = strdup(s);
+  if (t) {
+    unsigned tSize = t[0] + 1;
+    newdata->t = (unsigned *)malloc(tSize * sizeof(unsigned));
+    for (unsigned i = 0; i < tSize; ++i)
+      newdata->t[i] = t[i];
+  }
+
+  // Flag that the memory was allocated in libsvm
+  newdata->libsvm_allocated = 1;
+}
+
+void
+svm_data::destroy()
+{
+  // Don't free any memory if this structure wasn't allocated
+  // by libsvm
+  if (!libsvm_allocated)
+    return;
+
+  if (s) {
+    free(s);
+    s = NULL;
+  }
+  if (t) {
+    free(t);
+    t = NULL;
+  }
 }

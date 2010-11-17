@@ -19,9 +19,12 @@ struct svm_node
 #ifdef _STRING
 struct svm_data
 {
+  void destroy();
+  void clone(svm_data *newdata);
   struct svm_node *v;
   char *s;
   unsigned *t; // For tokenized string. if t[0] == n, then t[1]...t[n] are token indicies
+  int libsvm_allocated;
 };
 struct svm_problem
 {

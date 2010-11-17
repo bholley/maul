@@ -111,7 +111,6 @@ class StringSVM:
         query.t[j+1] = num
     else:
       query.s = val
-    print query
     prediction = self.svmlib.svm_predict_p(self.model, pointer(query))
 
     return self.reverseLabelMap[int(prediction)]
@@ -181,7 +180,8 @@ class svm_data(Structure):
   _fields_ = [("v", c_void_p), # This is actually a pointer to an svm_node, but
       # it's always null for string operation.
       ("s", c_char_p),
-      ("t", POINTER(c_uint))]
+      ("t", POINTER(c_uint)),
+      ("libsvm_allocated", c_int)]
 
 class svm_problem(Structure):
   _fields_ = [("l", c_int),
