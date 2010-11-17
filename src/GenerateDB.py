@@ -33,8 +33,8 @@ def readEntry(fh):
 
     # Split the string
     category, sep, value = prop.partition(':')
-    category = category.strip()
-    value = value.strip()
+    category = category.strip().rstrip()
+    value = value.strip().rstrip()
 
     # Validate
     if not sep:
@@ -66,10 +66,10 @@ def readFileDB(filename, c):
 
     # Insert the UA string into the database
     # FIXME
-    keyString = '"uaString"'
-    vals = [tuple[0]]
+    keyString = '"uaString"'  # start keystring as  just a uaString
+    vals = [tuple[0]]   # start vals as just the uaString itself
     questionMarks = '?'
-    for key, val in tuple[1].items():
+    for key, val in tuple[1].items(): #add in other data
       keyString = keyString + ', "' + key + '"'
       vals.append(val)
       questionMarks = questionMarks + ', ?'

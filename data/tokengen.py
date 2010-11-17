@@ -36,10 +36,11 @@ def main():
     fua = open('uadata_clean_token.txt','w')
     for x in ualist:
         uaString = x.uaString
-        x.uaString = ''
-        for y in re.split('[(),;/\s]',uaString):
+        x.data['Tokens'] = ''
+        for y in re.split('[.(),;/\s]',uaString):
             if not y == "":
-                x.uaString = x.uaString + str(tokendict[y]) + ' '
+                y = numcheck(y)
+                x.data['Tokens'] = x.data['Tokens'] + str(tokendict[y]) + ' '
         fua.write(x+'\n')    
             
 
@@ -51,10 +52,23 @@ def gentokenlist(x):
 #    k = 3
     uaString = x.uaString	
     tokenlist = []
-    for x in re.split('[(),;/\s]',uaString):
+    for x in re.split('[.(),;/\s]',uaString):
         x = x.strip().rstrip()
         if not x == "":
+            # number check            
+            x = numcheck(x)
             tokenlist.append(x)
+
+    return tokenlist
+def numcheck(x): # check if is integer number
+    # x is a string, check if it is a number
+    x = x.strip().rstrip() # strip off any whitespace
+    if x.isdigit():
+        return str(len(x)) # return length of number
+    else:
+        return x # return just the string itself
+
+
 
 # find all instances of parentheses strings
 # find tokens in them without whitespace    
