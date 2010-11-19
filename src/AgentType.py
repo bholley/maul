@@ -43,8 +43,8 @@ print 'Number browsers selected for training: ', int(round(frac*nbrowser,0))
 # just select first 5000 elements of train data and first 1000 elements of test data
 random.shuffle(trainingData)    
 random.shuffle(testData)
-trainingData = trainingData[0:500]
-testData = testData[0:100]
+#trainingData = trainingData[0:5000]
+#testData = testData[0:1000]
 
 
 # Make a StringSVM
@@ -85,7 +85,7 @@ print "Correct Robot: ", correct0, "False Robot: ", false0
 print "Correct Browser: ", correct1, "False Browser: ", false1
 
 # save the model for use later
-svm.svm_save_model('agenttype.model')
+svm.svm_save_model('agenttypeFULLDATA.model')
 
 
 

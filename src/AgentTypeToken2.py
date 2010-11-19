@@ -2,6 +2,10 @@ from StringSVM import StringSVM
 import sqlite3
 import random
 
+#initialize with seed so we get same training and test sets every time
+# i.e. for cross validation
+random.seed(18283835)
+
 # Throwaway test to classify browser vs bot
 frac = 0.8
 
@@ -22,10 +26,10 @@ for uaString in c:
 nrobot = len(uaslist)
 random.shuffle(uaslist)
 for uaString in uaslist[0:int(round(frac*nrobot,0))]:
-    tokens = [int(s) for s in uaString[0].split(" ")]
+    tokens = [int(s) for s in uaString.split(" ")]
     trainingData.append(('Robot', tokens))
 for uaString in uaslist[int(round(frac*nrobot,0)):len(uaslist)+1]:
-    tokens = [int(s) for s in uaString[0].split(" ")]
+    tokens = [int(s) for s in uaString.split(" ")]
     testData.append(('Robot', tokens))
 print 'Number robots selected for training: ', int(round(frac*nrobot,0))
 
@@ -37,18 +41,18 @@ for uaString in c:
 nbrowser = len(uaslist)
 random.shuffle(uaslist)
 for uaString in uaslist[0:int(round(frac*nbrowser,0))]:
-    tokens = [int(s) for s in uaString[0].split(" ")]
+    tokens = [int(s) for s in uaString.split(" ")]
     trainingData.append(('Browser', tokens))
 for uaString in uaslist[int(round(frac*nbrowser,0)):len(uaslist)+1]:
-    tokens = [int(s) for s in uaString[0].split(" ")]
+    tokens = [int(s) for s in uaString.split(" ")]
     testData.append(('Browser', tokens))
 print 'Number browsers selected for training: ', int(round(frac*nbrowser,0))    
     
 # just select first 5000 elements of train data and first 1000 elements of test data
 random.shuffle(trainingData)    
 random.shuffle(testData)
-#trainingData = trainingData[0:5000]
-#testData = testData[0:1000]
+#trainingData = trainingData[0:10000]
+#testData = testData[0:2000]
 
 
 # Make a StringSVM
@@ -92,4 +96,16 @@ print "Correct Browser: ", correct1, "False Browser: ", false1
 svm.svm_save_model('agenttype.model')
 
 
+
+
+# RESULTS FROM OUTPUT, SINCE MODEL ISN'T SAVED
+# used seed above
+#iter 2157
+#nu = 0.008741
+# obj = -295.857291, rho = 1.000092
+# nSV = 917, nBSV = 311
+# total nSV = 917
+# Accuracy = 0.992677110629
+# Correct Robot: 383.0 False Robot: 72.0
+# Correct Browser: 9918.0  False Browser: 4.0
 

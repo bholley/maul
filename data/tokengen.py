@@ -124,7 +124,7 @@ def numcheck(x): # check if is integer number
     return tokenlist	
 
 
-def dsort(dic): # return sorted list of keys
+def dsort(dic): # return sorted list of keys sorted by values
     items = [(v,k) for k,v in dic.items()]
     items.sort(reverse=True)
     return [k for (v,k) in items]
