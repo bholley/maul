@@ -2929,8 +2929,11 @@ int svm_save_model(const char *model_file_name, const svm_model *model)
     if (param.data_type==STRING)
       fprintf(fp, "%s\n", SV[i].s);
     else if (param.data_type==TOKENS) {
-      fprintf(stderr, "ERROR: Saving tokenized models not yet supported!\n");
-      exit(-1);
+      unsigned numTokens = SV[i].t[0];
+      fprintf(fp, "%u", numTokens);
+      for (unsigned k = 1; k <= numTokens; ++k)
+        fprintf(fp, " %u", SV[i].t[k]);
+      fprintf(fp, "\n");
     }
 
     else
@@ -3184,12 +3187,41 @@ svm_model *svm_load_model(const char *model_file_name)
       model->SV[i].s = Malloc(char, strlen(val)+1);
       strcpy(model->SV[i].s, val);
       model->SV[i].v = NULL;
+      model->SV[i].t = NULL;
     }
   }
   else if (param.data_type==TOKENS)
   {
-    fprintf(stderr, "ERROR: Loading tokenized models not yet supported!\n");
-    exit(-1);
+    for(i=0;i<l;i++)
+    {
+      readline(fp);
+      p = strtok(line, " \t");
+      model->sv_coef[0][i] = strtod(p,&endptr);
+      for(int k=1;k<m;k++)
+      {
+        p = strtok(NULL, " \t");
+        model->sv_coef[k][i] = strtod(p,&endptr);
+      }
+
+      // Read in the first integer, which is the number of tokens
+      p = strtok(NULL, " \t");
+      unsigned numTokens = strtoul(p, &endptr, 10);
+
+      // Allocate our tokens array
+      model->SV[i].t = Malloc(unsigned, numTokens + 1);
+      model->SV[i].t[0] = numTokens;
+
+      // Read in the tokens
+      for (unsigned k = 1; k <= numTokens; ++k)
+      {
+        p = strtok(NULL, " \t");
+        model->SV[i].t[k] = strtoul(p, &endptr, 10);
+      }
+
+      // Null out the fields we aren't using
+      model->SV[i].v = NULL;
+      model->SV[i].s = NULL;
+    }
   }
   else
   {
