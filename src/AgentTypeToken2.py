@@ -1,5 +1,6 @@
 from StringSVM import StringSVM
 from SVMParams import SVMParams
+from DecisionProblem import DecisionProblem
 import sqlite3
 import random
 
@@ -56,16 +57,18 @@ random.shuffle(testData)
 #testData = testData[0:2000]
 
 
-# Make a StringSVM
+# Make a Decision Problem
 params = SVMParams()
 params.kernelName = "subseq"
 params.tokenized = True
-svm = StringSVM(params)
+decProb = DecisionProblem("Type", params)
 
-# Train
-svm.addSamples(trainingData)
-svm.finalize()
-svm.train()
+# If the model is not already generated, generate it
+if not decProb.haveModel():
+  decProb.generateModel(trainingData)
+  decProb.saveModel()
+else:
+  decProb.loadModel()
 
 # Predict
 correct = 0.0
@@ -75,7 +78,7 @@ correct1 = 0.0
 false1 = 0.0
 false0 = 0.0
 for actual, ua in testData:
-  prediction = svm.predict(ua)
+  prediction = decProb.decide(ua)
   if( actual == 'Robot'):
     if(actual == prediction):
         correct0 = correct0 + 1.0
@@ -95,12 +98,6 @@ print "ACCURACY: ", correct / total
 print "False X means classifier said data was X, but it was actually something else"
 print "Correct Robot: ", correct0, "False Robot: ", false0
 print "Correct Browser: ", correct1, "False Browser: ", false1
-
-# save the model for use later
-svm.svm_save_model('agenttype.model')
-
-
-
 
 # RESULTS FROM OUTPUT, SINCE MODEL ISN'T SAVED
 # used seed above
