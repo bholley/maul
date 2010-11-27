@@ -1,4 +1,5 @@
 from StringSVM import StringSVM
+from SVMParams import SVMParams
 import sqlite3
 import random
 
@@ -56,7 +57,10 @@ random.shuffle(testData)
 
 
 # Make a StringSVM
-svm = StringSVM(kernelName="subseq", tokenized=True)
+params = SVMParams()
+params.kernelName = "subseq"
+params.tokenized = True
+svm = StringSVM(params)
 
 # Train
 svm.addSamples(trainingData)

@@ -8,19 +8,16 @@ class StringSVM:
 
   finalized = False
 
-  def __init__(self, kernelName='edit', tokenized=False, seqLambda=0.8, seqLen=5):
+  def __init__(self, params):
 
     # Validate
-    if (kernelName != 'edit' and kernelName != 'subseq'):
+    if (params.kernelName != 'edit' and params.kernelName != 'subseq'):
       raise ValueError('unknown kernel name!')
-    if (tokenized and kernelName != 'subseq'):
+    if (params.tokenized and params.kernelName != 'subseq'):
       raise ValueError('subseq is the only kernel that supports tokenization')
 
     # Store the parameters
-    self.kernelName = kernelName
-    self.tokenized = tokenized
-    self.seqLambda = seqLambda
-    self.seqLen = seqLen
+    self.params = params
 
     # Load libSVM
     if platform.system() == "Windows":
@@ -91,10 +88,10 @@ class StringSVM:
       raise RuntimeError("Must call finalize() before calling train()!")
 
     # Generate the problem
-    problem = svm_problem(self, self.labelsNumeric, self.values)
+    problem = svm_problem(self.params, self.labelsNumeric, self.values)
 
     # Generate the parameters
-    params = svm_parameter(self)
+    params = svm_parameter(self.params)
 
     # Generate the model
     self.model = self.svmlib.svm_train(problem, params)
@@ -108,7 +105,7 @@ class StringSVM:
     # Make a prediction
     query = svm_data()
     query.v = None
-    if (self.tokenized):
+    if (self.params.tokenized):
       query.t = (c_uint * (len(val) + 1))()
       query.t[0] = len(val)
       for j,num in enumerate(val):
@@ -207,15 +204,15 @@ class svm_parameter(Structure):
               ("shrinking", c_int),
               ("probability", c_int)]
 
-  def __init__(self, stringSVM):
+  def __init__(self, params):
     Structure.__init__(self)
 
-    if (stringSVM.kernelName == "edit"):
+    if (params.kernelName == "edit"):
       self.kernel_type = KERNEL_TYPE_EDIT
     else:
       self.kernel_type = KERNEL_TYPE_SUBSEQ
 
-    if (stringSVM.tokenized):
+    if (params.tokenized):
       self.data_type = DATA_TYPE_TOKENS
     else:
       self.data_type = DATA_TYPE_STRING
@@ -252,7 +249,7 @@ class svm_problem(Structure):
               ("y", POINTER(c_double)),
               ("x", POINTER(svm_data))]
 
-  def __init__(self, stringSVM, labels, values):
+  def __init__(self, params, labels, values):
 
     # Validate
     if (len(labels) != len(values)):
@@ -272,7 +269,7 @@ class svm_problem(Structure):
     self.x = (svm_data * self.l)()
     for i, val in enumerate(values):
       self.x[i].v = None
-      if (stringSVM.tokenized):
+      if (params.tokenized):
         self.x[i].t = (c_uint * (len(val) + 1))()
         self.x[i].t[0] = len(val) # First element of a token string is the length
         for j, num in enumerate(val):
