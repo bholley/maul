@@ -17,9 +17,9 @@ def runCV():
 # for now 0.1 1 10 100 1000
 # for seqLen lets run 4 5 6 7 8 9 10
 # for Lambda, lets do  a coarse search
-    Clist = [0.1, 1, 10, 100, 1000]
+    Clist = [0.1, 1.0, 10.0, 100.0, 1000.0]
     LenList = [4,5,6,7,8] 
-    LambdaList = [0.7 0.8 0.9 0.99]
+    LambdaList = [0.7, 0.8, 0.9, 0.99]
 #    Clist = [1.0]
 #    LenList = [5]
 #    LambdaList = [0.8]
@@ -28,7 +28,7 @@ def runCV():
     for C in Clist:
         for seqLen in LenList:
             for seqLambda in LambdaList:
-                accuracy,correct0,false0,correct1,false1 = runSVM(C,seqLen,seqLambda)
+                accuracy,correct0,false0,correct1,false1 = runSVM(float(C),int(seqLen),float(seqLambda))
                 s = str(C)+" " + str(seqLen) + " " + str(seqLambda) + " "
                 s = s + str(accuracy) + " " + str(correct0) + " " + str(false0) + " "
                 s = s + str(correct1) + " " + str(false1)
