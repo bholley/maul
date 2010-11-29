@@ -9,6 +9,7 @@ class SVMParams:
     self.tokenized = False
     self.seqLambda = 0.8
     self.seqLen = 5
+    self.C = 1
 
 
   '''Generates a canonical representation of the parameters as a string'''
@@ -16,7 +17,7 @@ class SVMParams:
 
     # Kernel Name
     rv = self.kernelName
-
+    rv = rv + "_C-" + str(self.C) 
     # Tokenized?
     if (self.tokenized):
       rv = rv + "_" + "tokenized"

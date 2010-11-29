@@ -53,14 +53,17 @@ print 'Number browsers selected for training: ', int(round(frac*nbrowser,0))
 # just select first 5000 elements of train data and first 1000 elements of test data
 random.shuffle(trainingData)    
 random.shuffle(testData)
-#trainingData = trainingData[0:10000]
-#testData = testData[0:2000]
+trainingData = trainingData[0:1000]
+testData = testData[0:200]
 
 
 # Make a Decision Problem
 params = SVMParams()
 params.kernelName = "subseq"
 params.tokenized = True
+params.C = 10
+params.seqLen = 5
+params.seqLambda = 0.8
 decProb = DecisionProblem("Type", params)
 
 # If the model is not already generated, generate it
@@ -98,6 +101,15 @@ print "ACCURACY: ", correct / total
 print "False X means classifier said data was X, but it was actually something else"
 print "Correct Robot: ", correct0, "False Robot: ", false0
 print "Correct Browser: ", correct1, "False Browser: ", false1
+
+fname = decProb.modelPath() + ".results"
+f = open(fname,'w')
+f.write(str(decProb.svm.labelMap)+'\n')
+s = "ACCURACY: " + str(correct/total) + '\n'
+s = s + "False X means classifier said data was X, but it was actually something else\n"
+s = s + "Correct 0: " + str(correct0) + "False 0: " + str(false0) + '\n'
+s = s + "Correct 1: " + str(correct1) + "False 1: " + str(false1) + '\n'
+f.write(s)
 
 # RESULTS FROM OUTPUT, SINCE MODEL ISN'T SAVED
 # used seed above

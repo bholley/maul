@@ -209,13 +209,22 @@ class svm_parameter(Structure):
 
     if (params.kernelName == "edit"):
       self.kernel_type = KERNEL_TYPE_EDIT
+      self.shrinking = 1
     else:
       self.kernel_type = KERNEL_TYPE_SUBSEQ
+      self.shrinking = 0
 
     if (params.tokenized):
       self.data_type = DATA_TYPE_TOKENS
     else:
       self.data_type = DATA_TYPE_STRING
+
+    try: # set C if seomeone set it in params, otherwise set to 1
+        params.C
+    except AttributeError:
+        self.C = 1
+    else:
+        self.C = params.C
 
     self.svm_type = SVM_TYPE_C_SVC
     self.degree = 3
@@ -223,13 +232,14 @@ class svm_parameter(Structure):
     self.coef0 = 0
     self.cache_size = 100
     self.eps = 1e-3
-    self.C = 1
+#    self.C = 1 # set above
     self.nr_weight = 0
     self.weight_label = None
     self.weight = None
     self.nu = 0.5
     self.p = 0.1
-    self.shrinking = 1
+#    self.shrinking = 1 # set above
+#    self.shrinking = 0 # set above
     self.probability = 0
 
 
