@@ -45,8 +45,8 @@ def runSVM(C,seqLen,seqLambda):
 # just select first 5000 elements of train data and first 1000 elements of test data
     random.shuffle(trainingData)    
     random.shuffle(testData)
-    trainingData = trainingData[0:1000]
-    testData = testData[0:200]
+#    trainingData = trainingData[0:1000]
+#    testData = testData[0:200]
 
 
 # Make a Decision Problem
