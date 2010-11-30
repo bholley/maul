@@ -1,13 +1,13 @@
-Browser, 49915
-Robot, 2173
-Mobile Browser, 977
+Browser, 49908
+Robot, 2175
+Mobile Browser, 978
 Downloader, 132
 Library, 114
 Other, 100
 Malicious, 82
 Email client, 63
-Multimedia Player, 59
-Feed Reader, 57
+Multimedia Player, 60
+Feed Reader, 60
 Offline Browser, 52
 Proxy, 42
 Wap Browser, 6

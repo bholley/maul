@@ -18,7 +18,8 @@ def runCV():
 # for seqLen lets run 4 5 6 7 8 9 10
 # for Lambda, lets do  a coarse search
 #    Clist = [0.1, 1.0, 10.0, 100.0, 1000.0] finished 0.1 already
-    Clist = [5.0 6.0 7.0 8.0 9.0 10.0]
+#    Clist = [5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
+    Clist = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
     LenList = [5] 
     LambdaList = [0.9]
 #    Clist = [1.0]

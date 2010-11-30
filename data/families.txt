@@ -1,4 +1,4 @@
-IE, 24087
+IE, 24086
 Firefox, 15400
 IE 8.0 (Compatibility View), 3097
 Opera, 1345
@@ -11,7 +11,7 @@ Avant Browser, 349
 IceWeasel, 254
 Mozilla, 241
 SeaMonkey, 239
-Netscape Navigator, 211
+Netscape Navigator, 210
 BlackBerry, 191
 Firefox (Minefield), 134
 Flock, 117
