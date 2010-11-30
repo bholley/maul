@@ -1,18 +1,18 @@
-Windows, 43268
-Linux, 3710
+Windows, 43262
+Linux, 3709
 Mac OS X, 2572
 JVM (Platform Micro Edition), 408
 RIM OS, 201
 iPhone OS, 161
 Android, 121
 Symbian OS, 114
-FreeBSD, 94
-Mac OS, 70
+FreeBSD, 93
+Mac OS, 69
 Solaris, 67
 JVM (Java), 30
 OpenBSD, 25
 PClinuxOS, 19
-Palm OS, 16
+Palm OS, 15
 Amiga OS, 13
 Danger Hiptop, 10
 webOS, 9
@@ -35,7 +35,7 @@ MINIX 3, 2
 Jolicloud, 2
 Haiku OS, 2
 HP-UX, 2
-AROS, 2
 Plan 9, 1
 Chromium OS, 1
+AROS, 1
 AIX, 1

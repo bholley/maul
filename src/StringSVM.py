@@ -222,7 +222,7 @@ class svm_parameter(Structure):
     try: # set C if seomeone set it in params, otherwise set to 1
         params.C
     except AttributeError:
-        self.C = 1
+        self.C = 10.0
     else:
         self.C = params.C
 
@@ -263,6 +263,9 @@ class svm_problem(Structure):
 
     # Validate
     if (len(labels) != len(values)):
+      print labels
+      print '\n'
+      print values
       raise ValueError("Need equal number of values and labels!")
 
     # Set the length

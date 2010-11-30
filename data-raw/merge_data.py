@@ -5,57 +5,36 @@ from uaobj import *
 
 
 def main():
-	ualist1 = readFile('csvdata.txt')
-	print 'Loaded csvdata.txt'
-	print 'UA List 1 has length, ', len(ualist1)
-	ualist2 = readFile('xmldata.txt')
-	print 'Loaded xmldata.txt'	
-	print 'UA List 2 has length, ', len(ualist2)
-	ualist3 = readFile('uatrack_data.txt')
-	print 'Loaded uatracker data'
-	print 'UA List 3 has length, ', len(ualist3)
+    ualist1 = readFile('csvdata.txt')
+    print 'Loaded csvdata.txt'
+    print 'UA List 1 has length, ', len(ualist1)
+    ualist2 = readFile('xmldata.txt')
+    print 'Loaded xmldata.txt'	
+    print 'UA List 2 has length, ', len(ualist2)
+    ualist3 = readFile('uatrack_data.txt')
+    print 'Loaded uatracker data'
+    print 'UA List 3 has length, ', len(ualist3)
 
-	print 'Merging UAList 1 and UAList 2'
-	ualist, newentries = mergelists(ualist1,ualist2)
-	print 'Newentries, ', newentries	
-	print 'Total Entries,', len(ualist)
+    print 'Merging UAList 1 and UAList 2'
+    ualist, newentries = mergelists(ualist1,ualist2)
+    print 'Newentries, ', newentries	
+    print 'Total Entries,', len(ualist)
 
-	print 'Merging UaList 3 and Rest'
-	ualist, newentries = mergelists(ualist,ualist3)
-	print 'Newentries ', newentries
-	print 'Total Entries,', len(ualist)
+    print 'Merging UaList 3 and Rest'
+    ualist, newentries = mergelists(ualist,ualist3)
+    print 'Newentries ', newentries
+    print 'Total Entries,', len(ualist)
 
 # generate dictionaries of categories
 # 	output new list
-	f = open('../data/uadata.txt','w')
+    f = open('../data/uadata.txt','w')
 
-	for x in ualist:			
-		f.write(x+'\n')
+    for x in ualist:			
+        f.write(x+'\n')
 
-	f.close()	
+    f.close()	
 	
-	
-	catdict, typdict, familydict, osdict, osversiondict =  descriptivestat(ualist)		
-	
-	fosversion = open('../data/osversion.txt','w')
-	fos = open('../data/os.txt','w')
-	ftyp = open('../data/types.txt','w')
-	ffamily = open('../data/families.txt','w')
-	fcat = open('../data/categories.txt','w')
-
-
-	dictsortprintfile(osdict,fos)
-	dictsortprintfile(typdict,ftyp)
-	dictsortprintfile(familydict,ffamily)
-	dictsortprintfile(osversiondict,fosversion)
-	
-	for k in catdict.keys():
-		fcat.write(k+'\n')
-	fosversion.close()
-	fos.close()
-	ftyp.close()
-	ffamily.close()
-	fcat.close()
+    writestat(ualist,'../data/')	
 
 
 def mergelists(ualist1,ualist2):
@@ -81,6 +60,31 @@ def dictsortprintfile(dic,fid):
 	for k in keysort:
 		s = k + ", " + str(dic[k])
 		fid.write(s + '\n')
+
+def writestat(ualist,path):
+	catdict, typdict, familydict, osdict, osversiondict =  descriptivestat(ualist)		
+	
+	fosversion = open(path+'osversion.txt','w')
+	fos = open(path+'os.txt','w')
+	ftyp = open(path+'types.txt','w')
+	ffamily = open(path+'families.txt','w')
+	fcat = open(path+'categories.txt','w')
+
+
+	dictsortprintfile(osdict,fos)
+	dictsortprintfile(typdict,ftyp)
+	dictsortprintfile(familydict,ffamily)
+	dictsortprintfile(osversiondict,fosversion)
+	
+	for k in catdict.keys():
+		fcat.write(k+'\n')
+
+	fosversion.close()
+	fos.close()
+	ftyp.close()
+	ffamily.close()
+	fcat.close()
+
 
 def descriptivestat(ualist):
 	osdict = {}

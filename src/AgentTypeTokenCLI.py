@@ -10,7 +10,9 @@ def runSVM(C,seqLen,seqLambda):
 
 #initialize with seed so we get same training and test sets every time
 # i.e. for cross validation
-    random.seed(18283835)
+    random.seed(18283835) # use this for standard validation
+#    random.seed(8982101)
+#    random.seed(12820501)
 
 # Throwaway test to classify browser vs bot
     frac = 0.8
@@ -24,39 +26,45 @@ def runSVM(C,seqLen,seqLambda):
     trainingData = [];
     testData = [];
 
+    trainlist = []
+    testlist = []
 # bots
-    c.execute('select Tokens from data where "Type" = "Robot"')
+    c.execute('select Tokens, uaString from data where "Type" = "Robot"')
     uaslist = []
     for uaString in c:
-        uaslist.append(uaString[0])
+        uaslist.append((uaString[0],uaString[1]))
     nrobot = len(uaslist)
     random.shuffle(uaslist)
-    for uaString in uaslist[0:int(round(frac*nrobot,0))]:
-        tokens = [int(s) for s in uaString.split(" ")]
+    for Tok, uaString in uaslist[0:int(round(frac*nrobot,0))]:
+        tokens = [int(s) for s in Tok.split(" ")]
         trainingData.append(('Robot', tokens))
-    for uaString in uaslist[int(round(frac*nrobot,0)):len(uaslist)+1]:
-        tokens = [int(s) for s in uaString.split(" ")]
+        trainlist.append(uaString)
+    for Tok, uaString in uaslist[int(round(frac*nrobot,0)):len(uaslist)+1]:
+        tokens = [int(s) for s in Tok.split(" ")]
         testData.append(('Robot', tokens))
+        testlist.append(uaString)
     print 'Number robots selected for training: ', int(round(frac*nrobot,0))
 
 # browsers
-    c.execute('select Tokens from data where "Type" = "Browser"')
+    c.execute('select Tokens, uaString from data where "Type" = "Browser"')
     uaslist = []
     for uaString in c:
-        uaslist.append(uaString[0])
+        uaslist.append((uaString[0],uaString[1]))
     nbrowser = len(uaslist)
     random.shuffle(uaslist)
-    for uaString in uaslist[0:int(round(frac*nbrowser,0))]:
-        tokens = [int(s) for s in uaString.split(" ")]
+    for Tok, uaString in uaslist[0:int(round(frac*nbrowser,0))]:
+        tokens = [int(s) for s in Tok.split(" ")]
         trainingData.append(('Browser', tokens))
-    for uaString in uaslist[int(round(frac*nbrowser,0)):len(uaslist)+1]:
-        tokens = [int(s) for s in uaString.split(" ")]
+        trainlist.append(uaString)
+    for Tok, uaString in uaslist[int(round(frac*nbrowser,0)):len(uaslist)+1]:
+        tokens = [int(s) for s in Tok.split(" ")]
         testData.append(('Browser', tokens))
+        testlist.append(uaString)
     print 'Number browsers selected for training: ', int(round(frac*nbrowser,0))    
     
 # just select first 5000 elements of train data and first 1000 elements of test data
-    random.shuffle(trainingData)    
-    random.shuffle(testData)
+#    random.shuffle(trainingData)    
+#    random.shuffle(testData)
 #    trainingData = trainingData[0:1000]
 #    testData = testData[0:200]
 
@@ -84,6 +92,8 @@ def runSVM(C,seqLen,seqLambda):
     correct1 = 0.0
     false1 = 0.0
     false0 = 0.0
+    ind = 0
+    fmiss = open('misclass.txt','w')
     for actual, ua in testData:
         prediction = decProb.decide(ua)
         if( actual == 'Robot'):
@@ -92,14 +102,17 @@ def runSVM(C,seqLen,seqLambda):
                 correct = correct + 1.0
             else:
                 false1 = false1 + 1.0
+                fmiss.write('false Browser: ' + testlist[ind]+'\n')
         elif( actual == 'Browser'):
             if(actual == prediction):
                 correct1 = correct1 + 1.0
                 correct = correct+1.0
             else:
                 false0 = false0 + 1.0
+                fmiss.write('false Robot: ' + testlist[ind] +'\n')
     
         total = total + 1.0
+        ind = ind + 1
 
     print "ACCURACY: ", correct / total
     print "False X means classifier said data was X, but it was actually something else"

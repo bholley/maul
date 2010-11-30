@@ -1,16 +1,16 @@
-XP, 25132
+XP, 25130
 Vista, 10911
 7, 4571
 2003 Server, 1277
 Ubuntu, 1100
 10.5 Leopard, 986
-2000, 684
+2000, 683
 10.6 Snow Leopard, 527
 10.4 Tiger, 452
 Debian, 292
 Fedora, 288
 SUSE, 286
-98, 194
+98, 193
 Gentoo, 166
 ME, 101
 CentOS, 79

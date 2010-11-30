@@ -1,5 +1,5 @@
-IE, 24098
-Firefox, 15401
+IE, 24087
+Firefox, 15400
 IE 8.0 (Compatibility View), 3097
 Opera, 1345
 Safari, 1323
@@ -9,16 +9,16 @@ Maxthon, 422
 Opera Mini, 379
 Avant Browser, 349
 IceWeasel, 254
-Mozilla, 242
+Mozilla, 241
 SeaMonkey, 239
-Netscape Navigator, 221
+Netscape Navigator, 211
 BlackBerry, 191
 Firefox (Minefield), 134
 Flock, 117
 Android Webkit, 111
 Firefox (Shiretoko), 101
 Camino, 101
-Konqueror, 90
+Konqueror, 89
 Nokia Web Browser, 85
 Crazy Browser, 76
 Firefox (Namoroka), 70
@@ -33,7 +33,7 @@ Firefox (GranParadiso), 36
 Sleipnir, 35
 Outlook 2007, 33
 Iron, 32
-libwww-perl, 29
+libwww-perl, 28
 Openwave Mobile Browser, 27
 Nutch, 25
 yacybot, 23
@@ -86,6 +86,7 @@ Firebird (old name for Firefox), 7
 Comodo Dragon, 7
 ichiro, 6
 iCab, 6
+YahooSeeker, 6
 Yahoo!, 6
 WebCollage, 6
 VLC media player, 6
@@ -562,6 +563,7 @@ Mini Browser, 1
 Metaspinner/0.01, 1
 MetamojiCrawler, 1
 MetaURI, 1
+Malicious, 1
 Mail.Ru, 1
 Mahiti Crawler, 1
 Madfox, 1
@@ -571,6 +573,7 @@ Linguee Bot, 1
 LinguaBot, 1
 Lijit, 1
 LexxeBot, 1
+LemSpider, 1
 LarbinWebCrawler, 1
 Larbin, 1
 LBrowser, 1

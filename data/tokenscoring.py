@@ -66,6 +66,7 @@ def score(token,prop,value,ualist):
             continue
         else:
             totcnt = totcnt + 1.0
+            # try this code p[token in toktup][x.data[prop]==value]+=1
             if(x.data[prop] == value):
                 valcnt = valcnt+1.0
                 if token in toktup:
