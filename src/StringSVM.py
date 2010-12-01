@@ -222,13 +222,20 @@ class svm_parameter(Structure):
     try: # set C if seomeone set it in params, otherwise set to 1
         params.C
     except AttributeError:
-        self.C = 10.0
+        self.C = 1.0
     else:
         self.C = params.C
 
+    try:
+        params.gamma    
+    except AttributeError:
+        self.gamma = 0.1
+    else:
+        self.gamma = params.gamma
+
     self.svm_type = SVM_TYPE_C_SVC
     self.degree = 3
-    self.gamma = 0.1
+#    self.gamma = 0.1
     self.coef0 = 0
     self.cache_size = 100
     self.eps = 1e-3

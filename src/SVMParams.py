@@ -10,6 +10,7 @@ class SVMParams:
     self.seqLambda = 0.8
     self.seqLen = 5
     self.C = 1
+    self.gamma = 0.1
 
 
   '''Generates a canonical representation of the parameters as a string'''
