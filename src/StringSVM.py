@@ -13,8 +13,6 @@ class StringSVM:
     # Validate
     if (params.kernelName != 'edit' and params.kernelName != 'subseq'):
       raise ValueError('unknown kernel name!')
-    if (params.tokenized and params.kernelName != 'subseq'):
-      raise ValueError('subseq is the only kernel that supports tokenization')
 
     # Store the parameters
     self.params = params

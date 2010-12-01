@@ -39,6 +39,43 @@ static inline double powi(double base, int times)
 #define TAU 1e-12
 #define Malloc(type,n) (type *)calloc(n,sizeof(type))
 
+#ifdef _STRING
+template<typename T>
+int edit(const T *px, int len1, const T *py, int len2)
+{
+  int* row[2];
+  int now,old;
+  int i,j;
+  int result;
+
+  row[0] = (int*) malloc( (len1+1) * sizeof(int) );
+  row[1] = (int*) malloc( (len1+1) * sizeof(int) );
+
+  for(i=0;i<len1+1;i++) row[0][i]=i;
+  now=1; old=0;
+
+  for(j=0;j<len2;j++) /* j=0 is the first char of py */
+  {
+    row[now][0]=j+1;
+    for(i=0;i<len1;i++) /* i=0 is the first char of px */
+    {
+      row[now][i+1] = min(min( row[old][i] + (px[i]==py[j]?0:1) , 
+            row[old][i+1] + 1),
+          row[now][i] + 1                        );
+    }
+
+    now=1-now; old=1-old;
+  }
+
+  result=row[old][len1];
+
+  free(row[0]); free(row[1]);
+
+  return result;
+}
+#endif
+
+
 static void print_string_stdout(const char *s)
 {
   fputs(s,stdout);
@@ -249,7 +286,6 @@ class Kernel: public QMatrix {
 
     static double dot(const svm_node *px, const svm_node *py);
 #ifdef _STRING
-    static int edit(const char *px, const char *py);
     double kernel_linear(int i, int j) const
     {
       return dot(x[i].v,x[j].v);
@@ -272,7 +308,10 @@ class Kernel: public QMatrix {
     }
     double kernel_edit(int i, int j) const
     {
-      return exp(-gamma*(double)edit(x[i].s,x[j].s));
+      if (data_type==STRING)
+        return exp(-gamma*(double)edit(x[i].s, strlen(x[i].s), x[j].s, strlen(x[j].s)));
+      else
+        return exp(-gamma*(double)edit(x[i].t+1, x[i].t[0] ,x[j].t+1, x[j].t[0]));
     }
     double kernel_subseq(int i, int j) const
     {
@@ -394,44 +433,6 @@ double Kernel::dot(const svm_node *px, const svm_node *py)
 }
 
 #ifdef _STRING
-int Kernel::edit(const char *px, const char *py)
-{
-  int* row[2];
-  int len1,len2;
-  int now,old;
-  int i,j;
-  int result;
-
-  len1=(int)strlen(px); len2=(int)strlen(py);
-
-  row[0] = (int*) malloc( (len1+1) * sizeof(int) );
-  row[1] = (int*) malloc( (len1+1) * sizeof(int) );
-
-  for(i=0;i<len1+1;i++) row[0][i]=i;
-  now=1; old=0;
-
-  for(j=0;j<len2;j++) /* j=0 is the first char of py */
-  {
-    row[now][0]=j+1;
-    for(i=0;i<len1;i++) /* i=0 is the first char of px */
-    {
-      row[now][i+1] = min(min( row[old][i] + (px[i]==py[j]?0:1) , 
-            row[old][i+1] + 1),
-          row[now][i] + 1                        );
-    }
-
-    now=1-now; old=1-old;
-  }
-
-  result=row[old][len1];
-
-  free(row[0]); free(row[1]);
-
-  return result;
-}
-#endif
-
-#ifdef _STRING
 double Kernel::k_function(const svm_data x, const svm_data y,
                           const svm_parameter& param)
 {
@@ -491,7 +492,11 @@ double Kernel::k_function(const svm_data x, const svm_data y,
     case PRECOMPUTED:  //x: test (validation), y: SV
       return x.v[(int)(y.v->value)].value;
     case EDIT:
-      return exp(-param.gamma*edit(x.s,y.s));
+      if (param.data_type == STRING)
+        return exp(-param.gamma*edit(x.s, strlen(x.s), y.s, strlen(y.s)));
+      else
+        return exp(-param.gamma*edit(x.t+1, x.t[0], y.t+1, y.t[0]));
+
     case SUBSEQ:
 
       if (param.data_type == STRING) {
