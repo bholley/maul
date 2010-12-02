@@ -20,7 +20,12 @@ def main():
 
 # merge Robot and Validator class    
     for x in ualist:
+
+        # Call Validators Robots
         replaceField(x, 'Type', 'Validator', 'Robot')
+
+        # Call Firefox (Shiretoko) and friends Firefox
+        replaceField(x, 'Family', 'Firefox \(\w*\)$', 'Firefox')
 
 #    for x in ualist:
 #        try:
