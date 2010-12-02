@@ -4,6 +4,15 @@ sys.path.append('../data-raw/')
 from uaobj import *
 from merge_data import dsort,dictsortprintfile,writestat,descriptivestat
 
+# Helper routine to replace x[fieldName] with _value_ if x[fieldName] exists
+# and matches regexp
+def replaceField(x, fieldName, regexp, value):
+  try:
+    x.data[fieldName]
+  except KeyError:
+    return
+  if (re.match(regexp, x.data[fieldName])):
+    x.data[fieldName] = value
 
 
 def main():
@@ -11,13 +20,7 @@ def main():
 
 # merge Robot and Validator class    
     for x in ualist:
-        try:
-            x.data['Type']
-        except KeyError:
-            continue
-        else:
-            if(x.data['Type']=="Validator"):
-                x.data['Type'] = "Robot"
+        replaceField(x, 'Type', 'Validator', 'Robot')
 
 #    for x in ualist:
 #        try:
