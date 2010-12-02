@@ -29,6 +29,7 @@ class SVMParams:
     if (self.kernelName == "subseq"):
       rv = rv + "_lambda-" + str(self.seqLambda)
       rv = rv + "_seqlen-" + str(self.seqLen)
-
+    if(self.kernelName == "edit"):
+        rv = rv + "_gamma-"+str(self.gamma)
     # All done
     return rv

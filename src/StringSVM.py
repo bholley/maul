@@ -268,9 +268,9 @@ class svm_problem(Structure):
 
     # Validate
     if (len(labels) != len(values)):
-      print labels
-      print '\n'
-      print values
+#      print labels
+#      print '\n'
+#      print values
       raise ValueError("Need equal number of values and labels!")
 
     # Set the length

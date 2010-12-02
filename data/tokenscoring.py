@@ -66,18 +66,18 @@ def score(token,prop,value,ualist):
             continue
         else:
             totcnt = totcnt + 1.0
-            # try this code p[token in toktup][x.data[prop]==value]+=1
-            if(x.data[prop] == value):
-                valcnt = valcnt+1.0
-                if token in toktup:
-                    p[1][1] = p[1][1] + 1.0
-                elif token not in toktup:
-                    p[0][1] = p[0][1] + 1.0
-            else:
-                if token in toktup:
-                    p[1][0] = p[1][0] + 1.0
-                elif token not in toktup:
-                    p[0][0] = p[0][0] + 1.0
+            p[int(token in toktup)][int(x.data[prop]==value)]+=1
+#            if(x.data[prop] == value):
+#                valcnt = valcnt+1.0
+#                if token in toktup:
+#                    p[1][1] = p[1][1] + 1.0
+#                elif token not in toktup:
+#                    p[0][1] = p[0][1] + 1.0
+#            else:
+#                if token in toktup:
+#                    p[1][0] = p[1][0] + 1.0
+#                elif token not in toktup:
+#                    p[0][0] = p[0][0] + 1.0
 
     p[1][1] = p[1][1]/totcnt
     p[0][0] = p[0][0]/totcnt

@@ -6,7 +6,7 @@ import sqlite3
 import random
 
 
-def runSVM(C,seqLen,seqLambda):
+def runSVM(C,gamma):
 
 #initialize with seed so we get same training and test sets every time
 # i.e. for cross validation
@@ -43,19 +43,18 @@ def runSVM(C,seqLen,seqLambda):
     print 'Number browsers selected for training: ', int(round(frac*nbrowser,0))    
     
 # just select first 5000 elements of train data and first 1000 elements of test data
-    random.shuffle(trainingData)    
-    random.shuffle(testData)
+#    random.shuffle(trainingData)    
+#    random.shuffle(testData)
 #    trainingData = trainingData[0:1000]
 #    testData = testData[0:200]
 
 
 # Make a Decision Problem
     params = SVMParams()
-    params.kernelName = "subseq"
+    params.kernelName = "edit"
     params.tokenized = True
     params.C = C
-    params.seqLen = seqLen
-    params.seqLambda = seqLambda
+    params.gamma = gamma
     decProb = DecisionProblem("Family", params)
 
 # If the model is not already generated, generate it
@@ -87,10 +86,9 @@ def runSVM(C,seqLen,seqLambda):
 
 if __name__ == "__main__":
 
-    if len(sys.argv) < 4:
-        print "You need to specify C, seqLen, Lambda in that order space delimited"
+    if len(sys.argv) < 3:
+        print "You need to specify C, gamma in that order space delimited"
         sys.exit(2)
     C = float(sys.argv[1])
-    seqLen = int(sys.argv[2])
-    seqLambda = float(sys.argv[3])
-    runSVM(C,seqLen,seqLambda)
+    gamma = float(sys.argv[2])
+    runSVM(C,gamma)
