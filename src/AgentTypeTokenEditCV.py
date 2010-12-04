@@ -17,8 +17,8 @@ def runCV():
 # for now 0.1 1 10 100 1000
 # for seqLen lets run 4 5 6 7 8 9 10
 # for Lambda, lets do  a coarse search
-    Clist = [0.1, 1.0, 5, 10, 100]
-    gammalist = [0.1, 0.2, 0.3] 
+    Clist = [0.6, 0.8, 1.0 ]
+    gammalist = [0.01, 0.05, 0.1] 
 
 # 10 is looking best right now
 

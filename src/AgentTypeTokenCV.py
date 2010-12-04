@@ -19,14 +19,13 @@ def runCV():
 # for Lambda, lets do  a coarse search
 #    Clist = [0.1, 1.0, 10.0, 100.0, 1000.0] finished 0.1 already
 #    Clist = [5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
-    Clist = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+    Clist = [0.6, 0.7, 0.8, 0.9]
     LenList = [5] 
     LambdaList = [0.9]
 #    Clist = [1.0]
 #    LenList = [5]
 #    LambdaList = [0.9]
 
-# 10 is looking best right now
 
     f = open('models/Type/CVoutput.txt','a') 
     for C in Clist:
