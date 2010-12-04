@@ -10,9 +10,13 @@ class StringSVM:
 
   def __init__(self, params):
 
-    # Validate
-    if (params.kernelName != 'edit' and params.kernelName != 'subseq'):
-      raise ValueError('unknown kernel name!')
+    # Validate kernel
+    if params.dataType == "vector":
+      if params.kernelName not in ["linear"]:
+        raise ValueError("Invalid Vector Kernel!")
+    else:
+      if params.kernelName not in ['edit', 'subseq']:
+        raise ValueError('Invalid String Kernel!')
 
     # Store the parameters
     self.params = params
@@ -24,6 +28,7 @@ class StringSVM:
       self.svmlib = cdll.LoadLibrary("../libsvm-string/libsvm.so.2");# *NIX
       # Set the prototypes on the functions we care about
 
+    # Prototypes
     self.svmlib.svm_train.restype = POINTER(svm_model)
     self.svmlib.svm_train.argtypes = [POINTER(svm_problem), POINTER(svm_parameter)]
     self.svmlib.svm_predict_p.restype = c_double
@@ -55,7 +60,6 @@ class StringSVM:
   def addSample(self, label, value):
     self.labels.append(label)
     self.values.append(value)
-
 
   # Finalizes the training data. No more data may be added
   def finalize(self):
@@ -102,14 +106,7 @@ class StringSVM:
 
     # Make a prediction
     query = svm_data()
-    query.v = None
-    if (self.params.tokenized):
-      query.t = (c_uint * (len(val) + 1))()
-      query.t[0] = len(val)
-      for j,num in enumerate(val):
-        query.t[j+1] = num
-    else:
-      query.s = val
+    query.initialize(self.params, val)
     prediction = self.svmlib.svm_predict_p(self.model, pointer(query))
 
     return self.reverseLabelMap[int(prediction)]
@@ -180,8 +177,10 @@ Python Wrappers for C Data Structures
 These inherit special magic from ctypes.Structure
 """
 SVM_TYPE_C_SVC = 0
+KERNEL_TYPE_LINEAR = 0
 KERNEL_TYPE_EDIT = 5
 KERNEL_TYPE_SUBSEQ = 6
+DATA_TYPE_VECTOR = 0
 DATA_TYPE_STRING = 1
 DATA_TYPE_TOKENS = 2
 class svm_parameter(Structure):
@@ -212,52 +211,92 @@ class svm_parameter(Structure):
       self.kernel_type = KERNEL_TYPE_SUBSEQ
       self.shrinking = 0
 
-    if (params.tokenized):
-      self.data_type = DATA_TYPE_TOKENS
+    # Set kernel
+    if params.kernelName == "edit":
+      self.kernel_type = KERNEL_TYPE_EDIT
+    elif params.kernelName == "subseq":
+      self.kernel_type = KERNEL_TYPE_SUBSEQ
+    elif params.kernelName == "linear":
+      self.kernel_type = KERNEL_TYPE_LINEAR
     else:
+      raise ValueError("Unknown kernel!")
+
+
+    # Set data_type
+    if (params.dataType == "string"):
       self.data_type = DATA_TYPE_STRING
-
-    try: # set C if seomeone set it in params, otherwise set to 1
-        params.C
-    except AttributeError:
-        self.C = 1.0
+    elif (params.dataType == "tokens"):
+      self.data_type = DATA_TYPE_TOKENS
+    elif (params.dataType == "vector"):
+      self.data_type = DATA_TYPE_VECTOR
     else:
-        self.C = params.C
+      raise ValueError("Unknown dataType " + param.dataType + "!")
 
-    try:
-        params.gamma    
-    except AttributeError:
-        self.gamma = 0.1
+    # Set C, gamma
+    self.C = params.C
+    self.gamma = params.gamma
+
+    # Shrinking
+    # The subsequence kernel tends to ask for -h 0 when it's run
+    if params.kernelName == "subseq":
+      self.shrinking = 0
     else:
-        self.gamma = params.gamma
+      self.shrinking = 1
 
+    # Tweakable params
+    self.degree = params.degree
+    self.coef0 = params.coef0
+
+    # Untweakable params
     self.svm_type = SVM_TYPE_C_SVC
-    self.degree = 3
-#    self.gamma = 0.1
-    self.coef0 = 0
     self.cache_size = 100
     self.eps = 1e-3
-#    self.C = 1 # set above
     self.nr_weight = 0
     self.weight_label = None
     self.weight = None
     self.nu = 0.5
     self.p = 0.1
-#    self.shrinking = 1 # set above
-#    self.shrinking = 0 # set above
     self.probability = 0
-
-
 
 class svm_model(Structure):
   _fields_ = []
 
+class svm_node(Structure):
+  _fields_ = [("index", c_int),
+              ("value", c_double)]
+
 class svm_data(Structure):
-  _fields_ = [("v", c_void_p), # This is actually a pointer to an svm_node, but
-      # it's always null for string operation.
-      ("s", c_char_p),
-      ("t", POINTER(c_uint)),
-      ("libsvm_allocated", c_int)]
+  _fields_ = [("v", POINTER(svm_node)),
+              ("s", c_char_p),
+              ("t", POINTER(c_uint)),
+              ("libsvm_allocated", c_int)]
+
+  # Fills an svm_data structure with appropriate values
+  def initialize(self, params, val):
+    if (params.dataType == "string"):
+      self.v = None
+      self.t = None
+      self.s = val
+
+    elif (params.dataType == "tokens"):
+      self.v = None
+      self.s = None
+      self.t = (c_uint * (len(val) + 1))()
+      self.t[0] = len(val) # First element of a token string is the length
+      for j, num in enumerate(val):
+        self.t[j+1] = num
+
+    elif (params.datatype == "vector"):
+      self.t = None
+      self.s = None
+      self.v = (svm_node * len(val))()
+      for j, num in enumerate(vals):
+        self.v[j].index = j
+        self.v[j].value = num
+
+    else:
+      raise ValueError("Unknown dataType parameter!")
+
 
 class svm_problem(Structure):
   _fields_ = [("l", c_int),
@@ -268,9 +307,6 @@ class svm_problem(Structure):
 
     # Validate
     if (len(labels) != len(values)):
-#      print labels
-#      print '\n'
-#      print values
       raise ValueError("Need equal number of values and labels!")
 
     # Set the length
@@ -286,12 +322,4 @@ class svm_problem(Structure):
     # Set the values
     self.x = (svm_data * self.l)()
     for i, val in enumerate(values):
-      self.x[i].v = None
-      if (params.tokenized):
-        self.x[i].t = (c_uint * (len(val) + 1))()
-        self.x[i].t[0] = len(val) # First element of a token string is the length
-        for j, num in enumerate(val):
-          self.x[i].t[j+1] = num
-      else:
-        self.x[i].s = val
-
+      self.x[i].initialize(params, val)

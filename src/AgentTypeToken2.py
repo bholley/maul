@@ -60,7 +60,7 @@ testData = testData[0:200]
 # Make a Decision Problem
 params = SVMParams()
 params.kernelName = "subseq"
-params.tokenized = True
+params.dataType = "tokens"
 params.C = 10
 params.seqLen = 5
 params.seqLambda = 0.8

@@ -6,11 +6,17 @@ class SVMParams:
 
     # Set some reasonable defaults
     self.kernelName = 'edit'
-    self.tokenized = False
-    self.seqLambda = 0.8
-    self.seqLen = 5
+    self.dataType = "string"
     self.C = 1
     self.gamma = 0.1
+
+    # Subsequence only
+    self.seqLambda = 0.8
+    self.seqLen = 5
+
+    # Vector only
+    self.coef0 = 0
+    self.degree = 3
 
 
   '''Generates a canonical representation of the parameters as a string'''
@@ -19,11 +25,7 @@ class SVMParams:
     # Kernel Name
     rv = self.kernelName
     rv = rv + "_C-" + str(self.C) 
-    # Tokenized?
-    if (self.tokenized):
-      rv = rv + "_" + "tokenized"
-    else:
-      rv = rv + "_" + "untokenized"
+    rv = rv + "_" + self.dataType
 
     # Subseq Params
     if (self.kernelName == "subseq"):
