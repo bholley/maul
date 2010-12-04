@@ -1,6 +1,6 @@
-'''Class encapsulating relevant SVM parameters'''
+'''Class encapsulating relevant Maul parameters'''
 
-class SVMParams:
+class MaulParams:
 
   def __init__(self):
 
