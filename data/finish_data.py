@@ -14,11 +14,15 @@ def replaceField(x, fieldName, regexp, value):
   if (re.match(regexp, x.data[fieldName])):
     x.data[fieldName] = value
 
+# Helper routine to determine if a given x is a browser or not
+def isBrowser(x):
+  return x.data.has_key('Type') and x.data['Type'] == 'Browser'
+
 
 def main():
     ualist = readFile('uadata_clean_token.txt')
 
-# merge Robot and Validator class    
+    families = dict()
     for x in ualist:
 
         # Call Validators Robots
@@ -27,15 +31,25 @@ def main():
         # Call Firefox (Shiretoko) and friends Firefox
         replaceField(x, 'Family', 'Firefox \(\w*\)$', 'Firefox')
 
-#    for x in ualist:
-#        try:
-#            x.data['Type']
-#        except KeyError:
-#            continue
-#        else:
-#            print x.data['Type']
+        # Keep a running count on the families
+        if isBrowser(x) and x.data.has_key('Family'):
+          family = x.data['Family']
+          if not families.has_key(family):
+            families[family] = 0
+          families[family] = families[family] + 1
 
-    
+    # Coalesce infrequent families into a single 'Other' family
+    familyCountCap = min(len(families), 30)
+    familyList = sorted(families, key=families.get)
+    familyList.reverse()
+    mainFamilies = familyList[0:familyCountCap]
+    print "To keep the problem tractable, MAUL will only try to identify the following families: " + str(mainFamilies)
+    for x in ualist:
+      if isBrowser(x) and x.data.has_key('Family'):
+        if x.data['Family'] not in mainFamilies:
+          x.data['Family'] = 'Other'
+
+
 
     fua = open('uadata_clean_token_finished.txt','w')
     for x in ualist:
