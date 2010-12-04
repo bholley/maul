@@ -1,10 +1,10 @@
-from StringSVM import StringSVM
+from MaulSVM import MaulSVM
 import os
 
 '''This class encapsulates a single decision problem.'''
 
 
-class DecisionProblem:
+class MaulProblem:
 
   def __init__(self, category, params):
 

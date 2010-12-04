@@ -1,7 +1,7 @@
 from ctypes import *
 import platform
 
-class StringSVM:
+class MaulSVM:
 
   labels = []
   values = []
