@@ -21,14 +21,18 @@ class MaulDataset:
     self.prepareTrainingData(trainingProportion, totalProportion)
 
     # Make a decision problem
-    problem = MaulProblem(category, self.params)
+    self.problem = MaulProblem(category, self.params)
 
     # If the model is not already generated, generate it
-    if not problem.haveModel():
-      problem.generateModel(trainingData)
-      problem.saveModel()
+    if not self.problem.haveModel():
+      self.problem.generateModel(self.trainingData)
+      self.problem.saveModel()
     else:
-      problem.loadModel()
+      self.problem.loadModel()
+
+    # Validate
+    self.validate()
+
 
   # Helper routine to load the samples into a dictionary
   def loadSamples(self, category, constraints):
@@ -94,3 +98,39 @@ class MaulDataset:
       return (sample["label"], vec)
     else:
       raise ValueError("Unknown datatype: " + str(self.params.dataType))
+
+  # Validation routine
+  def validate(self):
+
+    # Statistics
+    correct = 0.0
+    misses = []
+    falsePositives = dict()
+    falseNegatives = dict()
+    for key in self.samples.keys():
+      falsePositives[key] = 0
+      falseNegatives[key] = 0
+
+    # Generate a flat list of all of our training samples
+    sampleList = list()
+    for key in self.samples.keys():
+      sampleList.extend(self.samples[key])
+
+    # Iterate over each sample, comparing prediction with actual label
+    for sample in sampleList:
+      prepared = self.prepareSample(sample)
+      prediction = self.problem.decide(prepared[1])
+      if prediction == sample['label']:
+        correct += 1
+      else:
+        misses.append("Predicted: " + prediction + ", Actual: " + \
+                      sample['label'] + ', string: ' + sample['uaString'])
+        falsePositives[prediction] += 1
+        falseNegatives[sample['label']] += 1
+
+    print "ACCURACY: "  + str(correct / len(sampleList))
+    print "False Positives: " + str(falsePositives)
+    print "False Negatives: " + str(falseNegatives)
+    print "Misses:"
+    for line in misses:
+      print line
