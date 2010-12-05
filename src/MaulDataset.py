@@ -14,43 +14,11 @@ class MaulDataset:
   # Standard Cross-Validation Routine
   def crossValidate(self, category, trainingProportion, totalProportion, constraints):
 
-    # Open Database
-    conn = sqlite3.connect(self.dbName)
-    conn.text_factory = str
-    c = conn.cursor()
+    # Load the samples
+    self.loadSamples(category, constraints)
 
-    # Query
-    # TODO - respect constraints
-    c.execute('select uaString, Tokens, ' + category + ' from data ' + constraints)
-
-    # Organize our samples by label (tracking the maximum token while we do it)
-    self.maxToken = 0
-    samples = dict()
-    for item in c:
-      label = item[2]
-      uaString = item[0]
-      tokens = [int(s) for s in item[1].split(' ')]
-      self.maxToken = max(self.maxToken, max(tokens))
-      if not samples.has_key(label):
-        samples[label] = []
-      samples[label].append({"uaString" : uaString, "tokens": tokens, "label" : label})
-
-    # Process the data to extract training data (everything that remains
-    # is test data)
-    trainingData = []
-    for key in samples.keys():
-
-      # Shuffle the data
-      random.shuffle(samples[key])
-
-      # If we want to use less than our total amount of data (for speed),
-      # shrink the list now
-      if totalProportion < 1.0:
-        del samples[key][int(len(samples[key]) * totalProportion):]
-
-      # Pick out training data
-      for i in range(1, int(len(samples[key]) * trainingProportion)):
-        trainingData.append(self.prepareSample(samples[key].pop()))
+    # Select the training data
+    self.prepareTrainingData(trainingProportion, totalProportion)
 
     # Make a decision problem
     problem = MaulProblem(category, self.params)
@@ -61,6 +29,54 @@ class MaulDataset:
       problem.saveModel()
     else:
       problem.loadModel()
+
+  # Helper routine to load the samples into a dictionary
+  def loadSamples(self, category, constraints):
+
+    # Open Database
+    conn = sqlite3.connect(self.dbName)
+    conn.text_factory = str
+    c = conn.cursor()
+
+    # Query
+    c.execute('select uaString, Tokens, ' + category + ' from data ' + constraints)
+
+    # Organize our samples by label (tracking the maximum token while we do it)
+    self.maxToken = 0
+    self.samples = dict()
+    for item in c:
+      label = item[2]
+      uaString = item[0]
+      tokens = [int(s) for s in item[1].split(' ')]
+      self.maxToken = max(self.maxToken, max(tokens))
+      if not self.samples.has_key(label):
+        self.samples[label] = []
+      self.samples[label].append({"uaString" : uaString, "tokens": tokens, "label" : label})
+
+
+  # Helper routine to pull some samples out into an array of training data
+  def prepareTrainingData(self, trainingProportion, totalProportion):
+
+    # Process the data to extract training data (everything that remains
+    # is test data)
+    self.trainingData = []
+    print "Processing Samples..."
+    for key in self.samples.keys():
+
+      # Shuffle the data
+      random.shuffle(self.samples[key])
+
+      # If we want to use less than our total amount of data (for speed),
+      # shrink the list now
+      if totalProportion < 1.0:
+        del self.samples[key][int(len(self.samples[key]) * totalProportion):]
+
+      # Pick out training data
+      numTrainingSamples = int(len(self.samples[key]) * trainingProportion)
+      for i in range(1, numTrainingSamples):
+        self.trainingData.append(self.prepareSample(self.samples[key].pop()))
+      print "Selected " + str(numTrainingSamples) + " samples of type " + key + " for "\
+            "training, leaving " + str(len(self.samples[key])) + " for validation"
 
 
   # Helper routine to put a sample in the format MaulSVM expects given
