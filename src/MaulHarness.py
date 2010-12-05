@@ -8,7 +8,7 @@ from MaulDataset import MaulDataset
 
 # Parameters
 params = MaulParams()
-params.kernelName = 'RBF'
+params.kernelName = 'linear'
 params.dataType = 'vector'
 params.coef0 = 1
 
@@ -20,3 +20,4 @@ dataset = MaulDataset('mydb', params)
 #dataset.crossValidate('Type', 0.8, 1.0, "WHERE (Type = 'Browser' OR Type = 'Robot')")
 #dataset.crossValidate('Family', 0.8, 1.0, "WHERE (Type = 'Browser' AND Family IS NOT NULL)")
 dataset.crossValidate('OS',0.8,1.0,"WHERE (Type = 'Browser' AND OS IS NOT NULL)")
+#dataset.crossValidate('Type', 0.8, 1.0, "WHERE (Type = 'Browser' OR Type = 'Robot' OR Type = 'Mobile Browser')")

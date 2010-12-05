@@ -24,11 +24,16 @@ class MaulDataset:
     self.problem = MaulProblem(category, self.params)
 
     # If the model is not already generated, generate it
+    '''
     if not self.problem.haveModel():
       self.problem.generateModel(self.trainingData)
       self.problem.saveModel()
     else:
       self.problem.loadModel()
+    '''
+    self.problem.generateModel(self.trainingData)
+    self.problem.saveModel()
+
 
     # Validate
     self.validate()
