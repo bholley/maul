@@ -75,7 +75,7 @@ class MaulDataset:
 
       # Pick out training data
       numTrainingSamples = int(len(self.samples[key]) * trainingProportion)
-      for i in range(1, numTrainingSamples):
+      for i in range(0, numTrainingSamples):
         self.trainingData.append(self.prepareSample(self.samples[key].pop()))
       print "Selected " + str(numTrainingSamples) + " samples of type " + key + " for "\
             "training, leaving " + str(len(self.samples[key])) + " for validation"

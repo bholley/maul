@@ -3496,6 +3496,16 @@ svm_data::clone(svm_data *newdata)
     for (unsigned i = 0; i < tSize; ++i)
       newdata->t[i] = t[i];
   }
+  if (v) {
+    unsigned i = 0;
+    while (v[i].index != -1)
+      ++i;
+    newdata->v = (svm_node *)malloc((i + 1) * sizeof(svm_node));
+    for (unsigned j = 0; j <= i; ++j) {
+      newdata->v[j].index = v[j].index;
+      newdata->v[j].value = v[j].value;
+    }
+  }
 
   // Flag that the memory was allocated in libsvm
   newdata->libsvm_allocated = 1;
@@ -3516,5 +3526,9 @@ svm_data::destroy()
   if (t) {
     free(t);
     t = NULL;
+  }
+  if (v) {
+    free(v);
+    v = NULL;
   }
 }

@@ -8,8 +8,8 @@ from MaulDataset import MaulDataset
 
 # Parameters
 params = MaulParams()
-params.kernelName = 'edit'
-params.dataType = 'tokens'
+params.kernelName = 'linear'
+params.dataType = 'vector'
 
 # Random Seed
 random.seed(18283835)
@@ -17,4 +17,4 @@ random.seed(18283835)
 # Initialize a dataset
 dataset = MaulDataset('mydb', params)
 #dataset.constrain('Type', 'Browser')
-dataset.crossValidate('Type', 0.8, 0.3, "WHERE (Type = 'Browser' OR Type = 'Robot')")
+dataset.crossValidate('Type', 0.8, 1.0, "WHERE (Type = 'Browser' OR Type = 'Robot')")
