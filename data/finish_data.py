@@ -20,11 +20,19 @@ def replaceField(x, fieldName, regexp, value,fieldName2='',value2=''):
 def isBrowser(x):
   return x.data.has_key('Type') and x.data['Type'] == 'Browser'
 
+def countKeyBrowser(ua,key,keydict):
+    if isBrowser(ua) and ua.data.has_key(key):
+        keytemp = ua.data[key]
+        if not keydict.has_key(keytemp):
+            keydict[keytemp] = 0
+        keydict[keytemp] = keydict[keytemp] + 1    
+    return keydict
 
 def main():
     ualist = readFile('uadata_clean_token.txt')
 
     families = dict()
+    oses = dict()
     for x in ualist:
 
         # Call Validators Robots
@@ -32,15 +40,25 @@ def main():
 
         # Call Firefox (Shiretoko) and friends Firefox
         replaceField(x, 'Family', 'Firefox \(\w*\)$', 'Firefox')
+        # Get rid of "compatibility view"
         replaceField(x,'Family','IE 8.0 \(Compatibility View\)','IE','Family Version','8.0compat')
 
-        # Keep a running count on the families
-        if isBrowser(x) and x.data.has_key('Family'):
-          family = x.data['Family']
-          if not families.has_key(family):
-            families[family] = 0
-          families[family] = families[family] + 1
+        families = countKeyBrowser(x, 'Family', families)
+        oses = countKeyBrowser(x, 'OS', oses)
+        # running count on OS
+#        if isBrowser(x)  and x.data.has_key('OS'):
+#            os = x.data['OS']
+#            if not oses.has_key(os):
+#                oses[os] = 0
+#            oses[os] = oses[os] + 1    
 
+        # Keep a running count on the families
+#        if isBrowser(x) and x.data.has_key('Family'):
+#          family = x.data['Family']
+#          if not families.has_key(family):
+#            families[family] = 0
+#          families[family] = families[family] + 1
+        
     # Coalesce infrequent families into a single 'Other' family
     familyCountCap = min(len(families), 30)
     familyList = sorted(families, key=families.get)
@@ -51,7 +69,14 @@ def main():
       if isBrowser(x) and x.data.has_key('Family'):
         if x.data['Family'] not in mainFamilies:
           x.data['Family'] = 'Other'
-
+    
+    
+    # coalesce any OS' with only one example into 'Other'
+    for x in ualist:
+        if isBrowser(x) and x.data.has_key('OS'):
+            if oses[x.data['OS']] <= 1:
+                print x.data['OS'], ' has only 1 example, coalescing into Other' 
+                x.data['OS'] = 'Other'
 
 
     fua = open('uadata_clean_token_finished.txt','w')
