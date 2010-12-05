@@ -24,6 +24,12 @@ class DecisionProblem:
     self.labelsNumeric = map(lambda x : float(self.labelMap[x]), self.labels)
 
     return self.labelsNumeric, self.values
+
+
+  def maketest(self, testData):
+    ylab, values = zip(*testData)
+    ytest = map(lambda x : float(self.labelMap[x]), ylab)
+    return ytest, values
   
   def genoptions(self):
     options = str()
@@ -43,7 +49,7 @@ class DecisionProblem:
         options += " -r " + coef0str
     cstr = str(float(self.params.C))    
     options += " -c " + cstr
-    options += " -h 0"
+    options += " -h 1"
     return options
 
   ''' Checks whether a model has been generated. '''
