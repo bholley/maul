@@ -27,7 +27,7 @@ class MaulProblem:
   def generateModel(self, samples):
 
     # Instantiate an SVM
-    self.svm = StringSVM(self.params)
+    self.svm = MaulSVM(self.params)
 
     # Train it
     self.svm.addSamples(samples)
@@ -51,7 +51,7 @@ class MaulProblem:
       raise RuntimeError("Can't load nonexistant model!")
 
     # Make an SVM
-    self.svm = StringSVM(self.params)
+    self.svm = MaulSVM(self.params)
 
     # Load the model
     self.svm.svm_load_model(self.modelPath())
