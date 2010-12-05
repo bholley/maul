@@ -6,13 +6,15 @@ from merge_data import dsort,dictsortprintfile,writestat,descriptivestat
 
 # Helper routine to replace x[fieldName] with _value_ if x[fieldName] exists
 # and matches regexp
-def replaceField(x, fieldName, regexp, value):
+def replaceField(x, fieldName, regexp, value,fieldName2='',value2=''):
   try:
     x.data[fieldName]
   except KeyError:
     return
   if (re.match(regexp, x.data[fieldName])):
     x.data[fieldName] = value
+    if not fieldName2 == '':
+        x.data[fieldName2] = value2
 
 # Helper routine to determine if a given x is a browser or not
 def isBrowser(x):
@@ -30,6 +32,7 @@ def main():
 
         # Call Firefox (Shiretoko) and friends Firefox
         replaceField(x, 'Family', 'Firefox \(\w*\)$', 'Firefox')
+        replaceField(x,'Family','IE 8.0 \(Compatibility View\)','IE','Family Version','8.0compat')
 
         # Keep a running count on the families
         if isBrowser(x) and x.data.has_key('Family'):
