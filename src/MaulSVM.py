@@ -12,7 +12,7 @@ class MaulSVM:
 
     # Validate kernel
     if params.dataType == "vector":
-      if params.kernelName not in ["linear"]:
+      if params.kernelName not in ["linear","poly","RBF"]:
         raise ValueError("Invalid Vector Kernel!")
     else:
       if params.kernelName not in ['edit', 'subseq']:
@@ -178,6 +178,8 @@ These inherit special magic from ctypes.Structure
 """
 SVM_TYPE_C_SVC = 0
 KERNEL_TYPE_LINEAR = 0
+KERNEL_TYPE_POLY = 1
+KERNEL_TYPE_RBF = 2
 KERNEL_TYPE_EDIT = 5
 KERNEL_TYPE_SUBSEQ = 6
 DATA_TYPE_VECTOR = 0
@@ -204,13 +206,6 @@ class svm_parameter(Structure):
   def __init__(self, params):
     Structure.__init__(self)
 
-    if (params.kernelName == "edit"):
-      self.kernel_type = KERNEL_TYPE_EDIT
-      self.shrinking = 1
-    else:
-      self.kernel_type = KERNEL_TYPE_SUBSEQ
-      self.shrinking = 0
-
     # Set kernel
     if params.kernelName == "edit":
       self.kernel_type = KERNEL_TYPE_EDIT
@@ -218,6 +213,10 @@ class svm_parameter(Structure):
       self.kernel_type = KERNEL_TYPE_SUBSEQ
     elif params.kernelName == "linear":
       self.kernel_type = KERNEL_TYPE_LINEAR
+    elif params.kernelName == "poly":
+        self.kernel_type = KERNEL_TYPE_POLY
+    elif params.kernelName == "RBF":
+        self.kernel_type = KERNEL_TYPE_RBF
     else:
       raise ValueError("Unknown kernel!")
 
@@ -232,9 +231,8 @@ class svm_parameter(Structure):
     else:
       raise ValueError("Unknown dataType " + param.dataType + "!")
 
-    # Set C, gamma
+    # Set C
     self.C = params.C
-    self.gamma = params.gamma
 
     # Shrinking
     # The subsequence kernel tends to ask for -h 0 when it's run
@@ -244,6 +242,7 @@ class svm_parameter(Structure):
       self.shrinking = 1
 
     # Tweakable params
+    self.gamma = params.gamma
     self.degree = params.degree
     self.coef0 = params.coef0
 

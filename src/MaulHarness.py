@@ -8,8 +8,9 @@ from MaulDataset import MaulDataset
 
 # Parameters
 params = MaulParams()
-params.kernelName = 'linear'
+params.kernelName = 'RBF'
 params.dataType = 'vector'
+params.coef0 = 1
 
 # Random Seed
 random.seed(18283835)

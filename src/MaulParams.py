@@ -31,7 +31,9 @@ class MaulParams:
     if (self.kernelName == "subseq"):
       rv = rv + "_lambda-" + str(self.seqLambda)
       rv = rv + "_seqlen-" + str(self.seqLen)
-    if(self.kernelName == "edit"):
+    if(self.kernelName == "edit") or (self.kernelName == "RBF"):
         rv = rv + "_gamma-"+str(self.gamma)
+    if(self.kernelName == "poly"):
+        rv = rv + "_degree-"+str(self.degree)+"_coef0-"+str(self.coef0)
     # All done
     return rv
