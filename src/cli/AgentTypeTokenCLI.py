@@ -72,7 +72,7 @@ def runSVM(C,seqLen,seqLambda):
 # Make a Decision Problem
     params = SVMParams()
     params.kernelName = "subseq"
-    params.tokenized = True
+    params.dataType = "tokens"
     params.C = C
     params.seqLen = seqLen
     params.seqLambda = seqLambda

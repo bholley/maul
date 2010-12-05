@@ -1,10 +1,10 @@
-from StringSVM import StringSVM
+from MaulSVM import MaulSVM
 import os
 
 '''This class encapsulates a single decision problem.'''
 
 
-class DecisionProblem:
+class MaulProblem:
 
   def __init__(self, category, params):
 
@@ -27,7 +27,7 @@ class DecisionProblem:
   def generateModel(self, samples):
 
     # Instantiate an SVM
-    self.svm = StringSVM(self.params)
+    self.svm = MaulSVM(self.params)
 
     # Train it
     self.svm.addSamples(samples)
@@ -51,7 +51,7 @@ class DecisionProblem:
       raise RuntimeError("Can't load nonexistant model!")
 
     # Make an SVM
-    self.svm = StringSVM(self.params)
+    self.svm = MaulSVM(self.params)
 
     # Load the model
     self.svm.svm_load_model(self.modelPath())
