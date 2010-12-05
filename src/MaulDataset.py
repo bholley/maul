@@ -45,14 +45,12 @@ class MaulDataset:
     # Query
     c.execute('select uaString, Tokens, ' + category + ' from data ' + constraints)
 
-    # Organize our samples by label (tracking the maximum token while we do it)
-    self.maxToken = 0
+    # Organize our samples by label
     self.samples = dict()
     for item in c:
       label = item[2]
       uaString = item[0]
       tokens = [int(s) for s in item[1].split(' ')]
-      self.maxToken = max(self.maxToken, max(tokens))
       if not self.samples.has_key(label):
         self.samples[label] = []
       self.samples[label].append({"uaString" : uaString, "tokens": tokens, "label" : label})
@@ -92,9 +90,15 @@ class MaulDataset:
     elif self.params.dataType == "tokens":
       return (sample["label"], sample["tokens"])
     elif self.params.dataType == "vector":
-      vec = [0] * self.maxToken
-      for i in sample["tokens"]:
-        vec[i] += 1
+      vec = []
+      lasti = -1
+      for i in sorted(sample["tokens"]):
+        if (i == lasti):
+          old = vec.pop()
+          vec.append((i, old[1] + 1))
+        else:
+          vec.append((i, 1))
+        lasti = i
       return (sample["label"], vec)
     else:
       raise ValueError("Unknown datatype: " + str(self.params.dataType))

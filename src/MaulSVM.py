@@ -286,13 +286,20 @@ class svm_data(Structure):
       for j, num in enumerate(val):
         self.t[j+1] = num
 
-    elif (params.datatype == "vector"):
+    elif (params.dataType == "vector"):
       self.t = None
       self.s = None
-      self.v = (svm_node * len(val))()
-      for j, num in enumerate(vals):
-        self.v[j].index = j
-        self.v[j].value = num
+
+      # Vectors are stored in a sparse format where each node
+      # is an index of the next non-zero component and its value
+      self.v = (svm_node * (len(val) + 1))()
+      for j, tuple in enumerate(val):
+        self.v[j].index = tuple[0]
+        self.v[j].value = tuple[1]
+
+      # Set the sentinel
+      self.v[len(val)].index = -1
+      self.v[len(val)].value = 123456
 
     else:
       raise ValueError("Unknown dataType parameter!")
