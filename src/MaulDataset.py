@@ -12,7 +12,7 @@ class MaulDataset:
     self.dbName = dbName
 
   # Standard Cross-Validation Routine
-  def crossValidate(self, category, trainingProportion, totalProportion, constraints):
+  def crossValidate(self, category, trainingProportion, totalProportion, constraints,val='1'):
 
     # Load the samples
     self.loadSamples(category, constraints)
@@ -35,7 +35,11 @@ class MaulDataset:
     self.problem.saveModel()
 
     # Validate
-    return self.validate()
+    if val == 1 and trainingProportion < 1.0:
+        return self.validate()
+    else:
+        print "No validation, either requested none, or no test samples"
+        return
 
 
   # Helper routine to load the samples into a dictionary

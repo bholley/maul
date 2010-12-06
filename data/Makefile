@@ -4,6 +4,9 @@ maul.db: uadata_clean_token_finished.txt
 uadata_clean_token_finished.txt: uadata_clean_token.txt
 	python finish_data.py
 
+nastydb:
+	python GenerateDB.py nastydb nasty_ones.txt
+
 uadata_clean_token.txt:
 	python tokengen.py
 
