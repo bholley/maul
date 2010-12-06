@@ -2,6 +2,7 @@ import sys
 import os
 import sqlite3
 import re
+sys.path.append('../src/')
 from Common import categories
 
 """Helper Routines"""
