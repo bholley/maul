@@ -34,9 +34,8 @@ class MaulDataset:
     self.problem.generateModel(self.trainingData)
     self.problem.saveModel()
 
-
     # Validate
-    self.validate()
+    return self.validate()
 
 
   # Helper routine to load the samples into a dictionary
@@ -143,3 +142,10 @@ class MaulDataset:
     print "Misses:"
     for line in misses:
       print line
+
+    # Return statistics
+    return {"correct" : correct,
+            "total" : len(sampleList),
+            "falsePositives" : falsePositives,
+            "falseNegatives" : falseNegatives,
+            "misses" : misses}
