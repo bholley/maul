@@ -62,7 +62,7 @@ for kernel, type in kernelAndType:
     random.seed(18283835)
 
     # Initialize a dataset
-    dataset = MaulDataset('mydb', params)
+    dataset = MaulDataset('../data/maul.db', params)
 
     # Run cross-validation
     results = dataset.crossValidate(test, 0.8, 1.0, query)

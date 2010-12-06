@@ -6,7 +6,7 @@ from uaobj import *
 def main():
     tokenfreq = {}
     tokendict = {}
-    ualist = readFile('uadata_CLEAN.txt')
+    ualist = readFile('source/uadata_CLEAN.txt')
     print "Number of UA Strings: ", len(ualist)
     for (i,x) in enumerate(ualist):
         tokenlist = gentokenlist(x)
