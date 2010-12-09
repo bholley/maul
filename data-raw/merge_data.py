@@ -27,14 +27,15 @@ def main():
 
 # generate dictionaries of categories
 # 	output new list
-    f = open('../data/uadata.txt','w')
+    f = open('../data/source/uadata_dirty.txt','w')
 
     for x in ualist:			
         f.write(x+'\n')
 
     f.close()	
 	
-    writestat(ualist,'../data/')	
+#    writestat(ualist,'../data/')	
+# writing stats was moved to finish_data
 
 
 def mergelists(ualist1,ualist2):

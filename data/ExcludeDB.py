@@ -25,29 +25,30 @@ c2 = conn2.cursor()
 
 
 # get all token strings from db2
-c2.execute('select Tokens from data')
-tokenlist = []
+c2.execute('select uaString from data')
+#tokenlist = []
+ualist = []
 for item in c2:
-    tokenstr = item[0]
-    tokenstr = '"' + tokenstr + '"'
-    tokenlist.append(tokenstr)
+    uaString = item[0]
+    uaString = '"' + uaString + '"'
+    ualist.append(uaString)
 # remove from db1
 #    c1.execute('delete from data where Tokens = '+tokenstr)
 
 
 # are strings in DB1?
 print "Looking up uaString for tokens"
-for tokenstr in tokenlist:
-    c1.execute('select uaString from data where Tokens = ' +tokenstr)
+for uaString in ualist:
+    c1.execute('select uaString from data where uaString = ' +uaString)
     for x in c1:
         print x[0]
-    c1.execute('delete from data where Tokens = ' + tokenstr)
+    c1.execute('delete from data where uaString = ' + uaString)
 
 
 # make sure gone
 print "Checking to make sure gone"
-for tokenstr in tokenlist:
-    c1.execute('select uaString from data where Tokens = ' +tokenstr)
+for uaString in ualist:
+    c1.execute('select uaString from data where uaString = ' +uaString)
     for x in c1:
         print x[0]
 
@@ -56,4 +57,3 @@ for tokenstr in tokenlist:
 conn1.commit()
 c1.close()
 c2.close()
-

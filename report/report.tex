@@ -3,6 +3,7 @@
 \usepackage{cite}
 \usepackage{amsmath}
 \usepackage{url}
+\usepackage{graphicx}
 
 \title{Milestone for MAUL: Machine Agent User Learning\footnote{Some unscrambling necessary.} }
 \author{Robert Holley and Daniel Rosenfeld}
@@ -12,7 +13,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-We describe progress towards implementing a robust classifier for User-Agent strings based upon a variety of text classification techniques.  Our primary approaches focus on the use of substring and edit distance based kernels within the SVM framework.  Comparison to feature based methods using Naive Bayes and linear and kernelized SVM approaches will also be included in the final results. 
+We describe implementation of a classifier for User-Agent strings using Support Vector Machines.  The best Kernel is found to be the linear kernel, even when more complicated string based kernels, such as the edit distance kernel and the subsequence kernel, are employed.  A robust tokenization scheme is employed which dramatically speeds up the calculation for the edit string and subsequence Kernels by shortening the effective string length. 
 \end{abstract}
 
 
@@ -36,20 +37,25 @@ completely reformatted strings. Some mobile operators have begun introducing
 custom HTTP headers to extend the traditional role of the User-Agent.\cite{mobile} Web spiders and crawlers are also an important and unpredictable contributing factor.
 An overview of the development and mutation of User-Agent strings is given in,\cite{history} while \cite{uatracker} is a public list of over 50000 currently unique strings.
 
-For over a decade, those interested in tracking the proliferation of the web have collected User-Agent strings and built classifiers for them.  One of the first such entities was Microsoft, who included a recognition engine (browscap.dll) and a pattern file (browscap.ini) with its early web servers.\cite{bcp}  The Browser Capabilities Project (BCP) has kept these files up to date for the web development community, despite Microsoft's abandonment for more sophisticated (and proprietary) methods.\cite{bcp}  However, the maintenance of the project requires human parsing of new User-Agent strings every week and subsequent updating of the recognition engine and pattern file (BCP reports that they receive several dozen new User-Agent strings per week).  A more recent effort, Browserscope (which started as UAProfiler), took a similar approach, using a regular expression based parsing engine to identify specific browsers (browsers only). \cite{souders}  The parsing engine required regular updates to remain up to date with new User-Agent strings.  In 2009, the author of UAProfiler reported finding 20 new User-Agent strings {\it per day}. \cite{souders2}  Other efforts such as those by user-agent-string.info and useragentstring.com, also use brittle parsing rules and curated data just like Browserscope and BCP.  \cite{uas.info,uas.com}   
-% add stories from BCP and UA parser guy
-Our machine learning approach to User-Agent string parsing could provide partially automated parsing even on new User-Agent strings, absolving the need for a human to keep User-Agent parsers up to date.      
+For over a decade, those interested in tracking the proliferation of the web have collected User-Agent strings and built classifiers for them.  One of the first such entities was Microsoft, who included a recognition engine (browscap.dll) and a pattern file (browscap.ini) with its early web servers.\cite{bcp}  The Browser Capabilities Project (BCP) has kept these files up to date for the web development community, despite Microsoft's abandonment for more sophisticated (and proprietary) methods.\cite{bcp}  However, the maintenance of the project requires human parsing of new User-Agent strings every week and subsequent updating of the recognition engine and pattern file (BCP reports that they receive several dozen new User-Agent strings per week).  Gary Keith, the proprietor of BCP, has an automatic script run every Sunday morning, the output of which he parses in the afternoon and updates his file of highly structured regular expression searches.  A more recent effort, Browserscope (which started as UAProfiler), took a similar approach, using a regular expression based parsing engine to identify specific browsers (browsers only). \cite{souders}  The parsing engine required regular updates to remain up to date with new User-Agent strings.  In 2009, the author of UAProfiler (Steve Souders) reported finding 20 new User-Agent strings {\it per day}, which he examined every day at 7 am over morning coffee. \cite{souders2}  Other efforts such as those by user-agent-string.info and useragentstring.com, also use brittle parsing rules and curated data just like Browserscope and BCP.  \cite{uas.info,uas.com}  Other efforts to categorize User-Agent strings include entire communities such as agentarius.net, which has created a structure database of over 200,000 User-Agent strings.   
+
+Our machine learning approach to User-Agent string parsing could provide partially automated parsing even on new User-Agent strings, absolving the need for a human to keep User-Agent parsers up to date.  Although we are quite sure Gary and Steve will continue updating their parsers each Sunday and over morning coffee, perhaps some day in the future this will not be necessary.
 
 \section{Computational Approach}
 \subsection{Data}
-We have assembled an annotated dataset consisting of 53,829 User-Agent strings.  The strings were acquired from a variety of sources.\cite{ua.org,uatracker,uas.info}  The annotation consists of agent type (Browser, Bot), agent family (Firefox, googlebot, etc.), family version, OS (Windows, Linux, etc.), and OS version.  The annotation was performed by using two common parsing engines (UASparser\cite{uas.info} and uaParser (formerly Browserscope, formerly UA Profiler)\cite{uaParser} )) and merging the result.  This approach was taken due to the lack of availability of annotated sources.  Some of the annotated User-Agent strings were curated by hand due to the failure of the parsers.
-% more about data generation
-
-The data were parsed and annotated using a series of python scripts and python versions of the afore-mentioned parsers.  The dataset is stored in both a flatfile format and a SQLlite database for querying.  
+We have assembled an annotated dataset consisting of 53,829 User-Agent strings.  The strings were acquired from a variety of sources (user-agents.org: 2463 strings, ua-tracker.com: 50,482 strings, user-agent-string.info: 1460 strings; 53,829 total excluding duplicates.).\cite{ua.org,uatracker,uas.info}  The annotation consists of agent type (Browser, Bot), agent family (Firefox, googlebot, etc.), family version, OS (Windows, Linux, etc.), and OS version.  The annotation was performed by using two common parsing engines (UASparser\cite{uas.info} and uaParser (formerly Browserscope, formerly UA Profiler)\cite{uaParser} )) and merging the result.  Since UASparser returns the most information (a Python dictionary with User-Agent Type, Family, and OS) it is used as the primary source of information where uaParser is used to generate version information for Browsers.  uaParser is primarily geared toward parsing Browsers and therefore is not useful for Bots and the other types of entities on the web.   This approach was taken due to the lack of availability of annotated sources.  Some of the annotated User-Agent strings were curated by hand due to the failure of the parsers.  The data were parsed and annotated using a series of python scripts and python versions of the afore-mentioned parsers.  
 \subsection{Data Processing}
+The data generated by the above methods were additionally processed to reduce and standardize the number of classes.  Specifically, the OS information was parsed to collapse all versions of Windows, Linux and Mac OS into only three OS's and move all other OS information into the OS version field.  All special versions/modes/builds of specific Browsers were collapsed into their respective families.  All Validators and Bots were given the Type field "Robot" since Validators are also non-human web crawler applications.  The dataset is stored in both a flatfile format which allows for facile reading and editing by a human and a SQLlite database for querying for classifier codes.  
 %tokenization in this section, and data pipeline
 % - some testing of tokenization, i.e. addition of @, + , &
 % tokenization figure
+The User-Agent strings were tokenized in order to build feature vectors and also speed up the implementation of the non-vector based string Kernels we used to classify the strings.  Tokenization is an atomistic deconstruction of each User-Agent string at arbitrarily chosen break characters (See Figure 1).  The tokenization scheme used in our classifiers was to break apart the string at any instance of {\bf \textbackslash / [].,;}.    
+
+\begin{figure}
+\includegraphics[width=6in]{token_figure.png}
+\caption{Example of the tokenization process.  Notice that the string is deconstructed at any instance of one of the following characters: {\bf \textbackslash /[].,;}  .}
+\end{figure}
+
 
 \subsection{Learning Implementation}
 \subsection{Learning}
