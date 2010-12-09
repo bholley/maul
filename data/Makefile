@@ -1,4 +1,4 @@
-all: nastydb
+all: maul.db nastydb
 
 maul.db: uadata_clean_token_finished.txt
 	python GenerateDB.py maul.db uadata_clean_token_finished.txt
@@ -6,7 +6,7 @@ maul.db: uadata_clean_token_finished.txt
 uadata_clean_token_finished.txt: uadata_clean_token.txt
 	python finish_data.py
 
-nastydb: maul.db
+nastydb:
 	python GenerateDB.py nastydb ./source/nasty_ones.txt
 	python ExcludeDB.py
 
