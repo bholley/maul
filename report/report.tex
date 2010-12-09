@@ -85,6 +85,11 @@ This doubled the performance of our SVM, but training with a small fraction of o
 
 One major problem with libsvm-string is that it didn't include a good memory ownership model for string data. In particular, it would assume that the data pointed to by a \texttt{char*} remained immutable between calls into the library, and would not make any internal copies of the training data. This assumption was not valid for our use cases, leading to crashes. We thus introduced a memory management system where we make copies of input data and track whether structures were allocated within LIBSVM or outside of it, allowing LIBSVM to clean up its own memory but avoid clobbering them memory of its caller.
 
+\subsection{Python Framework}
+
+Since we were operating primarily on string data, we decided that it would be unnecessarily painful to write all of our code in C or C++. We settled on Python as a harness language, and wrote a flexible and robust framework on top of LIBSVM-string using the CTypes module of Python. This turned out to be less straightforward than we had originally thought, and we eventually had to make a few small changes to LIBSVM-string to work around CTypes bugs on certain operating systems.
+
+In the end, it turned out to be worth it. Using our MAUL framework, any cross-validation procedure with any set of parameters can be implemented with only a few lines of code (see \texttt{MaulHarness.py} and \texttt{MaulBatch.py}. The framework includes automatic model saving, data selection, and built-in validation. The data was managed with an SQLite database, so that training and testing data could be selected quickly and efficiently from our highly heterogeneous data sources. Finally, it allows string and vector SVMs to be instantiated and used with the same code. As a result, the finished framework made it extremely easy to compile our finals results. We wrote a small python program to repeatedly call the cross-validation routine with different sets of parameters, and let it run overnight.
 
 
 % - additions to subsequence kernel
