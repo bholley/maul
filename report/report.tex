@@ -83,23 +83,13 @@ LIBSVM-string comes standard with an implementation of the edit distance kernel.
 
 This doubled the performance of our SVM, but training with a small fraction of our training data still took over an hour. We determined that the performance of the subsequence kernel was cubic in its input string. Thus, the most effective way to speed up the algorithm would be to reduce the size of the input. To do this, we introduced a tokenizer, which mapped ASCII strings to sequences of tokens (represented as 4-byte unsigned integers). This had the effect of dramatically increasing the alphabet size (from $2^8$ to $2^{32}$), while dramatically decreasing the average string length. We made the necessary generalizations in the data structures and control logic, and templatized the kernel function (replacing \texttt{char*} with \texttt{T*}), allowing us to use the exact same code for both data types.
 
-One major problem with libsvm-string is that it didn't include a good memory ownership model for string data. In particular, it would assume that the data pointed to by a \texttt{char*} remained immutable between calls into the library, and would not make any internal copies of the training data. This assumption was not valid for our use cases, leading to crashes. We thus introduced a memory management system where we make copies of input data and track whether structures were allocated within LIBSVM or outside of it, allowing LIBSVM to clean up its own memory but avoid clobbering them memory of its caller.
+One major problem with libsvm-string was that it didn't include a good memory ownership model for string data. In particular, it would assume that the data pointed to by a \texttt{char*} remained immutable between calls into the library, and would not make any internal copies of the training data. This assumption was not valid for our use cases, leading to crashes. We thus introduced a memory management system where we make copies of input data and track whether structures were allocated within LIBSVM or outside of it, allowing LIBSVM to clean up its own memory but avoid clobbering them memory of its caller.
 
 \subsection{Python Framework}
 
 Since we were operating primarily on string data, we decided that it would be unnecessarily painful to write all of our code in C or C++. We settled on Python as a harness language, and wrote a flexible and robust framework on top of LIBSVM-string using the CTypes module of Python. This turned out to be less straightforward than we had originally thought, and we eventually had to make a few small changes to LIBSVM-string to work around CTypes bugs on certain operating systems.
 
-In the end, it turned out to be worth it. Using our MAUL framework, any cross-validation procedure with any set of parameters can be implemented with only a few lines of code (see \texttt{MaulHarness.py} and \texttt{MaulBatch.py}. The framework includes automatic model saving, data selection, and built-in validation. The data was managed with an SQLite database, so that training and testing data could be selected quickly and efficiently from our highly heterogeneous data sources. Finally, it allows string and vector SVMs to be instantiated and used with the same code. As a result, the finished framework made it extremely easy to compile our finals results. We wrote a small python program to repeatedly call the cross-validation routine with different sets of parameters, and let it run overnight.
-
-
-% - additions to subsequence kernel
-% 	- lookup table for lambdas
-%    - generic template for any type
-%   - explain why this is necessary, i.e. subsequence is extremeley slow w/o tokenization 
-% - edit kernel tokenization
-% discuss framework 
-% 	- SQLlite
-% 	- other aspects of framework
+In the end, it turned out to be worth it. Using our MAUL framework, any cross-validation procedure with any set of parameters can be implemented with only a few lines of code (see \texttt{MaulHarness.py} and \texttt{MaulBatch.py}). The framework includes automatic model saving, data selection, and built-in validation. The data was managed with an SQLite database, so that training and testing data could be selected quickly and efficiently from our highly heterogeneous data sources. Finally, it allows string and vector SVMs to be instantiated and used with the same code. As a result, the finished framework made it extremely easy to compile our finals results. We wrote a small python program to repeatedly call the cross-validation routine with different sets of parameters, and let it run overnight.
 
 % Results
 % - Kernel competition
@@ -109,16 +99,26 @@ In the end, it turned out to be worth it. Using our MAUL framework, any cross-va
 % - cross validation for parameter tuning
 % -  
 
-% Extensions
-% - could CV on tokenization scheme
-% - better token coalescence 
-% - after classifying, could run a brittle parse 
-% - bigger data sets are out there 
-% - mozilla possible continuation
-% - edit distance for nearest token
+\section{Extensions}
 
+Our classification efforts were highly successful, but there is still much to be done. The Mozilla Corporation has expressed interest in using MAUL in its Metrics \& Analytics group, so we hope that work on this topic will continue. User-Agent classification is a rich and nuanced problem, and there are a number of interesting extensions that we did not have the resources to explore. We list a few of them here:
 
+\subsection{Cross-Validating the Tokenizer}
 
+We did some cursory testing to select our set of token delimiters, but it was far from a rigorous process. It would be interesting to use formal cross-validation and feature-selection techniques to select the optimal separators.
+
+\subsection{Improved Token Coalescence}
+
+The SVM treats all tokens as equally distinct, regardless of the true similarity between any two tokens. We implemented some manual coalescing of tokens. For example, we replaced any integer with its number of digits (ie, 14 and 36 are treated as the same number). Nonetheless, there are many other approaches worth exploring:
+
+\begin{itemize}
+\item Other common patterns (for example, email addresses)
+\item Coalescing the most infrequent tokens into a single 'Other' token
+\item Using one of the string kernels to identify the nearest neighbor to an infrequent token
+\end{itemize}
+
+\subsection{Larger Datasets}
+Our training set was large, but not exhaustive. There are many other sources of User-Agent data on the web, and we believe that the size of our dataset could increase by an order of magnitude with reasonable effort.
 
 
 \bibliography{references}
