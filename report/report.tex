@@ -59,7 +59,6 @@ The tokens were further coalesced to increase the robustness of the classifier. 
 \end{figure}
 
 
-\subsection{Learning Implementation}
 \subsection{Learning}
 % few sentences on SVM, overfitting protection
 % figure on decision tree
@@ -72,14 +71,27 @@ K(x,z) = \exp \left[ - \gamma \operatorname{LD} (x,z) \right]
 where $\operatorname{LD}(x,z)$ is the Levenshtein Edit Distance between two strings $x$ and $z$.  Using this approach an accuracy of 97\% has already been achieved using only a subset of our data (code optimization is still underway, a confusion matrix approach to error analysis is planned but not yet completed).   Given that a string is classified as a browser we then plan to attempt to fully classify it into a family and OS type using a similar edit string distance based approach.
 Our second approach relies on using a recursively calculated subsequence kernel.\cite{subseqkernel}  This Kernel looks for all sub-sequences shared by two strings.  The contribution to the kernel of a shared sub-string is damped by an exponential factor related to its length in both strings.  The Kernel is mathematically described  in the above reference.  This Kernel will be used with the raw string data of the User-Agent strings, but we will also use this Kernel on a tokenized version of the User-Agent strings.  Since many User-Agent strings of similar types differ in a re-ordering of tokens, we will build a dictionary of tokens and create a new string in the space of these tokens.  
 % add subsequence definition
-% - additions to subsequence kernel
-% 	- lookup table for lambdas
-%    - generic template for any type
-%   - explain why this is necessary, i.e. subsequence is extremeley slow w/o tokenization 
-% - edit kernel tokenization
-% discuss framework 
-% 	- SQLlite
-% 	- other aspects of framework
+
+\section{Implementation}
+
+In our efforts, we developed a performant and versatile software stack for classifying User-Agent strings. The code is open-source and available at \url{https://github.com/bholley/maul}. In this section, we briefly describe the key components.
+
+
+\subsection{libsvm-string}
+
+At the heart of our implementation is LIBSVM-string, a superset of libsvm that includes the ability to classify string data. \cite{libsvm-string} When invoked with the proper parameters, LIBSVM-string accepts arrays of characters (rather than vectors) as input data, and operates on them with a string kernel.
+
+LIBSVM-string comes standard with an implementation of the edit distance kernel. For comparison, we also implemented a recursive subsequence kernel, basing our work on example code from \cite{learning-kernel-classifiers}. Unfortunately, the subsequence kernel turned out to be significantly slower than the edit kernel, with time spent in the kernel function dominating training and testing time. During profiling, we discovered that half of the total computational time was spent inside the \texttt{pow()} function computing various powers of $\lambda$ (the decay parameter). Since this parameter is constant for a given SVM, we restructured the code to make the subsequence kernel stateful. On the first call, the kernel precomputes all necessary powers of lambda, so that subsequent calls can retrieve the appropriate values from a look-up table.
+
+This doubled the performance of our SVM, but training with a small fraction of our training data still took over an hour. We determined that the performance of the subsequence kernel was cubic in its input string. Thus, the most effective way to speed up the algorithm would be to reduce the size of the input. To do this, we introduced a tokenizer, which mapped ASCII strings to sequences of tokens (represented as 4-byte unsigned integers). This had the effect of dramatically increasing the alphabet size (from $2^8$ to $2^{32}$), while dramatically decreasing the average string length. We made the necessary generalizations in the data structures and control logic, and templatized the kernel function (replacing \texttt{char*} with \texttt{T*}), allowing us to use the exact same code for both data types.
+
+One major problem with libsvm-string was that it didn't include a good memory ownership model for string data. In particular, it would assume that the data pointed to by a \texttt{char*} remained immutable between calls into the library, and would not make any internal copies of the training data. This assumption was not valid for our use cases, leading to crashes. We thus introduced a memory management system where we make copies of input data and track whether structures were allocated within LIBSVM or outside of it, allowing LIBSVM to clean up its own memory but avoid clobbering them memory of its caller.
+
+\subsection{Python Framework}
+
+Since we were operating primarily on string data, we decided that it would be unnecessarily painful to write all of our code in C or C++. We settled on Python as a harness language, and wrote a flexible and robust framework on top of LIBSVM-string using the CTypes module of Python. This turned out to be less straightforward than we had originally thought, and we eventually had to make a few small changes to LIBSVM-string to work around CTypes bugs on certain operating systems.
+
+In the end, it turned out to be worth it. Using our MAUL framework, any cross-validation procedure with any set of parameters can be implemented with only a few lines of code (see \texttt{MaulHarness.py} and \texttt{MaulBatch.py}). The framework includes automatic model saving, data selection, and built-in validation. The data was managed with an SQLite database, so that training and testing data could be selected quickly and efficiently from our highly heterogeneous data sources. Finally, it allows string and vector SVMs to be instantiated and used with the same code. As a result, the finished framework made it extremely easy to compile our finals results. We wrote a small python program to repeatedly call the cross-validation routine with different sets of parameters, and let it run overnight.
 
 % Results
 % - Kernel competition
@@ -89,17 +101,26 @@ Our second approach relies on using a recursively calculated subsequence kernel.
 % - cross validation for parameter tuning
 % -  
 
-% Extensions
-% - could CV on tokenization scheme
-% - better token coalescence 
-% - after classifying, could run a brittle parse 
-% - bigger data sets are out there 
-% - mozilla possible continuation
-% - edit distance for nearest token
+\section{Extensions}
 
+Our classification efforts were highly successful, but there is still much to be done. The Mozilla Corporation has expressed interest in using MAUL in its Metrics \& Analytics group, so we hope that work on this topic will continue. User-Agent classification is a rich and nuanced problem, and there are a number of interesting extensions that we did not have the resources to explore. We list a few of them here:
 
-The main scope of our project consists of implementing the above SVM based approaches.  However, we will also compare the above string Kernel based approaches to feature based approaches.  Possible features are sub-strings of length k, or the presence of a particular token.  Features will be selected by scoring or backward selection.  Linear Kernel and higher order Kernel based SVMs will be used in the space of these features to classify the User-Agent strings.  The results will be compared to the string based approaches.  We also plan to use a dictionary based approach with Naive Bayes (due to its simplicity) as a method of determining a baseline performance that our more complicated efforts can be measured against.  
+\subsection{Cross-Validating the Tokenizer}
 
+We did some cursory testing to select our set of token delimiters, but it was far from a rigorous process. It would be interesting to use formal cross-validation and feature-selection techniques to select the optimal separators.
+
+\subsection{Improved Token Coalescence}
+
+The SVM treats all tokens as equally distinct, regardless of the true similarity between any two tokens. We implemented some manual coalescing of tokens. For example, we replaced any integer with its number of digits (ie, 14 and 36 are treated as the same number). Nonetheless, there are many other approaches worth exploring:
+
+\begin{itemize}
+\item Other common patterns (for example, email addresses)
+\item Coalescing the most infrequent tokens into a single 'Other' token
+\item Using one of the string kernels to identify the nearest neighbor to an infrequent token
+\end{itemize}
+
+\subsection{Larger Datasets}
+Our training set was large, but not exhaustive. There are many other sources of User-Agent data on the web, and we believe that the size of our dataset could increase by an order of magnitude with reasonable effort.
 
 
 \bibliography{references}
